@@ -1,0 +1,8 @@
+event_id,event_name,time_cost,location_requirement,level_requirement,min_condition,max_condition,fatigue_change,health_change,hunger_change,rational_change,emotional_change,focus_change,mood_change,skill_change,boss_dissatisfaction_change,job_level_change,project_progress_change,money_change,books_change,colleague1_favor_change,colleague1_skill_change,colleague2_favor_change,colleague2_skill_change,colleague3_favor_change,colleague3_skill_change,social_influence_change,tech_reputation_change,philosophy_insight_change,item_gained,item_quantity,permanent_effect_change,text_id
+31,询问今日工作（职级1）,1,1,1,,,,,,,,,,-1,,,,,,,,,,,,1
+32,询问今日工作（职级2）,1,1,2,,,,,,,,,,-1,,,,,,,,,,,,2
+33,询问今日工作（职级3）,1,1,3,,,,,,,,,,-1,,,,,,,,,,,,3
+85,编写代码,4,1,,专业技能>=5,,6,,,,,,2,,,5,,,,,,,,,,,,55
+86,发呆,2,1,,,3,,,,,,,,,,,,,,,,,,,,56
+151,正常睡眠,8,3,,,-40,5,,,30,,,,,,,,,,,,,,,,121
+162,散步锻炼,3,4,,,5,,,5,,,5,,,,,,,,,,,,,,132 
