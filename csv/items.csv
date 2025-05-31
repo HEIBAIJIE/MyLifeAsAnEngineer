@@ -1,17 +1,21 @@
 item_id,item_name,item_type,price,storage_location,fatigue_change,health_change,hunger_change,rational_change,emotional_change,focus_change,mood_change,skill_change,permanent_effect_type,permanent_effect_value,books_change,description
-1,深夜泡面,food,12,fridge,,-15,,,,,,,,,，深夜码农的续命神器
-2,外卖盒饭,food,35,fridge,,3,-25,,,,,,,,,外卖小哥带来的温暖
-3,续命咖啡,food,18,fridge,-10,,,,,10,,,,,咖啡因让大脑重新上线
-4,红牛,food,15,fridge,-15,-1,,,5,,,,,功能饮料的力量
-5,轻食沙拉,food,55,fridge,,5,-30,,,,,,,，健康生活的选择
-6,维生素片,food,120,fridge,,10,,,,,,,,,补充身体所需营养
-7,农夫山泉,food,5,fridge,,2,,,,,,,,,有点甜的生活
-8,进口水果,food,25,fridge,,3,-12,,2,,,,,,来自远方的新鲜
-101,代码大全,tool,200,cabinet,,,,,,,,,,,,1,程序员的圣经
-102,网课会员,tool,150,cabinet,,,,,,,,,,,,,在线学习的钥匙
-103,健身器材,tool,350,cabinet,5,8,,,,,,,,,，在家也能强身健体
-104,机械键盘,tool,1200,cabinet,,,,,,,,,work_efficiency,15,,键盘侠的终极装备
-105,颈椎按摩器,tool,600,cabinet,-15,,,,,8,,,,,拯救程序员的颈椎
-106,Switch游戏机,tool,800,cabinet,,,,,,,,,,,，任天堂的快乐
-107,人体工学鼠标垫,tool,120,cabinet,,,,,,,,,focus_efficiency,15,,程序员的手腕保护神
-108,空气净化器,tool,800,cabinet,,,,,,,,,health_recovery,3,,呼吸清新的每一天 
+1,深夜泡面,food,12,fridge,,-15,,,,,,,,,，深夜码农的续命神器 | Midnight instant noodles, the lifeline of late-night coders
+2,外卖盒饭,food,35,fridge,,3,-25,,,,,,,,,外卖小哥带来的温暖 | Warmth delivered by the food delivery guy
+3,续命咖啡,food,18,fridge,-10,,,,,10,,,,,咖啡因让大脑重新上线 | Caffeine brings the brain back online
+4,红牛,food,15,fridge,-15,-1,,,5,,,,,功能饮料的力量 | The power of energy drinks
+5,轻食沙拉,food,55,fridge,,5,-30,,,,,,,，健康生活的选择 | A choice for healthy living
+6,维生素片,food,120,fridge,,10,,,,,,,,,补充身体所需营养 | Supplement essential nutrients for the body
+7,农夫山泉,food,5,fridge,,2,,,,,,,,,有点甜的生活 | Life that's a bit sweet
+8,进口水果,food,25,fridge,,3,-12,,2,,,,,,来自远方的新鲜 | Freshness from distant lands
+101,代码大全,tool,200,cabinet,,,,,,,,,,,,1,程序员的圣经 | The bible for programmers
+102,网课会员,tool,150,cabinet,,,,,,,,,,,,,在线学习的钥匙 | The key to online learning
+103,健身器材,tool,350,cabinet,5,8,,,,,,,,,，在家也能强身健体 | Build strength and fitness at home
+104,机械键盘,tool,1200,cabinet,,,,,,,,,work_efficiency,15,,键盘侠的终极装备 | Ultimate gear for keyboard warriors
+105,颈椎按摩器,tool,600,cabinet,-15,,,,,8,,,,,拯救程序员的颈椎 | Saving programmers' cervical spine
+106,Switch游戏机,tool,800,cabinet,,,,,,,,,,,，任天堂的快乐 | Nintendo's joy
+107,人体工学鼠标垫,tool,120,cabinet,,,,,,,,,focus_efficiency,15,,程序员的手腕保护神 | Wrist protector for programmers
+108,空气净化器,tool,800,cabinet,,,,,,,,,health_recovery,3,,呼吸清新的每一天 | Breathe fresh air every day
+109,编程思维导图,tool,88,cabinet,,,,,,,,3,,,1,理清编程思路的神器 | Divine tool for clarifying programming thoughts
+110,架构设计宝典,tool,298,cabinet,,,3,,,,,6,,,1,系统架构师的必备手册 | Essential handbook for system architects
+111,人月神话,tool,168,cabinet,,,,5,,,,,,philosophy,3,1,软件工程的经典之作 | Classic work on software engineering
+112,禅与摩托车维修艺术,tool,128,cabinet,,,,2,,,,,,,philosophy,8,1,哲学与技术的完美结合 | Perfect combination of philosophy and technology 
