@@ -44,8 +44,7 @@ export class SaveManager {
       return {
         type: 'error',
         data: { 
-          success: false,
-          error: 'Failed to load save data: ' + (error as Error).message
+          success: false
         }
       };
     }
