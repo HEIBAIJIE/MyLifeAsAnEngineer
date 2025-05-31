@@ -1,0 +1,37 @@
+entity_id,entity_name,entity_name_en,location_id,location_name,location_name_en,available_events,interaction_conditions,description,description_en
+1,老板,Boss,1,公司,Company,"31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,521",resource[22]>=1,公司的决策者和管理者,The decision-maker and manager of the company
+2,同事1,Colleague 1,1,公司,Company,"61,62,63,64,65,66,67,68",resource[55]>=0,技能较强的资深同事,A senior colleague with strong skills
+3,同事2,Colleague 2,1,公司,Company,"69,70,71,72,73,74,75,76",resource[57]>=0,技能中等的普通同事,An average colleague with moderate skills
+4,同事3,Colleague 3,1,公司,Company,"77,78,79,80,81,82,83,84",resource[59]>=0,技能较弱的新人同事,A junior colleague with limited skills
+5,电脑,Computer,1,公司,Company,"85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,522,523,524",resource[11]>=0&resource[22]>=1,程序员的主要工作工具,The programmer's main work tool
+6,手机,Mobile Phone,1,公司,Company,"101,102,103,104,105",always,随身携带的智能设备,A portable smart device
+7,走廊,Corridor,1,公司,Company,"106,107,108,109",always,公司内部的通道,Internal corridors of the company
+8,厕所,Restroom,1,公司,Company,"110,111,112",always,办公室的休息场所,A resting place in the office
+9,自己,Self,1,公司,Company,"113,114,115",always,进行自我反思的主体,The subject for self-reflection
+10,会议室,Meeting Room,1,公司,Company,"116,117,118,119",resource[22]>=3,团队协作的场所,A place for team collaboration
+11,食堂,Cafeteria,1,公司,Company,"120,121,122,123",always,公司内部的用餐区域,The dining area within the company
+12,售货员,Salesperson,2,商店,Store,"124,125,126,127,525,526,527,528,529,530",always,商店的服务人员,Store service staff
+13,手机,Mobile Phone,2,商店,Store,"128,129,130",always,用于购物比价的工具,A tool for shopping price comparison
+14,自己,Self,2,商店,Store,"131,132,133",always,购物时的理性思考,Rational thinking while shopping
+15,电脑,Computer,3,家,Home,"134,135,136,137,138,139",always,家中的娱乐和学习工具,Entertainment and learning tool at home
+16,手机,Mobile Phone,3,家,Home,"140,141,142,143",always,与外界联系的窗口,A window to connect with the outside world
+17,自己,Self,3,家,Home,"144,145,146,501,502,503,504",resource[16]>=30|resource[17]>=30,在家中的自我探索,Self-exploration at home
+18,书架,Bookshelf,3,家,Home,"147,148,149,150",resource[23]>0,知识的宝库,A treasure trove of knowledge
+19,床,Bed,3,家,Home,"151,152,153,154",always,休息和恢复的地方,A place for rest and recovery
+20,冰箱,Refrigerator,3,家,Home,"155,156,157,158",always,食物储存的设备,Food storage equipment
+21,柜子,Cabinet,3,家,Home,"159,160,161",always,物品整理的空间,Storage space for organizing items
+22,自己,Self,4,公园,Park,"162,163,164",always,在公园中的自我体验,Self-experience in the park
+23,长椅,Bench,4,公园,Park,"165,166,167",always,休憩和观察的场所,A place for rest and observation
+24,街道,Street,4,公园,Park,"168,169",always,锻炼身体的路径,Pathways for physical exercise
+25,垃圾桶,Trash Can,4,公园,Park,"170",always,维护环境卫生的设施,Facilities for maintaining environmental hygiene
+26,路人1,Passerby 1,4,公园,Park,"171,172",always,公园中的友善路人,Friendly passerby in the park
+27,路人2,Passerby 2,4,公园,Park,"173,174",always,公园中的其他游客,Other visitors in the park
+28,手机,Mobile Phone,4,公园,Park,"175,176",always,记录美好时光的工具,A tool for recording beautiful moments
+29,服务员,Waiter,5,餐馆,Restaurant,"177,178,179,180",always,餐厅的专业服务人员,Professional service staff of the restaurant
+30,自己,Self,5,餐馆,Restaurant,"181,182,183",always,享受美食的用餐者,A diner enjoying delicious food
+31,手机,Mobile Phone,5,餐馆,Restaurant,"184,185",always,记录美食体验的设备,Equipment for recording food experiences
+32,路人,Passerby,5,餐馆,Restaurant,"186,187",always,餐厅中的其他顾客,Other customers in the restaurant
+33,医生,Doctor,6,医院,Hospital,"188,189,190,191",always,专业的医疗服务提供者,Professional medical service provider
+34,手机,Mobile Phone,6,医院,Hospital,"192,193",always,获取健康信息的工具,A tool for obtaining health information
+35,自己,Self,6,医院,Hospital,"194,195",always,关注自身健康的主体,The subject concerned about personal health
+36,护士,Nurse,6,医院,Hospital,"196,197,198",always,协助医疗服务的专业人员,Professional staff assisting medical services 
