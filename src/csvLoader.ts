@@ -33,7 +33,14 @@ export class CSVLoader {
 
     for (let i = 1; i < lines.length; i++) {
       const values = this.parseCSVLine(lines[i]);
-      if (values.length !== headers.length) continue;
+      
+      // Fill missing columns with empty strings
+      while (values.length < headers.length) {
+        values.push('');
+      }
+      
+      // Skip lines that have too many columns (malformed)
+      if (values.length > headers.length) continue;
 
       const record: any = {};
       headers.forEach((header: string, index: number) => {

@@ -111,7 +111,10 @@ export class GameEngine {
         case 'get_game_state':
           return this.getGameState();
         case 'get_time_info':
-          return this.getTimeInfo();
+          return {
+            type: 'query_result',
+            data: this.getTimeInfo()
+          };
         default:
           return { type: 'error', error: 'Unknown command type' };
       }
