@@ -1,32 +1,32 @@
 event_id,event_name,time_cost,location_requirement,level_requirement,min_condition,max_condition,condition_expression,fatigue_change,health_change,hunger_change,rational_change,emotional_change,focus_change,mood_change,skill_change,boss_dissatisfaction_change,job_level_change,project_progress_change,money_change,books_change,colleague1_favor_change,colleague1_skill_change,colleague2_favor_change,colleague2_skill_change,colleague3_favor_change,colleague3_skill_change,social_influence_change,tech_reputation_change,philosophy_insight_change,item_gained,item_quantity,permanent_effect_change,text_id
-31,询问今日工作（职级1）/Ask about today's work (Level 1),1,1,1,,,resource[22]==1,,,,,,,,-1,,calc[floor(5*(1+resource[18]/50))],,,,,,,,,,,,1
-32,询问今日工作（职级2）/Ask about today's work (Level 2),1,1,2,,,resource[22]==2,,,,,,,,-1,,calc[floor(6*(1+resource[18]/50))],,,,,,,,,,,,2
-33,询问今日工作（职级3）/Ask about today's work (Level 3),1,1,3,,,resource[22]==3,,,,,,,,-1,,calc[floor(7*(1+resource[18]/50))],,,,,,,,,,,,3
-34,询问今日工作（职级4）/Ask about today's work (Level 4),1,1,4,,,resource[22]==4,,,,,,,,-1,,calc[floor(8*(1+resource[18]/50))],,,,,,,,,,,,4
+31,询问今日工作（职级1）/Ask about today's work (Level 1),1,1,1,,,resource[22]==1,,,,,,,,-1,,calc[floor(5*(1+resource[70]/50))],,,,,,,,,,,,1
+32,询问今日工作（职级2）/Ask about today's work (Level 2),1,1,2,,,resource[22]==2,,,,,,,,-1,,calc[floor(6*(1+resource[70]/50))],,,,,,,,,,,,2
+33,询问今日工作（职级3）/Ask about today's work (Level 3),1,1,3,,,resource[22]==3,,,,,,,,-1,,calc[floor(7*(1+resource[70]/50))],,,,,,,,,,,,3
+34,询问今日工作（职级4）/Ask about today's work (Level 4),1,1,4,,,resource[22]==4,,,,,,,,-1,,calc[floor(8*(1+resource[70]/50))],,,,,,,,,,,,4
 35,对齐项目方向（职级5）/Align project direction (Level 5),3,1,5,,,resource[22]==5,,,,,,,3,,calc[floor(12*(1+resource[16]/50))],,,,,,,,,,,,5
 36,对齐项目方向（职级6）/Align project direction (Level 6),3,1,6,,,resource[22]==6,,,,,,,3,,calc[floor(15*(1+resource[16]/50))],,,,,,,,,,,,6
 37,对齐项目方向（职级7）/Align project direction (Level 7),3,1,7,,,resource[22]==7,,,,,,,3,,calc[floor(18*(1+resource[16]/50))],,,,,,,,,,,,7
-38,对齐团队方向（职级8）/Align team direction (Level 8),4,1,8,,,resource[22]==8,,,,,,,,,calc[floor(20*(1+resource[18]/40))],,,,,,3,,,,,8
-39,对齐团队方向（职级9）/Align team direction (Level 9),4,1,9,,,resource[22]==9,,,,,,,,,calc[floor(25*(1+resource[18]/40))],,,,,,5,,,,,9
+38,对齐团队方向（职级8）/Align team direction (Level 8),4,1,8,,,resource[22]==8,,,,,,,,,calc[floor(20*(1+resource[70]/40))],,,,,,3,,,,,8
+39,对齐团队方向（职级9）/Align team direction (Level 9),4,1,9,,,resource[22]==9,,,,,,,,,calc[floor(25*(1+resource[70]/40))],,,,,,5,,,,,9
 40,对齐部门战略（职级10）/Align department strategy (Level 10),5,1,10,,,resource[22]==10,,,,,,,,-8,calc[floor(30*(1+resource[16]/30))],,,,,,,,,,,,10
 41,请求指导工作（职级1）/Request work guidance (Level 1),2,1,1,,,resource[22]==1,,,,calc[floor(3*(1+conditional[resource[21]>50?-0.3:0]))],2,calc[floor(-5*(120-resource[17])/100)],,,,,,,,,,,,,,,,11
 42,请求指导工作（职级2）/Request work guidance (Level 2),2,1,2,,,resource[22]==2,,,,calc[floor(4*(1+conditional[resource[21]>50?-0.3:0]))],2,calc[floor(-5*(120-resource[17])/100)],,,,,,,,,,,,,,,,12
 43,求助技术难点（职级3）/Seek help with technical challenges (Level 3),3,1,3,,,resource[22]==3,,,,,5,3,calc[floor(-8*(120-resource[17])/100)],,5,,5,,,,,,,,,,,,13
 44,求助技术难点（职级4）/Seek help with technical challenges (Level 4),3,1,4,,,resource[22]==4,,,,,6,3,calc[floor(-8*(120-resource[17])/100)],,6,,8,,,,,,,,,,,,14
 45,求助技术难点（职级5）/Seek help with technical challenges (Level 5),3,1,5,,,resource[22]==5,,,,,7,4,calc[floor(-10*(120-resource[17])/100)],,7,,10,,,,,,,,,,,,15
-46,请求外部资源（职级6）/Request external resources (Level 6),4,1,6,,,resource[22]==6,,,,,3,calc[floor(-12*(120-resource[17])/100)],,,,calc[floor(15*(1+resource[18]/40))],,,,,,5,,,,,16
-47,请求外部资源（职级7）/Request external resources (Level 7),4,1,7,,,resource[22]==7,,,,,4,calc[floor(-12*(120-resource[17])/100)],,,,calc[floor(18*(1+resource[18]/40))],,,,,,6,,,,,17
+46,请求外部资源（职级6）/Request external resources (Level 6),4,1,6,,,resource[22]==6,,,,,3,calc[floor(-12*(120-resource[17])/100)],,,,calc[floor(15*(1+resource[70]/40))],,,,,,5,,,,,16
+47,请求外部资源（职级7）/Request external resources (Level 7),4,1,7,,,resource[22]==7,,,,,4,calc[floor(-12*(120-resource[17])/100)],,,,calc[floor(18*(1+resource[70]/40))],,,,,,6,,,,,17
 48,请求激励资源（职级8）/Request motivational resources (Level 8),3,1,8,,,resource[22]==8,,,,,5,calc[floor(-10*(120-resource[17])/100)],10,,,,,8,,10,,5,,,,,18
 49,请求激励资源（职级9）/Request motivational resources (Level 9),3,1,9,,,resource[22]==9,,,,,5,calc[floor(-10*(120-resource[17])/100)],12,,,,,10,,12,,6,,,,,19
 50,请求战略倾斜（职级10）/Request strategic support (Level 10),5,1,10,,,resource[22]==10,,,,,6,calc[floor(-15*(120-resource[17])/100)],,,,25,,,,,,8,10,,,,,20
-51,汇报工作/Report work progress,2,1,,,,always,,,,,2,,,,calc[floor(-3*(1+resource[18]/50))],2,,,,,,,,,,,,21
+51,汇报工作/Report work progress,2,1,,,,always,,,,,2,,,,calc[floor(-3*(1+resource[70]/50))],2,,,,,,,,,,,,21
 52,表扬同事1（职级6-7）/Praise colleague 1 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,4,calc[floor(-8*(120-resource[17])/100)],5,,,,,15,,,,,,5,,,,,22
 53,表扬同事2（职级6-7）/Praise colleague 2 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,4,calc[floor(-8*(120-resource[17])/100)],5,,,,,,15,,,,,5,,,,,23
 54,表扬同事3（职级6-7）/Praise colleague 3 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,4,calc[floor(-8*(120-resource[17])/100)],5,,,,,,,15,,,5,,,,,24
 55,激励同事1（职级7-10）/Motivate colleague 1 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,6,calc[floor(-12*(120-resource[17])/100)],,,,,,20,5,,,,,8,,,,,25
 56,激励同事2（职级7-10）/Motivate colleague 2 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,6,calc[floor(-12*(120-resource[17])/100)],,,,,,20,,5,,,,8,,,,,26
 57,激励同事3（职级7-10）/Motivate colleague 3 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,6,calc[floor(-12*(120-resource[17])/100)],,,,,,,,,20,,5,8,,,,,27
-58,立项研讨（职级>=5）/Project initiation discussion (Level >=5),6,1,5,,,resource[22]>=5&resource[62]<20,,,,,8,calc[floor(-20*(120-resource[16])/100)],,8,,calc[floor(20*(1+resource[16]/25))],,,,,,,,5,,,,,28
+58,立项研讨（职级>=5）/Project initiation discussion (Level >=5),6,1,5,,,resource[22]>=5&resource[69]<20,,,,,8,calc[floor(-20*(120-resource[16])/100)],,8,,calc[floor(20*(1+resource[16]/25))],,,,,,,,5,,,,,28
 59,私下宴请/Private dinner invitation,4,1,7,,,resource[22]>=7&resource[22]<=10,,,,,8,calc[floor(-10*(120-resource[17])/100)],8,-10,,-500,,,,,,,10,,,,,29
 60,沟通发展路径/Discuss career development path,3,1,,,,always,,,,,5,3,calc[floor(-12*(120-resource[17])/100)],calc[floor(5*(1-resource[21]/100))],,,,,,,,,,,,,,30
 61,私下闲聊（同事1）/Private chat (Colleague 1),2,1,,,,resource[62]>=0,,,,,3,calc[floor(-5*(120-resource[17])/100)],3,,,,,,3,,,,,,,,,,31
@@ -53,22 +53,22 @@ event_id,event_name,time_cost,location_requirement,level_requirement,min_conditi
 82,技术交流（同事3）/Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,3,,calc[floor(-12*(120-resource[16])/100)],,2,,,,,,,,,5,,8,,,3,,,,,52
 83,技术指导（同事3）/Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,5,,calc[floor(-15*(120-resource[16])/100)],,,,,,,,,,,8,,15,,,5,5,3,,,53
 84,私下宴请（同事3）/Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,8,calc[floor(-8*(120-resource[17])/100)],8,,,,-180,,,,,,,,,12,,,,,,5,,,,,54
-85,编写代码/Write code,4,1,,,,resource[18]>=5,6,,,,,,2,,,calc[floor(5*(1+resource[20]/25))],,,,,,,,,,,,55
+85,编写代码/Write code,4,1,,,,resource[20]>=5,6,,,,,,2,,,calc[floor(5*(1+resource[20]/25))],,,,,,,,,,,,55
 86,发呆/Daydreaming,2,1,,,,,,-2,,,3,,,,,,,,,,,,,,,,,56
 87,摸鱼看内网论坛/Browse company forum,3,1,,,,,,,,,,-3,5,,,,,,,,,,,,1,,,,,57
 88,摸鱼打游戏/Play games,4,1,,,,,,3,,,,-8,8,,,,,,,,,,,,,,,,58
-89,特性设计/Feature design,6,1,,,,resource[18]>=20,8,,,,,,-20,4,,calc[floor(10*(1+resource[20]/20+resource[16]/40))],,,,,,,,,,,,59
-90,架构设计/Architecture design,8,1,,,,resource[18]>=25,12,,,,,,-25,6,,calc[floor(20*(1+resource[20]/15+resource[16]/30))],,,,,,,,,,5,,,,,60
-91,软件重构/Software refactoring,6,1,,,,resource[18]>=18,8,,,,,,-18,3,,calc[floor(8*(1+resource[20]/20))],,,,,,,,,,,,61
-92,学习业界实践/Learn industry practices,4,1,,,,resource[18]>=12,,,,,2,,-12,calc[floor(4*(1+resource[16]/25))],,,,,,,,,,,,2,,,,,62
-93,学习项目知识/Learn project knowledge,3,1,,,,resource[18]>=10,,,,,,,,-10,calc[floor(3*(1+resource[16]/30))],,,3,,,,,,,,,,,,63
-94,与客户沟通/Communicate with clients,3,1,,,,resource[18]>=8,,,,,2,calc[floor(-8*(120-resource[17])/100)],,,,calc[floor(6*(1+resource[17]/40))],,,,,,3,,,,,64
-95,发布技术博客/Publish tech blog,5,1,,,,resource[18]>=15,,,,,3,,-15,2,5,,,,,,,,,,,,,8,,,,,65
-96,项目排期与任务跟踪/Project scheduling and task tracking,4,1,,,,resource[18]>=12,,,,,4,,-12,,,calc[floor(8*(1+resource[16]/30))],,,,,,,,,,,,66
-97,构思解决方案/Brainstorm solutions,5,1,,,,resource[18]>=18,,,,,6,,-18,4,,calc[floor(8*(1+resource[16]/25))],,,,,,,,,,,,67
-98,技术攻关/Technical breakthrough,10,1,,,,resource[18]>=30,15,,,,,,-30,8,,calc[floor(15*(1+resource[20]/10+resource[16]/20))],,,,,,,,,,10,,,,,68
+89,特性设计/Feature design,6,1,,,,resource[20]>=20,8,,,,,,-20,4,,calc[floor(10*(1+resource[20]/20+resource[16]/40))],,,,,,,,,,,,59
+90,架构设计/Architecture design,8,1,,,,resource[20]>=25,12,,,,,,-25,6,,calc[floor(20*(1+resource[20]/15+resource[16]/30))],,,,,,,,,,5,,,,,60
+91,软件重构/Software refactoring,6,1,,,,resource[20]>=18,8,,,,,,-18,3,,calc[floor(8*(1+resource[20]/20))],,,,,,,,,,,,61
+92,学习业界实践/Learn industry practices,4,1,,,,resource[20]>=12,,,,,2,,-12,calc[floor(4*(1+resource[16]/25))],,,,,,,,,,,,2,,,,,62
+93,学习项目知识/Learn project knowledge,3,1,,,,resource[20]>=10,,,,,,,,-10,calc[floor(3*(1+resource[16]/30))],,,3,,,,,,,,,,,,63
+94,与客户沟通/Communicate with clients,3,1,,,,resource[20]>=8,,,,,2,calc[floor(-8*(120-resource[17])/100)],,,,calc[floor(6*(1+resource[17]/40))],,,,,,3,,,,,64
+95,发布技术博客/Publish tech blog,5,1,,,,resource[20]>=15,,,,,3,,-15,2,5,,,,,,,,,,,,,8,,,,,65
+96,项目排期与任务跟踪/Project scheduling and task tracking,4,1,,,,resource[20]>=12,,,,,4,,-12,,,calc[floor(8*(1+resource[16]/30))],,,,,,,,,,,,66
+97,构思解决方案/Brainstorm solutions,5,1,,,,resource[20]>=18,,,,,6,,-18,4,,calc[floor(8*(1+resource[16]/25))],,,,,,,,,,,,67
+98,技术攻关/Technical breakthrough,10,1,,,,resource[20]>=30,15,,,,,,-30,8,,calc[floor(15*(1+resource[20]/10+resource[16]/20))],,,,,,,,,,10,,,,,68
 99,邮件汇报工作进度/Email work progress,1,1,,,,always,,,,,1,,,,-1,,,,,,,,,,,,,69
-100,实现技术demo/Implement tech demo,6,1,,,,resource[18]>=20,8,,,,,,-20,5,,calc[floor(10*(1+resource[20]/15))],,,,,,,,,,,,70
+100,实现技术demo/Implement tech demo,6,1,,,,resource[20]>=20,8,,,,,,-20,5,,calc[floor(10*(1+resource[20]/15))],,,,,,,,,,,,70
 101,查看技术新闻/Read tech news,1,1,,,,always,,,,,1,,,1,,,,,,,,,,,,71
 102,偷偷投简历/Secretly apply for jobs,3,1,,,,always,,,,,3,,,8,,,,,,,,,,,,72
 103,点外卖/Order food delivery,1,1,,,,always,,,-20,,,,,,,,-65,,,,,,,,,,,73

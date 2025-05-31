@@ -1,9 +1,9 @@
 entity_id,entity_name,entity_name_en,location_id,location_name,location_name_en,available_events,interaction_conditions,description,description_en
 1,老板,Boss,1,公司,Company,"31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,521",resource[22]>=1,公司的决策者和管理者,The decision-maker and manager of the company
-2,同事1,Colleague 1,1,公司,Company,"61,62,63,64,65,66,67,68",resource[55]>=0,技能较强的资深同事,A senior colleague with strong skills
-3,同事2,Colleague 2,1,公司,Company,"69,70,71,72,73,74,75,76",resource[57]>=0,技能中等的普通同事,An average colleague with moderate skills
-4,同事3,Colleague 3,1,公司,Company,"77,78,79,80,81,82,83,84",resource[59]>=0,技能较弱的新人同事,A junior colleague with limited skills
-5,电脑,Computer,1,公司,Company,"85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,522,523,524",resource[11]>=0&resource[22]>=1,程序员的主要工作工具,The programmer's main work tool
+2,同事1,Colleague 1,1,公司,Company,"61,62,63,64,65,66,67,68",resource[62]>=0,技能较强的资深同事,A senior colleague with strong skills
+3,同事2,Colleague 2,1,公司,Company,"69,70,71,72,73,74,75,76",resource[64]>=0,技能中等的普通同事,An average colleague with moderate skills
+4,同事3,Colleague 3,1,公司,Company,"77,78,79,80,81,82,83,84",resource[66]>=0,技能较弱的新人同事,A junior colleague with limited skills
+5,电脑,Computer,1,公司,Company,"85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,522,523,524",resource[20]>=0&resource[22]>=1,程序员的主要工作工具,The programmer's main work tool
 6,手机,Mobile Phone,1,公司,Company,"101,102,103,104,105",always,随身携带的智能设备,A portable smart device
 7,走廊,Corridor,1,公司,Company,"106,107,108,109",always,公司内部的通道,Internal corridors of the company
 8,厕所,Restroom,1,公司,Company,"110,111,112",always,办公室的休息场所,A resting place in the office
@@ -16,11 +16,11 @@ entity_id,entity_name,entity_name_en,location_id,location_name,location_name_en,
 15,电脑,Computer,3,家,Home,"134,135,136,137,138,139",always,家中的娱乐和学习工具,Entertainment and learning tool at home
 16,手机,Mobile Phone,3,家,Home,"140,141,142,143",always,与外界联系的窗口,A window to connect with the outside world
 17,自己,Self,3,家,Home,"144,145,146,501,502,503,504",resource[16]>=30|resource[17]>=30,在家中的自我探索,Self-exploration at home
-18,书架,Bookshelf,3,家,Home,"147,148,149,150",resource[23]>0,知识的宝库,A treasure trove of knowledge
-19,床,Bed,3,家,Home,"151,152,153,154",always,休息和恢复的地方,A place for rest and recovery
+18,书架,Bookshelf,3,家,Home,"147,148,149,150",resource[24]>0,知识的宝库,A treasure trove of knowledge
+19,床,Bed,3,家,Home,"151,152,153,154,196",always,休息和恢复的地方,A place for rest and recovery
 20,冰箱,Refrigerator,3,家,Home,"155,156,157,158",always,食物储存的设备,Food storage equipment
-21,柜子,Cabinet,3,家,Home,"159,160,161",always,物品整理的空间,Storage space for organizing items
-22,自己,Self,4,公园,Park,"162,163,164",always,在公园中的自我体验,Self-experience in the park
+21,柜子,Cabinet,3,家,Home,"159,160,161,198",always,物品整理的空间,Storage space for organizing items
+22,自己,Self,4,公园,Park,"162,163,164,197",always,在公园中的自我体验,Self-experience in the park
 23,长椅,Bench,4,公园,Park,"165,166,167",always,休憩和观察的场所,A place for rest and observation
 24,街道,Street,4,公园,Park,"168,169",always,锻炼身体的路径,Pathways for physical exercise
 25,垃圾桶,Trash Can,4,公园,Park,"170",always,维护环境卫生的设施,Facilities for maintaining environmental hygiene
@@ -34,4 +34,4 @@ entity_id,entity_name,entity_name_en,location_id,location_name,location_name_en,
 33,医生,Doctor,6,医院,Hospital,"188,189,190,191",always,专业的医疗服务提供者,Professional medical service provider
 34,手机,Mobile Phone,6,医院,Hospital,"192,193",always,获取健康信息的工具,A tool for obtaining health information
 35,自己,Self,6,医院,Hospital,"194,195",always,关注自身健康的主体,The subject concerned about personal health
-36,护士,Nurse,6,医院,Hospital,"196,197,198",always,协助医疗服务的专业人员,Professional staff assisting medical services 
+36,护士,Nurse,6,医院,Hospital,"189,191,195",always,协助医疗服务的专业人员,Professional staff assisting medical services 
