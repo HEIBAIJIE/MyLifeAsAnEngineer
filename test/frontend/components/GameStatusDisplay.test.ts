@@ -73,8 +73,6 @@ describe('GameStatusDisplay', () => {
     hour: '小时',
     executing: '🎯 执行事件:',
     estimatedTime: '⏰ 预计消耗时间:',
-    confirm: '确认执行吗？(y/n): ',
-    cancelled: '❌ 已取消操作',
     success: '✅ 事件执行成功！',
     failed: '❌ 事件执行失败:',
     resourceChanges: '📊 属性变化:',

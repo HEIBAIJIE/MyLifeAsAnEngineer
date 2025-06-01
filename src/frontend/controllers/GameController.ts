@@ -122,12 +122,6 @@ export class GameController {
     
     console.log(this.resultDisplay.displayEventConfirmation(getEventName(event, language), event.time_cost));
     
-    const confirm = await this.getUserInput(texts.confirm as string);
-    if (confirm.toLowerCase() !== 'y' && confirm.toLowerCase() !== 'yes') {
-      console.log(texts.cancelled);
-      return;
-    }
-
     const result = await this.gameService.executeEvent(event.event_id);
     console.log(this.resultDisplay.displayEventResult(result));
   }
@@ -192,17 +186,11 @@ export class GameController {
   }
 
   private async quitGame(): Promise<void> {
-    const confirmPrompt = this.localization.getCurrentLanguage() === 'zh' ? 
-      '确认退出游戏吗？(y/n): ' : 'Confirm quit game? (y/n): ';
-    const confirm = await this.getUserInput(confirmPrompt);
-    
-    if (confirm.toLowerCase() === 'y' || confirm.toLowerCase() === 'yes') {
-      const goodbyeMessage = this.localization.getCurrentLanguage() === 'zh' ? 
-        '👋 感谢游玩《我的工程师生活》！' : '👋 Thank you for playing "My Life As An Engineer"!';
-      console.log(goodbyeMessage);
-      this.rl.close();
-      process.exit(0);
-    }
+    const goodbyeMessage = this.localization.getCurrentLanguage() === 'zh' ? 
+      '👋 感谢游玩《我的工程师生活》！' : '👋 Thank you for playing "My Life As An Engineer"!';
+    console.log(goodbyeMessage);
+    this.rl.close();
+    process.exit(0);
   }
 
   private switchLanguage(): void {

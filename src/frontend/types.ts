@@ -106,8 +106,6 @@ export interface UITexts {
   hour: string;
   executing: string;
   estimatedTime: string;
-  confirm: string;
-  cancelled: string;
   success: string;
   failed: string;
   resourceChanges: string;
