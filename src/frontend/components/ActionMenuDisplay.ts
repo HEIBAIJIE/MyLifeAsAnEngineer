@@ -1,5 +1,6 @@
 import { AvailableEvent } from '../types';
 import { LocalizationService } from '../services/LocalizationService';
+import { getEventName } from '../../utils';
 
 export class ActionMenuDisplay {
   private localization: LocalizationService;
@@ -10,16 +11,15 @@ export class ActionMenuDisplay {
 
   displayAvailableActions(availableEvents: AvailableEvent[]): string {
     const texts = this.localization.getTexts();
+    const language = this.localization.getCurrentLanguage();
     let output = '';
-
-    output += '┌─────────────────────────────────────────────────────────────┐\n';
-    output += `│                      ${texts.availableActions.padEnd(28)}│\n`;
-    output += '├─────────────────────────────────────────────────────────────┤\n';
     
-    // 场景切换选项
+    output += '┌─────────────────────────────────────────────────────────────┐\n';
+    output += `│ ${texts.availableActions}\n`;
+    output += '├─────────────────────────────────────────────────────────────┤\n';
     output += `│ ${texts.sceneSwitch}\n`;
-    const locationLine = (texts.locations as string[]).map((loc, i) => `[${i+1}] ${loc}`).join('    ');
-    output += `│  ${locationLine}\n`;
+    output += `│  [1] ${texts.locations[0]}    [2] ${texts.locations[1]}    [3] ${texts.locations[2]}\n`;
+    output += `│  [4] ${texts.locations[3]}    [5] ${texts.locations[4]}    [6] ${texts.locations[5]}\n`;
     output += '├─────────────────────────────────────────────────────────────┤\n';
     
     // 当前场景可用事件
@@ -35,7 +35,7 @@ export class ActionMenuDisplay {
       if (shortEvents.length > 0) {
         output += `│  ${texts.quickActions}\n`;
         for (const event of shortEvents.slice(0, 5)) {
-          output += `│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})\n`;
+          output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
           eventIndex++;
         }
       }
@@ -43,7 +43,7 @@ export class ActionMenuDisplay {
       if (mediumEvents.length > 0) {
         output += `│  ${texts.mediumActions}\n`;
         for (const event of mediumEvents.slice(0, 5)) {
-          output += `│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})\n`;
+          output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
           eventIndex++;
         }
       }
@@ -51,7 +51,7 @@ export class ActionMenuDisplay {
       if (longEvents.length > 0) {
         output += `│  ${texts.longActions}\n`;
         for (const event of longEvents.slice(0, 3)) {
-          output += `│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})\n`;
+          output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
           eventIndex++;
         }
       }
@@ -76,15 +76,11 @@ export class ActionMenuDisplay {
   }
 
   isLocationCommand(choice: string): number | null {
-    const sceneMap: { [key: string]: number } = {
-      '1': 1, // 公司
-      '2': 2, // 商店  
-      '3': 3, // 家
-      '4': 4, // 公园
-      '5': 5, // 餐馆
-      '6': 6  // 医院
-    };
-    return sceneMap[choice] || null;
+    const locationIndex = parseInt(choice);
+    if (locationIndex >= 1 && locationIndex <= 6) {
+      return locationIndex;
+    }
+    return null;
   }
 
   isEventCommand(choice: string): number | null {
@@ -96,7 +92,10 @@ export class ActionMenuDisplay {
   }
 
   isSystemCommand(choice: string): string | null {
-    const systemCommands = ['s', 'l', 'i', 'h', 'q', 'lang'];
-    return systemCommands.includes(choice.toLowerCase()) ? choice.toLowerCase() : null;
+    const validCommands = ['s', 'l', 'i', 'h', 'q', 'lang'];
+    if (validCommands.includes(choice.toLowerCase())) {
+      return choice.toLowerCase();
+    }
+    return null;
   }
 } 

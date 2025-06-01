@@ -3,6 +3,7 @@ import { GameDataManager } from './GameDataManager';
 import { ResourceManager } from './ResourceManager';
 import { TimeManager } from './TimeManager';
 import { ConditionParser } from '../conditionParser';
+import { Language, getResourceName, getEventName } from '../utils';
 
 export class QueryService {
   private dataManager: GameDataManager;
@@ -19,7 +20,7 @@ export class QueryService {
     this.timeManager = timeManager;
   }
 
-  queryResource(resourceId: number, language: 'zh' | 'en' = 'zh') {
+  queryResource(resourceId: number, language: Language = 'zh') {
     const resource = this.dataManager.getResource(resourceId);
     const value = this.resourceManager.getResourceValue(resourceId);
     
@@ -27,7 +28,7 @@ export class QueryService {
       type: 'query_result',
       data: {
         resource_id: resourceId,
-        resource_name: resource?.resource_name || 'Unknown',
+        resource_name: resource ? getResourceName(resource, language) : 'Unknown',
         value: value,
         max_value: resource?.max_value || 0,
         min_value: resource?.min_value || 0
@@ -35,7 +36,7 @@ export class QueryService {
     };
   }
 
-  queryLocation(locationId?: number, language: 'zh' | 'en' = 'zh') {
+  queryLocation(locationId?: number, language: Language = 'zh') {
     const currentLocationId = locationId || this.resourceManager.getResourceValue(61);
     const location = this.dataManager.getLocation(currentLocationId);
     
@@ -49,7 +50,7 @@ export class QueryService {
     };
   }
 
-  queryAvailableEvents(language: 'zh' | 'en' = 'zh') {
+  queryAvailableEvents(language: Language = 'zh') {
     const currentLocation = this.resourceManager.getResourceValue(61);
     const conditionParser = new ConditionParser(
       this.resourceManager.getAllResourceValues(),
@@ -76,14 +77,15 @@ export class QueryService {
       data: {
         available_events: availableEvents.map(e => ({
           event_id: e.event_id,
-          event_name: e.event_name,
+          event_name_cn: e.event_name_cn,
+          event_name_en: e.event_name_en,
           time_cost: e.time_cost
         }))
       }
     };
   }
 
-  queryInventory(language: 'zh' | 'en' = 'zh') {
+  queryInventory(language: Language = 'zh') {
     const inventory: Array<{
       slot: number;
       item_id: number;
@@ -133,7 +135,7 @@ export class QueryService {
   }
 
   // Advanced query methods
-  queryEventsByLocation(locationId: number) {
+  queryEventsByLocation(locationId: number, language: Language = 'zh') {
     const conditionParser = new ConditionParser(
       this.resourceManager.getAllResourceValues(),
       this.timeManager.getTimeInfo()
@@ -152,7 +154,8 @@ export class QueryService {
         location_id: locationId,
         events: events.map(e => ({
           event_id: e.event_id,
-          event_name: e.event_name,
+          event_name_cn: e.event_name_cn,
+          event_name_en: e.event_name_en,
           time_cost: e.time_cost,
           can_execute: conditionParser.evaluate(e.condition_expression)
         }))

@@ -1,83 +1,83 @@
-resource_id,resource_name,resource_type,initial_value,max_value,min_value,description
-1,时间,basic,14,999999,0,当前时间单元，从早上7点开始为14
-2,钱,basic,30000,999999,0,玩家拥有的金钱
-3,物品栏1物品ID,inventory,0,999,0,物品栏第1格的物品ID
-4,物品栏1数量,inventory,0,99,0,物品栏第1格的物品数量
-5,物品栏2物品ID,inventory,0,999,0,物品栏第2格的物品ID
-6,物品栏2数量,inventory,0,99,0,物品栏第2格的物品数量
-7,物品栏3物品ID,inventory,0,999,0,物品栏第3格的物品ID
-8,物品栏3数量,inventory,0,99,0,物品栏第3格的物品数量
-9,物品栏4物品ID,inventory,0,999,0,物品栏第4格的物品ID
-10,物品栏4数量,inventory,0,99,0,物品栏第4格的物品数量
-11,物品栏5物品ID,inventory,0,999,0,物品栏第5格的物品ID
-12,物品栏5数量,inventory,0,99,0,物品栏第5格的物品数量
-13,健康度,basic,100,100,0,身体健康状况
-14,疲劳度,basic,0,100,0,身体疲劳程度
-15,饥饿度,basic,0,100,0,饥饿程度
-16,理性,basic,50,100,0,通过逻辑和科学理解世界的能力
-17,感性,basic,50,100,0,通过情感和直觉理解世界的能力
-18,专注力,basic,100,100,0,用于强迫自己做不想做事情的资源
-19,心情,basic,80,100,0,当前心情状态
-20,专业技能,basic,0,100,0,技术能力水平
-21,老板不满度,basic,0,100,0,老板对玩家的不满程度
-22,职级,basic,1,10,1,职业等级
-23,项目进度,basic,0,100,0,当前项目的完成度
-24,书架,basic,0,20,0,拥有的书籍数量
-25,冰箱格子1物品ID,storage,0,999,0,冰箱第1格的物品ID
-26,冰箱格子1数量,storage,0,99,0,冰箱第1格的物品数量
-27,冰箱格子2物品ID,storage,0,999,0,冰箱第2格的物品ID
-28,冰箱格子2数量,storage,0,99,0,冰箱第2格的物品数量
-29,冰箱格子3物品ID,storage,0,999,0,冰箱第3格的物品ID
-30,冰箱格子3数量,storage,0,99,0,冰箱第3格的物品数量
-31,冰箱格子4物品ID,storage,0,999,0,冰箱第4格的物品ID
-32,冰箱格子4数量,storage,0,99,0,冰箱第4格的物品数量
-33,冰箱格子5物品ID,storage,0,999,0,冰箱第5格的物品ID
-34,冰箱格子5数量,storage,0,99,0,冰箱第5格的物品数量
-35,冰箱格子6物品ID,storage,0,999,0,冰箱第6格的物品ID
-36,冰箱格子6数量,storage,0,99,0,冰箱第6格的物品数量
-37,冰箱格子7物品ID,storage,0,999,0,冰箱第7格的物品ID
-38,冰箱格子7数量,storage,0,99,0,冰箱第7格的物品数量
-39,冰箱格子8物品ID,storage,0,999,0,冰箱第8格的物品ID
-40,冰箱格子8数量,storage,0,99,0,冰箱第8格的物品数量
-41,冰箱格子9物品ID,storage,0,999,0,冰箱第9格的物品ID
-42,冰箱格子9数量,storage,0,99,0,冰箱第9格的物品数量
-43,柜子格子1物品ID,storage,0,999,0,柜子第1格的物品ID
-44,柜子格子1数量,storage,0,99,0,柜子第1格的物品数量
-45,柜子格子2物品ID,storage,0,999,0,柜子第2格的物品ID
-46,柜子格子2数量,storage,0,99,0,柜子第2格的物品数量
-47,柜子格子3物品ID,storage,0,999,0,柜子第3格的物品ID
-48,柜子格子3数量,storage,0,99,0,柜子第3格的物品数量
-49,柜子格子4物品ID,storage,0,999,0,柜子第4格的物品ID
-50,柜子格子4数量,storage,0,99,0,柜子第4格的物品数量
-51,柜子格子5物品ID,storage,0,999,0,柜子第5格的物品ID
-52,柜子格子5数量,storage,0,99,0,柜子第5格的物品数量
-53,柜子格子6物品ID,storage,0,999,0,柜子第6格的物品ID
-54,柜子格子6数量,storage,0,99,0,柜子第6格的物品数量
-55,柜子格子7物品ID,storage,0,999,0,柜子第7格的物品ID
-56,柜子格子7数量,storage,0,99,0,柜子第7格的物品数量
-57,柜子格子8物品ID,storage,0,999,0,柜子第8格的物品ID
-58,柜子格子8数量,storage,0,99,0,柜子第8格的物品数量
-59,柜子格子9物品ID,storage,0,999,0,柜子第9格的物品ID
-60,柜子格子9数量,storage,0,99,0,柜子第9格的物品数量
-61,当前场景,basic,1,6,1,玩家当前所在的场景ID
-62,同事1好感度,social,0,100,0,同事1对玩家的好感度
-63,同事1专业技能,social,70,100,0,同事1的专业技能水平
-64,同事2好感度,social,0,100,0,同事2对玩家的好感度
-65,同事2专业技能,social,40,100,0,同事2的专业技能水平
-66,同事3好感度,social,0,100,0,同事3对玩家的好感度
-67,同事3专业技能,social,10,100,0,同事3的专业技能水平
-68,累计完成项目数量,achievement,0,999,0,累计完成的项目总数
-69,当日项目进度,basic,0,100,0,当天的项目进度贡献
-70,社交影响力,basic,0,100,0,通过社交积累的隐形资源
-71,技术声誉,basic,0,100,0,通过技术工作积累的声誉
-72,哲学感悟,basic,0,100,0,通过思考积累的人生感悟
-73,随机事件种子,system,0,999999,0,用于生成伪随机事件的种子
-74,机械键盘效果,permanent,0,1,0,是否拥有机械键盘的永久效果
-75,人体工学鼠标垫效果,permanent,0,1,0,是否拥有人体工学鼠标垫的永久效果
-76,空气净化器效果,permanent,0,1,0,是否拥有空气净化器的永久效果
-77,工作效率加成百分比,permanent,0,100,0,所有永久工具提供的工作效率加成总和
-78,专注力消耗减免百分比,permanent,0,100,0,所有永久工具提供的专注力消耗减免总和
-79,预留永久效果位1,permanent,0,100,0,为未来新增永久效果预留
-80,预留永久效果位2,permanent,0,100,0,为未来新增永久效果预留
-81,预留永久效果位3,permanent,0,100,0,为未来新增永久效果预留
-82,预留永久效果位4,permanent,0,100,0,为未来新增永久效果预留 
+resource_id,resource_name,resource_name_en,resource_type,initial_value,max_value,min_value,description
+1,时间,Time,basic,14,999999,0,当前时间单元，从早上7点开始为14
+2,钱,Money,basic,30000,999999,0,玩家拥有的金钱
+3,物品栏1物品ID,Inventory Slot 1 Item ID,inventory,0,999,0,物品栏第1格的物品ID
+4,物品栏1数量,Inventory Slot 1 Quantity,inventory,0,99,0,物品栏第1格的物品数量
+5,物品栏2物品ID,Inventory Slot 2 Item ID,inventory,0,999,0,物品栏第2格的物品ID
+6,物品栏2数量,Inventory Slot 2 Quantity,inventory,0,99,0,物品栏第2格的物品数量
+7,物品栏3物品ID,Inventory Slot 3 Item ID,inventory,0,999,0,物品栏第3格的物品ID
+8,物品栏3数量,Inventory Slot 3 Quantity,inventory,0,99,0,物品栏第3格的物品数量
+9,物品栏4物品ID,Inventory Slot 4 Item ID,inventory,0,999,0,物品栏第4格的物品ID
+10,物品栏4数量,Inventory Slot 4 Quantity,inventory,0,99,0,物品栏第4格的物品数量
+11,物品栏5物品ID,Inventory Slot 5 Item ID,inventory,0,999,0,物品栏第5格的物品ID
+12,物品栏5数量,Inventory Slot 5 Quantity,inventory,0,99,0,物品栏第5格的物品数量
+13,健康度,Health,basic,100,100,0,身体健康状况
+14,疲劳度,Fatigue,basic,0,100,0,身体疲劳程度
+15,饥饿度,Hunger,basic,0,100,0,饥饿程度
+16,理性,Rationality,basic,50,100,0,通过逻辑和科学理解世界的能力
+17,感性,Emotionality,basic,50,100,0,通过情感和直觉理解世界的能力
+18,专注力,Focus,basic,100,100,0,用于强迫自己做不想做事情的资源
+19,心情,Mood,basic,80,100,0,当前心情状态
+20,专业技能,Professional Skills,basic,0,100,0,技术能力水平
+21,老板不满度,Boss Dissatisfaction,basic,0,100,0,老板对玩家的不满程度
+22,职级,Job Level,basic,1,10,1,职业等级
+23,项目进度,Project Progress,basic,0,100,0,当前项目的完成度
+24,书架,Bookshelf,basic,0,20,0,拥有的书籍数量
+25,冰箱格子1物品ID,Refrigerator Slot 1 Item ID,storage,0,999,0,冰箱第1格的物品ID
+26,冰箱格子1数量,Refrigerator Slot 1 Quantity,storage,0,99,0,冰箱第1格的物品数量
+27,冰箱格子2物品ID,Refrigerator Slot 2 Item ID,storage,0,999,0,冰箱第2格的物品ID
+28,冰箱格子2数量,Refrigerator Slot 2 Quantity,storage,0,99,0,冰箱第2格的物品数量
+29,冰箱格子3物品ID,Refrigerator Slot 3 Item ID,storage,0,999,0,冰箱第3格的物品ID
+30,冰箱格子3数量,Refrigerator Slot 3 Quantity,storage,0,99,0,冰箱第3格的物品数量
+31,冰箱格子4物品ID,Refrigerator Slot 4 Item ID,storage,0,999,0,冰箱第4格的物品ID
+32,冰箱格子4数量,Refrigerator Slot 4 Quantity,storage,0,99,0,冰箱第4格的物品数量
+33,冰箱格子5物品ID,Refrigerator Slot 5 Item ID,storage,0,999,0,冰箱第5格的物品ID
+34,冰箱格子5数量,Refrigerator Slot 5 Quantity,storage,0,99,0,冰箱第5格的物品数量
+35,冰箱格子6物品ID,Refrigerator Slot 6 Item ID,storage,0,999,0,冰箱第6格的物品ID
+36,冰箱格子6数量,Refrigerator Slot 6 Quantity,storage,0,99,0,冰箱第6格的物品数量
+37,冰箱格子7物品ID,Refrigerator Slot 7 Item ID,storage,0,999,0,冰箱第7格的物品ID
+38,冰箱格子7数量,Refrigerator Slot 7 Quantity,storage,0,99,0,冰箱第7格的物品数量
+39,冰箱格子8物品ID,Refrigerator Slot 8 Item ID,storage,0,999,0,冰箱第8格的物品ID
+40,冰箱格子8数量,Refrigerator Slot 8 Quantity,storage,0,99,0,冰箱第8格的物品数量
+41,冰箱格子9物品ID,Refrigerator Slot 9 Item ID,storage,0,999,0,冰箱第9格的物品ID
+42,冰箱格子9数量,Refrigerator Slot 9 Quantity,storage,0,99,0,冰箱第9格的物品数量
+43,柜子格子1物品ID,Cabinet Slot 1 Item ID,storage,0,999,0,柜子第1格的物品ID
+44,柜子格子1数量,Cabinet Slot 1 Quantity,storage,0,99,0,柜子第1格的物品数量
+45,柜子格子2物品ID,Cabinet Slot 2 Item ID,storage,0,999,0,柜子第2格的物品ID
+46,柜子格子2数量,Cabinet Slot 2 Quantity,storage,0,99,0,柜子第2格的物品数量
+47,柜子格子3物品ID,Cabinet Slot 3 Item ID,storage,0,999,0,柜子第3格的物品ID
+48,柜子格子3数量,Cabinet Slot 3 Quantity,storage,0,99,0,柜子第3格的物品数量
+49,柜子格子4物品ID,Cabinet Slot 4 Item ID,storage,0,999,0,柜子第4格的物品ID
+50,柜子格子4数量,Cabinet Slot 4 Quantity,storage,0,99,0,柜子第4格的物品数量
+51,柜子格子5物品ID,Cabinet Slot 5 Item ID,storage,0,999,0,柜子第5格的物品ID
+52,柜子格子5数量,Cabinet Slot 5 Quantity,storage,0,99,0,柜子第5格的物品数量
+53,柜子格子6物品ID,Cabinet Slot 6 Item ID,storage,0,999,0,柜子第6格的物品ID
+54,柜子格子6数量,Cabinet Slot 6 Quantity,storage,0,99,0,柜子第6格的物品数量
+55,柜子格子7物品ID,Cabinet Slot 7 Item ID,storage,0,999,0,柜子第7格的物品ID
+56,柜子格子7数量,Cabinet Slot 7 Quantity,storage,0,99,0,柜子第7格的物品数量
+57,柜子格子8物品ID,Cabinet Slot 8 Item ID,storage,0,999,0,柜子第8格的物品ID
+58,柜子格子8数量,Cabinet Slot 8 Quantity,storage,0,99,0,柜子第8格的物品数量
+59,柜子格子9物品ID,Cabinet Slot 9 Item ID,storage,0,999,0,柜子第9格的物品ID
+60,柜子格子9数量,Cabinet Slot 9 Quantity,storage,0,99,0,柜子第9格的物品数量
+61,当前场景,Current Scene,basic,1,6,1,玩家当前所在的场景ID
+62,同事1好感度,Colleague 1 Favor,social,0,100,0,同事1对玩家的好感度
+63,同事1专业技能,Colleague 1 Skills,social,70,100,0,同事1的专业技能水平
+64,同事2好感度,Colleague 2 Favor,social,0,100,0,同事2对玩家的好感度
+65,同事2专业技能,Colleague 2 Skills,social,40,100,0,同事2的专业技能水平
+66,同事3好感度,Colleague 3 Favor,social,0,100,0,同事3对玩家的好感度
+67,同事3专业技能,Colleague 3 Skills,social,10,100,0,同事3的专业技能水平
+68,累计完成项目数量,Total Completed Projects,achievement,0,999,0,累计完成的项目总数
+69,当日项目进度,Daily Project Progress,basic,0,100,0,当天的项目进度贡献
+70,社交影响力,Social Influence,basic,0,100,0,通过社交积累的隐形资源
+71,技术声誉,Technical Reputation,basic,0,100,0,通过技术工作积累的声誉
+72,哲学感悟,Philosophy Insight,basic,0,100,0,通过思考积累的人生感悟
+73,随机事件种子,Random Event Seed,system,0,999999,0,用于生成伪随机事件的种子
+74,机械键盘效果,Mechanical Keyboard Effect,permanent,0,1,0,是否拥有机械键盘的永久效果
+75,人体工学鼠标垫效果,Ergonomic Mouse Pad Effect,permanent,0,1,0,是否拥有人体工学鼠标垫的永久效果
+76,空气净化器效果,Air Purifier Effect,permanent,0,1,0,是否拥有空气净化器的永久效果
+77,工作效率加成百分比,Work Efficiency Bonus Percentage,permanent,0,100,0,所有永久工具提供的工作效率加成总和
+78,专注力消耗减免百分比,Focus Consumption Reduction Percentage,permanent,0,100,0,所有永久工具提供的专注力消耗减免总和
+79,预留永久效果位1,Reserved Permanent Effect 1,permanent,0,100,0,为未来新增永久效果预留
+80,预留永久效果位2,Reserved Permanent Effect 2,permanent,0,100,0,为未来新增永久效果预留
+81,预留永久效果位3,Reserved Permanent Effect 3,permanent,0,100,0,为未来新增永久效果预留
+82,预留永久效果位4,Reserved Permanent Effect 4,permanent,0,100,0,为未来新增永久效果预留 

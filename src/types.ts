@@ -2,6 +2,7 @@
 export interface Resource {
   resource_id: number;
   resource_name: string;
+  resource_name_en: string;
   resource_type: 'basic' | 'inventory' | 'storage' | 'social' | 'achievement' | 'permanent' | 'system';
   initial_value: number;
   max_value: number;
@@ -12,7 +13,8 @@ export interface Resource {
 // Event types
 export interface Event {
   event_id: number;
-  event_name: string;
+  event_name_cn: string;
+  event_name_en: string;
   time_cost: number;
   location_requirement: number;
   level_requirement: number;
@@ -82,7 +84,8 @@ export interface Entity {
 // Temporary event types
 export interface TemporaryEvent {
   temp_event_id: number;
-  event_name: string;
+  event_name_cn: string;
+  event_name_en: string;
   trigger_condition: string;
   trigger_type: 'once' | 'repeatable';
   max_triggers: number;
@@ -116,6 +119,7 @@ export interface TemporaryEvent {
 export interface ScheduledTask {
   task_id: number;
   task_name: string;
+  task_name_en: string;
   trigger_time: string;
   trigger_condition: string;
   is_active: boolean;

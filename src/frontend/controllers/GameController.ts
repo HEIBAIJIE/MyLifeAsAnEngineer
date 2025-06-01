@@ -5,6 +5,7 @@ import { GameStatusDisplay } from '../components/GameStatusDisplay';
 import { ActionMenuDisplay } from '../components/ActionMenuDisplay';
 import { EventResultDisplay } from '../components/EventResultDisplay';
 import { GameState, AvailableEvent, LocationInfo, Language } from '../types';
+import { getEventName } from '../../utils';
 
 export class GameController {
   private rl: readline.Interface;
@@ -141,8 +142,9 @@ export class GameController {
 
   private async executeEvent(event: AvailableEvent): Promise<void> {
     const texts = this.localization.getTexts();
+    const language = this.localization.getCurrentLanguage();
     
-    console.log(this.resultDisplay.displayEventConfirmation(event.event_name, event.time_cost));
+    console.log(this.resultDisplay.displayEventConfirmation(getEventName(event, language), event.time_cost));
     
     const confirm = await this.getUserInput(texts.confirm as string);
     if (confirm.toLowerCase() !== 'y' && confirm.toLowerCase() !== 'yes') {

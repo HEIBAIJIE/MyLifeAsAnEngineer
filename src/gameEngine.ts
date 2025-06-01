@@ -18,7 +18,7 @@ import {
 } from './types';
 import { ConditionParser } from './conditionParser';
 import { CSVLoader } from './csvLoader';
-import { base64Encode, base64Decode } from './utils';
+import { base64Encode, base64Decode, Language, getResourceName, getTaskName, getEventName, getLocalizedText } from './utils';
 import { GameDataManager } from './managers/GameDataManager';
 import { ResourceManager } from './managers/ResourceManager';
 import { TimeManager } from './managers/TimeManager';

@@ -10,6 +10,7 @@ import {
   GameText
 } from '../types';
 import { CSVLoader } from '../csvLoader';
+import { Language, getResourceName, getTaskName, getEventName, getLocalizedText } from '../utils';
 
 export class GameDataManager {
   private resources: Map<number, Resource> = new Map();
@@ -114,5 +115,26 @@ export class GameDataManager {
 
   getAllGameTexts(): Map<number, GameText> {
     return this.gameTexts;
+  }
+
+  // Localized getter methods
+  getResourceName(id: number, language: Language = 'zh'): string {
+    const resource = this.getResource(id);
+    return resource ? getResourceName(resource, language) : `Resource ${id}`;
+  }
+
+  getTaskName(id: number, language: Language = 'zh'): string {
+    const task = this.getScheduledTask(id);
+    return task ? getTaskName(task, language) : `Task ${id}`;
+  }
+
+  getTemporaryEventName(id: number, language: Language = 'zh'): string {
+    const event = this.getTemporaryEvent(id);
+    return event ? getEventName(event, language) : `Event ${id}`;
+  }
+
+  getLocalizedGameText(id: number, language: Language = 'zh'): string {
+    const gameText = this.getGameText(id);
+    return gameText ? getLocalizedText(gameText, language) : `Text ${id}`;
   }
 } 

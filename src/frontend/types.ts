@@ -14,7 +14,8 @@ export interface GameState {
 
 export interface AvailableEvent {
   event_id: number;
-  event_name: string;
+  event_name_cn: string;
+  event_name_en: string;
   time_cost: number;
 }
 

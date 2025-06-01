@@ -54,4 +54,24 @@ export function error(...args: any[]): void {
   if (typeof console !== 'undefined' && console.error) {
     console.error(...args);
   }
+}
+
+// Language support utilities
+export type Language = 'zh' | 'en';
+
+export function getResourceName(resource: { resource_name: string; resource_name_en: string }, language: Language = 'zh'): string {
+  return language === 'en' ? resource.resource_name_en : resource.resource_name;
+}
+
+export function getTaskName(task: { task_name: string; task_name_en: string }, language: Language = 'zh'): string {
+  return language === 'en' ? task.task_name_en : task.task_name;
+}
+
+export function getEventName(event: { event_name_cn: string; event_name_en: string }, language: Language = 'zh'): string {
+  return language === 'en' ? event.event_name_en : event.event_name_cn;
+}
+
+// Helper function to get localized text from GameText
+export function getLocalizedText(gameText: { text_content: string; text_content_en: string }, language: Language = 'zh'): string {
+  return language === 'en' ? gameText.text_content_en : gameText.text_content;
 } 

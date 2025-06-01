@@ -61,12 +61,12 @@ describe('ActionMenuDisplay', () => {
   };
 
   const mockEvents: AvailableEvent[] = [
-    { event_id: 31, event_name: '工作', time_cost: 8 }, // Long action
-    { event_id: 32, event_name: '休息', time_cost: 2 }, // Quick action
-    { event_id: 33, event_name: '学习', time_cost: 4 }, // Medium action
-    { event_id: 34, event_name: '吃饭', time_cost: 1 }, // Quick action
-    { event_id: 35, event_name: '开会', time_cost: 3 }, // Medium action
-    { event_id: 36, event_name: '睡觉', time_cost: 16 } // Long action
+    { event_id: 31, event_name_cn: '工作', event_name_en: 'Work', time_cost: 8 }, // Long action
+    { event_id: 32, event_name_cn: '休息', event_name_en: 'Rest', time_cost: 2 }, // Quick action
+    { event_id: 33, event_name_cn: '学习', event_name_en: 'Study', time_cost: 4 }, // Medium action
+    { event_id: 34, event_name_cn: '吃饭', event_name_en: 'Eat', time_cost: 1 }, // Quick action
+    { event_id: 35, event_name_cn: '开会', event_name_en: 'Meeting', time_cost: 3 }, // Medium action
+    { event_id: 36, event_name_cn: '睡觉', event_name_en: 'Sleep', time_cost: 16 } // Long action
   ];
 
   beforeEach(() => {
@@ -146,7 +146,7 @@ describe('ActionMenuDisplay', () => {
       // Create many events to test limits
       const manyEvents: AvailableEvent[] = [];
       for (let i = 0; i < 20; i++) {
-        manyEvents.push({ event_id: i + 100, event_name: `事件${i}`, time_cost: 2 });
+        manyEvents.push({ event_id: i + 100, event_name_cn: `事件${i}`, event_name_en: `Event${i}`, time_cost: 2 });
       }
       
       const output = actionMenuDisplay.displayAvailableActions(manyEvents);
@@ -159,10 +159,10 @@ describe('ActionMenuDisplay', () => {
 
     test('should handle mixed event categories correctly', () => {
       const mixedEvents: AvailableEvent[] = [
-        { event_id: 1, event_name: '快速1', time_cost: 1 },
-        { event_id: 2, event_name: '长时间1', time_cost: 10 },
-        { event_id: 3, event_name: '中等1', time_cost: 3 },
-        { event_id: 4, event_name: '快速2', time_cost: 2 }
+        { event_id: 1, event_name_cn: '快速1', event_name_en: 'Quick1', time_cost: 1 },
+        { event_id: 2, event_name_cn: '长时间1', event_name_en: 'Long1', time_cost: 10 },
+        { event_id: 3, event_name_cn: '中等1', event_name_en: 'Medium1', time_cost: 3 },
+        { event_id: 4, event_name_cn: '快速2', event_name_en: 'Quick2', time_cost: 2 }
       ];
       
       const output = actionMenuDisplay.displayAvailableActions(mixedEvents);

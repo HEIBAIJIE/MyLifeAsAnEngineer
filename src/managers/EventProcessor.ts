@@ -11,6 +11,7 @@ import { GameDataManager } from './GameDataManager';
 import { ResourceManager } from './ResourceManager';
 import { TimeManager } from './TimeManager';
 import { ConditionParser } from '../conditionParser';
+import { Language, getEventName, getTaskName, getLocalizedText } from '../utils';
 
 export class EventProcessor {
   private dataManager: GameDataManager;
@@ -44,13 +45,13 @@ export class EventProcessor {
     );
 
     if (!conditionParser.evaluate(event.condition_expression)) {
-      return this.createFailureResult(eventId, event.event_name, 'Conditions not met', language);
+      return this.createFailureResult(eventId, getEventName(event, language), 'Conditions not met', language);
     }
 
     // Check location requirement
     if (event.location_requirement && 
         event.location_requirement !== this.resourceManager.getResourceValue(61)) {
-      return this.createFailureResult(eventId, event.event_name, 'Not in correct location', language);
+      return this.createFailureResult(eventId, getEventName(event, language), 'Not in correct location', language);
     }
 
     // Execute the event
@@ -93,12 +94,12 @@ export class EventProcessor {
     const text = this.dataManager.getGameText(event.text_id);
     const textContent = text ? 
       (language === 'en' ? text.text_content_en : text.text_content) : 
-      `Event ${event.event_name} completed`;
+      `Event ${getEventName(event, language)} completed`;
 
     return {
       success: true,
       event_id: eventId,
-      event_name: event.event_name,
+      event_name: getEventName(event, language),
       text_id: event.text_id,
       text_content: textContent,
       time_consumed: event.time_cost,
@@ -249,10 +250,10 @@ export class EventProcessor {
       
       triggered.push({
         temp_event_id: id,
-        event_name: tempEvent.event_name,
+        event_name: getEventName(tempEvent, language),
         text_id: tempEvent.text_id,
         text_content: text ? 
-          (language === 'en' ? text.text_content_en : text.text_content) : tempEvent.event_name,
+          (language === 'en' ? text.text_content_en : text.text_content) : getEventName(tempEvent, language),
         resource_changes: changes,
         ending_triggered: ending
       });
