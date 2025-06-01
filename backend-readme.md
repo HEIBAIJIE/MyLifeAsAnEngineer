@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the TypeScript backend for "My Life As An Engineer" game. It's designed to run independently from the Cocos frontend and provides a string-based command interface.
+This is the TypeScript backend for "My Life As An Engineer" game. It features a modular architecture with specialized managers and provides both a command interface and a complete CLI frontend.
 
 ## Installation
 
@@ -13,12 +13,21 @@ npm run build
 
 ## Usage
 
-### Running the CLI
+### Running the Game
 ```bash
+# Start the complete CLI game
 npm start
+# or
+npm run dev
+
+# Run frontend only
+npm run frontend
+
+# Run backend CLI for testing
+npx ts-node src/index.ts
 ```
 
-### Integrating with Frontend
+### Integrating with External Frontend
 
 The backend exposes two main functions:
 
@@ -47,7 +56,8 @@ All commands are JSON strings with the following structure:
   "type": "command_type",
   "params": {
     // command-specific parameters
-  }
+  },
+  "language": "zh" | "en"  // optional, defaults to "zh"
 }
 ```
 
@@ -59,7 +69,8 @@ All commands are JSON strings with the following structure:
      "type": "execute_event",
      "params": {
        "event_id": 31
-     }
+     },
+     "language": "zh"
    }
    ```
 
@@ -69,28 +80,35 @@ All commands are JSON strings with the following structure:
      "type": "query_resource",
      "params": {
        "resource_id": 1
-     }
+     },
+     "language": "zh"
    }
    ```
 
 3. **Query Location**
    ```json
    {
-     "type": "query_location"
+     "type": "query_location",
+     "params": {
+       "location_id": 1
+     },
+     "language": "zh"
    }
    ```
 
 4. **Query Available Events**
    ```json
    {
-     "type": "query_available_events"
+     "type": "query_available_events",
+     "language": "zh"
    }
    ```
 
 5. **Query Inventory**
    ```json
    {
-     "type": "query_inventory"
+     "type": "query_inventory",
+     "language": "zh"
    }
    ```
 
@@ -100,7 +118,8 @@ All commands are JSON strings with the following structure:
      "type": "use_item",
      "params": {
        "item_slot": 1
-     }
+     },
+     "language": "zh"
    }
    ```
 
@@ -166,28 +185,80 @@ All responses are JSON objects with the following structure:
     "event_id": 31,
     "event_name": "询问今日工作（职级1）",
     "text_id": 1,
-    "text_content": "老板分配了今天的任务...",
-    "time_consumed": 1,
-    "resource_changes": {
-      "23": 5  // resource_id: change_amount
-    },
-    "temporary_events_triggered": [],
-    "scheduled_tasks_triggered": [],
+    "game_text": "老板分配了今天的任务...",
+    "time_cost": 1,
+    "resource_changes": [
+      {
+        "resource_id": 23,
+        "resource_name": "项目进度",
+        "change": 5
+      }
+    ],
+    "temporary_events": [
+      {
+        "event_id": 1,
+        "event_name": "疲劳警告",
+        "description": "你感到有些疲劳..."
+      }
+    ],
+    "scheduled_tasks": [
+      {
+        "task_id": 1,
+        "task_name": "发工资",
+        "description": "收到了本月工资"
+      }
+    ],
     "ending_triggered": null
   }
 }
 ```
 
+## Architecture
+
+The backend uses a modular architecture with specialized managers:
+
+### Core Components
+- **`GameEngine`**: Main orchestrator that coordinates all managers
+- **`GameDataManager`**: Loads and manages CSV data (events, resources, items, etc.)
+- **`ResourceManager`**: Handles all resource values and game state
+- **`TimeManager`**: Manages game time, day/night cycles, weekends
+- **`EventProcessor`**: Processes event execution and effects
+- **`QueryService`**: Handles all query operations
+- **`SaveManager`**: Manages game save/load functionality
+
+### File Structure
+```
+src/
+├── index.ts              # Main entry point and command interface
+├── gameEngine.ts         # Game engine orchestrator
+├── types.ts              # TypeScript interfaces
+├── csvLoader.ts          # CSV file loading utilities
+├── conditionParser.ts    # Complex condition evaluation
+├── utils.ts              # Utility functions
+├── managers/             # Specialized manager classes
+│   ├── GameDataManager.ts
+│   ├── ResourceManager.ts
+│   ├── TimeManager.ts
+│   ├── EventProcessor.ts
+│   ├── QueryService.ts
+│   └── SaveManager.ts
+└── frontend/             # Complete CLI frontend
+    ├── controllers/
+    ├── components/
+    └── services/
+```
+
 ## Game Features
 
 ### Core Systems
-- **Resource System**: 82 different resources including time, money, health, skills, etc.
+- **Resource System**: 82+ different resources including time, money, health, skills, etc.
 - **Event System**: 200+ events with complex conditions and calculations
-- **Item System**: Inventory management with food and tools
+- **Item System**: Inventory management with food, tools, and books
 - **Entity System**: Interactive NPCs and objects
 - **Temporary Events**: State-triggered events (fatigue warnings, promotions, etc.)
 - **Scheduled Tasks**: Periodic events (salary, rent, etc.)
-- **Ending System**: 13 different endings based on game state
+- **Ending System**: 13+ different endings based on game state
+- **Localization**: Full Chinese/English language support
 
 ### Special Features
 - **Dual Philosophy System**: Balance between rational and emotional approaches
@@ -205,16 +276,38 @@ The game uses a sophisticated condition parser supporting:
 - Calculations: `calc[8000+2000*resource[22]]`
 - Conditionals: `conditional[resource[2]>=2800?0:-2800]`
 
-## Architecture
+## CLI Frontend
 
-The backend is structured as follows:
+The backend includes a complete command-line frontend with:
+- **Beautiful Unicode Interface**: Tables, borders, and emoji icons
+- **Real-time Status Display**: All game attributes and status
+- **Smart Event Grouping**: Events categorized by time consumption
+- **Multi-language Support**: Chinese and English interfaces
+- **Save/Load System**: Base64-encoded save states
 
-- `types.ts`: TypeScript interfaces for all game data
-- `csvLoader.ts`: Loads and parses CSV configuration files
-- `conditionParser.ts`: Evaluates complex condition expressions
-- `gameEngine.ts`: Main game logic and state management
-- `index.ts`: Command interface and CLI
-- `utils.ts`: Utility functions
+### Frontend Controls
+- **Numbers 1-6**: Quick location switching
+- **Numbers 7+**: Execute events
+- **Letter Commands**:
+  - `s` - Save game
+  - `l` - Load game
+  - `i` - View inventory
+  - `h` - Show help
+  - `q` - Quit game
+  - `lang` - Switch language
+
+## Configuration
+
+All game content is configured through CSV files in the `/csv` directory:
+- `resources.csv`: Resource definitions (82 resources)
+- `events.csv`: Player-triggered events (200+ events)
+- `items.csv`: Item definitions
+- `entities.csv`: Interactive entities
+- `temporary_events.csv`: State-triggered events
+- `scheduled_tasks.csv`: Periodic tasks
+- `locations.csv`: Game locations
+- `endings.csv`: Game endings
+- `game_texts/`: Localized text content
 
 ## Save System
 
@@ -222,16 +315,51 @@ The game state can be saved and loaded as base64-encoded JSON strings. This allo
 - Platform-independent save files
 - Easy transfer between devices
 - No file system dependencies
+- Human-readable save codes
 
-## Configuration
+## Testing
 
-All game content is configured through CSV files in the `/csv` directory:
-- `resources.csv`: Resource definitions
-- `events.csv`: Player-triggered events
-- `items.csv`: Item definitions
-- `entities.csv`: Interactive entities
-- `temporary_events.csv`: State-triggered events
-- `scheduled_tasks.csv`: Periodic tasks
-- `locations.csv`: Game locations
-- `endings.csv`: Game endings
-- `game_texts/`: Localized text content 
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run frontend-specific tests
+npm run test:frontend
+
+# Watch mode for development
+npm run test:watch
+```
+
+## Development
+
+### Adding New Features
+1. Define interfaces in `types.ts`
+2. Add CSV configuration if needed
+3. Implement logic in appropriate manager
+4. Update command interface in `GameEngine`
+5. Add frontend support if needed
+
+### Manager Dependencies
+```
+GameDataManager (base)
+    ↓
+ResourceManager
+    ↓
+TimeManager
+    ↓
+EventProcessor, QueryService, SaveManager
+```
+
+## Performance
+
+- **Fast CSV Loading**: Optimized parsing with caching
+- **Efficient Condition Evaluation**: Compiled expression trees
+- **Memory Management**: Minimal object creation during gameplay
+- **Responsive CLI**: Non-blocking input handling
+
+---
+
+This backend provides a complete, production-ready game engine with both programmatic API access and a full-featured command-line interface. 
