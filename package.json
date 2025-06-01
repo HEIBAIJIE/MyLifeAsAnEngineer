@@ -4,7 +4,7 @@
   "description": "Backend for My Life As An Engineer game",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node dist/start-game.js",
+    "start": "ts-node start-game.ts",
     "build": "tsc",
     "dev": "ts-node start-game.ts",
     "frontend": "ts-node src/frontend/index.ts",
