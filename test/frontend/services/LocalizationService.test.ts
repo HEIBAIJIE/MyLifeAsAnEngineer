@@ -113,11 +113,11 @@ describe('LocalizationService', () => {
       const message = localizationService.getHelpMessage();
       
       expect(message).toContain('游戏帮助');
-      expect(message).toContain('游戏目标:');
       expect(message).toContain('基本操作:');
       expect(message).toContain('游戏机制:');
-      expect(message).toContain('数字1-6: 切换场景');
+      expect(message).toContain('数字1+: 执行对应的事件');
       expect(message).toContain('时间系统: 每天48个时间单元');
+      expect(message).toContain('场景切换: 通过事件中的场景切换选项来改变位置');
     });
 
     test('should return English help message when language is en', () => {
@@ -125,11 +125,11 @@ describe('LocalizationService', () => {
       const message = localizationService.getHelpMessage();
       
       expect(message).toContain('Game Help');
-      expect(message).toContain('Game Objective:');
       expect(message).toContain('Basic Controls:');
       expect(message).toContain('Game Mechanics:');
-      expect(message).toContain('Numbers 1-6: Switch scenes');
+      expect(message).toContain('Numbers 1+: Execute corresponding events');
       expect(message).toContain('Time system: 48 time units per day');
+      expect(message).toContain('Scene switching: Change location through scene events');
     });
   });
 

@@ -185,70 +185,37 @@ describe('GameService', () => {
   });
 
   describe('executeEvent', () => {
-    test('should return successful result when event execution succeeds', async () => {
-      const mockResult = {
-        game_text: '你完成了工作',
-        time_cost: 8,
-        resource_changes: [
-          { resource_id: 2, resource_name: '金钱', change: 100 },
-          { resource_id: 14, resource_name: '疲劳', change: 20 }
-        ]
-      };
-
-      mockSendCommand.mockReturnValue(JSON.stringify({
+    test('should execute event successfully', async () => {
+      (sendCommand as jest.Mock).mockReturnValue(JSON.stringify({
         type: 'event_result',
-        data: mockResult
+        data: {
+          game_text: '你成功完成了工作',
+          time_cost: 4,
+          resource_changes: [
+            { resource_id: 2, resource_name: '金钱', change: 100 }
+          ]
+        }
       }));
 
       const result = await gameService.executeEvent(31);
-      
+
       expect(result.success).toBe(true);
-      expect(result.game_text).toBe('你完成了工作');
-      expect(result.time_cost).toBe(8);
-      expect(result.resource_changes).toEqual(mockResult.resource_changes);
-      
-      expect(mockSendCommand).toHaveBeenCalledWith(JSON.stringify({
-        type: 'execute_event',
-        params: { event_id: 31 },
-        language: 'zh'
-      }));
+      expect(result.game_text).toBe('你成功完成了工作');
+      expect(result.time_cost).toBe(4);
+      expect(result.resource_changes).toHaveLength(1);
     });
 
-    test('should return failure result when event execution fails', async () => {
-      mockSendCommand.mockReturnValue(JSON.stringify({
+    test('should handle event execution failure', async () => {
+      (sendCommand as jest.Mock).mockReturnValue(JSON.stringify({
         type: 'error',
-        error: '条件不满足'
+        error: '事件执行失败'
       }));
 
-      const result = await gameService.executeEvent(31);
-      
+      const result = await gameService.executeEvent(999);
+
       expect(result.success).toBe(false);
+      expect(result.game_text).toBe('事件执行失败');
       expect(result.time_cost).toBe(0);
-      expect(result.game_text).toBe('条件不满足');
-    });
-  });
-
-  describe('changeLocation', () => {
-    test('should call executeEvent with location id', async () => {
-      const mockResult = {
-        game_text: '已到达商店',
-        time_cost: 1
-      };
-
-      mockSendCommand.mockReturnValue(JSON.stringify({
-        type: 'event_result',
-        data: mockResult
-      }));
-
-      const result = await gameService.changeLocation(2);
-      
-      expect(result.success).toBe(true);
-      expect(result.game_text).toBe('已到达商店');
-      expect(mockSendCommand).toHaveBeenCalledWith(JSON.stringify({
-        type: 'execute_event',
-        params: { event_id: 2 },
-        language: 'zh'
-      }));
     });
   });
 

@@ -91,8 +91,6 @@ export interface UITexts {
   philosophyInsight: string;
   weekDays: string[];
   availableActions: string;
-  sceneSwitch: string;
-  locations: string[];
   currentSceneEvents: string;
   noEventsAvailable: string;
   quickActions: string;

@@ -100,13 +100,6 @@ export class GameController {
   }
 
   private async handleUserChoice(choice: string): Promise<void> {
-    // 场景切换
-    const locationId = this.actionDisplay.isLocationCommand(choice);
-    if (locationId) {
-      await this.changeLocation(locationId);
-      return;
-    }
-
     // 事件执行
     const eventIndex = this.actionDisplay.isEventCommand(choice);
     if (eventIndex) {
@@ -126,18 +119,6 @@ export class GameController {
 
     // 无效选择
     console.log(this.resultDisplay.displayError(''));
-  }
-
-  private async changeLocation(locationId: number): Promise<void> {
-    const locationNames = this.localization.getCurrentLanguage() === 'zh' ? 
-      ['', '公司', '商店', '家', '公园', '餐馆', '医院'] :
-      ['', 'Company', 'Store', 'Home', 'Park', 'Restaurant', 'Hospital'];
-    
-    const locationName = locationNames[locationId];
-    console.log(this.resultDisplay.displayLocationChange(locationName, 0));
-    
-    const result = await this.gameService.changeLocation(locationId);
-    console.log(this.resultDisplay.displayEventResult(result));
   }
 
   private async executeEvent(event: AvailableEvent): Promise<void> {

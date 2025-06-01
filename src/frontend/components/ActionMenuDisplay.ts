@@ -19,15 +19,11 @@ export class ActionMenuDisplay {
     output += '┌─────────────────────────────────────────────────────────────┐\n';
     output += `│ ${texts.availableActions}\n`;
     output += '├─────────────────────────────────────────────────────────────┤\n';
-    output += `│ ${texts.sceneSwitch}\n`;
-    output += `│  [1] ${texts.locations[0]}    [2] ${texts.locations[1]}    [3] ${texts.locations[2]}\n`;
-    output += `│  [4] ${texts.locations[3]}    [5] ${texts.locations[4]}    [6] ${texts.locations[5]}\n`;
-    output += '├─────────────────────────────────────────────────────────────┤\n';
     
     // 当前场景可用事件
     if (availableEvents.length > 0) {
       output += `│ ${texts.currentSceneEvents}\n`;
-      let eventIndex = 7; // 从7开始编号，避免与场景切换冲突
+      let eventIndex = 1; // 从1开始编号，不再避免与场景切换冲突
       
       // 按时间消耗分组显示事件
       const shortEvents = availableEvents.filter(e => e.time_cost <= 2);
@@ -73,7 +69,7 @@ export class ActionMenuDisplay {
   }
 
   getEventByIndex(index: number): AvailableEvent | null {
-    const eventArrayIndex = index - 7;
+    const eventArrayIndex = index - 1; // 现在从1开始编号
     if (eventArrayIndex >= 0 && eventArrayIndex < this.displayedEvents.length) {
       return this.displayedEvents[eventArrayIndex];
     }
@@ -81,16 +77,13 @@ export class ActionMenuDisplay {
   }
 
   isLocationCommand(choice: string): number | null {
-    const locationIndex = parseInt(choice);
-    if (locationIndex >= 1 && locationIndex <= 6) {
-      return locationIndex;
-    }
+    // 移除场景切换功能，返回null
     return null;
   }
 
   isEventCommand(choice: string): number | null {
     const eventIndex = parseInt(choice);
-    if (eventIndex >= 7) {
+    if (eventIndex >= 1) { // 现在从1开始
       return eventIndex;
     }
     return null;

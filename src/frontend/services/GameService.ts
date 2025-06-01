@@ -108,10 +108,6 @@ export class GameService {
     }
   }
 
-  async changeLocation(locationId: number): Promise<EventResult> {
-    return this.executeEvent(locationId);
-  }
-
   async saveGame(): Promise<{ success: boolean; saveData?: string; error?: string }> {
     const response = this.sendCommand({ type: 'save_game' });
     if (response.type === 'game_saved' && response.data) {

@@ -89,36 +89,32 @@ describe('ActionMenuDisplay', () => {
   });
 
   describe('displayAvailableActions', () => {
-    test('should display action menu with scene switching options', () => {
+    test('should display action menu without scene switching options', () => {
       const output = actionMenuDisplay.displayAvailableActions(mockEvents);
       
       expect(output).toContain('可选操作');
-      expect(output).toContain('场景切换:');
-      expect(output).toContain('[1] 公司');
-      expect(output).toContain('[2] 商店');
-      expect(output).toContain('[3] 家');
-      expect(output).toContain('[4] 公园');
-      expect(output).toContain('[5] 餐馆');
-      expect(output).toContain('[6] 医院');
+      expect(output).not.toContain('场景切换:');
+      expect(output).not.toContain('[1] 公司');
+      expect(output).not.toContain('[2] 商店');
     });
 
-    test('should categorize events by time cost', () => {
+    test('should categorize events by time cost starting from index 1', () => {
       const output = actionMenuDisplay.displayAvailableActions(mockEvents);
       
       // Quick actions (≤1 hour, time_cost ≤ 2)
       expect(output).toContain('快速行动 (≤1小时):');
-      expect(output).toContain('[7] 休息 (1小时)'); // time_cost 2 * 0.5 = 1
-      expect(output).toContain('[8] 吃饭 (0.5小时)'); // time_cost 1 * 0.5 = 0.5
+      expect(output).toContain('[1] 休息 (1小时)'); // time_cost 2 * 0.5 = 1
+      expect(output).toContain('[2] 吃饭 (0.5小时)'); // time_cost 1 * 0.5 = 0.5
       
       // Medium actions (1-2.5 hours, 2 < time_cost ≤ 5)
       expect(output).toContain('中等行动 (1-2.5小时):');
-      expect(output).toContain('[9] 学习 (2小时)'); // time_cost 4 * 0.5 = 2
-      expect(output).toContain('[10] 开会 (1.5小时)'); // time_cost 3 * 0.5 = 1.5
+      expect(output).toContain('[3] 学习 (2小时)'); // time_cost 4 * 0.5 = 2
+      expect(output).toContain('[4] 开会 (1.5小时)'); // time_cost 3 * 0.5 = 1.5
       
       // Long actions (>2.5 hours, time_cost > 5)
       expect(output).toContain('长时间行动 (>2.5小时):');
-      expect(output).toContain('[11] 工作 (4小时)'); // time_cost 8 * 0.5 = 4
-      expect(output).toContain('[12] 睡觉 (8小时)'); // time_cost 16 * 0.5 = 8
+      expect(output).toContain('[5] 工作 (4小时)'); // time_cost 8 * 0.5 = 4
+      expect(output).toContain('[6] 睡觉 (8小时)'); // time_cost 16 * 0.5 = 8
     });
 
     test('should display system commands', () => {
@@ -152,9 +148,9 @@ describe('ActionMenuDisplay', () => {
       const output = actionMenuDisplay.displayAvailableActions(manyEvents);
       
       // Should only show first 5 quick actions
-      expect(output).toContain('[7] 事件0');
-      expect(output).toContain('[11] 事件4');
-      expect(output).not.toContain('[12] 事件5'); // Should not show 6th quick action
+      expect(output).toContain('[1] 事件0');
+      expect(output).toContain('[5] 事件4');
+      expect(output).not.toContain('[6] 事件5'); // Should not show 6th quick action
     });
 
     test('should handle mixed event categories correctly', () => {
@@ -168,14 +164,14 @@ describe('ActionMenuDisplay', () => {
       const output = actionMenuDisplay.displayAvailableActions(mixedEvents);
       
       expect(output).toContain('快速行动');
-      expect(output).toContain('[7] 快速1');
-      expect(output).toContain('[8] 快速2');
+      expect(output).toContain('[1] 快速1');
+      expect(output).toContain('[2] 快速2');
       
       expect(output).toContain('中等行动');
-      expect(output).toContain('[9] 中等1');
+      expect(output).toContain('[3] 中等1');
       
       expect(output).toContain('长时间行动');
-      expect(output).toContain('[10] 长时间1');
+      expect(output).toContain('[4] 长时间1');
     });
   });
 
@@ -187,44 +183,44 @@ describe('ActionMenuDisplay', () => {
       // Quick actions first
       // mockEvents[1] is '休息' (time_cost: 2)
       // mockEvents[3] is '吃饭' (time_cost: 1)
-      // Displayed order for quick: 休息 (index 7), 吃饭 (index 8)
-      let event = actionMenuDisplay.getEventByIndex(7);
+      // Displayed order for quick: 休息 (index 1), 吃饭 (index 2)
+      let event = actionMenuDisplay.getEventByIndex(1);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 32)); // 休息
       
-      event = actionMenuDisplay.getEventByIndex(8);
+      event = actionMenuDisplay.getEventByIndex(2);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 34)); // 吃饭
 
       // Medium actions next
       // mockEvents[2] is '学习' (time_cost: 4)
       // mockEvents[4] is '开会' (time_cost: 3)
-      // Displayed order for medium: 学习 (index 9), 开会 (index 10)
-      event = actionMenuDisplay.getEventByIndex(9);
+      // Displayed order for medium: 学习 (index 3), 开会 (index 4)
+      event = actionMenuDisplay.getEventByIndex(3);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 33)); // 学习
       
-      event = actionMenuDisplay.getEventByIndex(10);
+      event = actionMenuDisplay.getEventByIndex(4);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 35)); // 开会
 
       // Long actions last
       // mockEvents[0] is '工作' (time_cost: 8)
       // mockEvents[5] is '睡觉' (time_cost: 16)
-      // Displayed order for long: 工作 (index 11), 睡觉 (index 12)
-      event = actionMenuDisplay.getEventByIndex(11);
+      // Displayed order for long: 工作 (index 5), 睡觉 (index 6)
+      event = actionMenuDisplay.getEventByIndex(5);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 31)); // 工作
 
-      event = actionMenuDisplay.getEventByIndex(12);
+      event = actionMenuDisplay.getEventByIndex(6);
       expect(event).toEqual(mockEvents.find(e => e.event_id === 36)); // 睡觉
     });
 
     test('should return null for invalid index (too low)', () => {
       actionMenuDisplay.displayAvailableActions(mockEvents);
-      const event = actionMenuDisplay.getEventByIndex(6); // Index 6 is for locations
+      const event = actionMenuDisplay.getEventByIndex(0); // Index 0 is for locations
       expect(event).toBeNull();
     });
 
     test('should return null for invalid index (too high)', () => {
       actionMenuDisplay.displayAvailableActions(mockEvents);
-      // Total 6 events displayed, so max index is 7 + 6 - 1 = 12
-      const event = actionMenuDisplay.getEventByIndex(13); 
+      // Total 6 events displayed, so max index is 1 + 6 - 1 = 6
+      const event = actionMenuDisplay.getEventByIndex(7); 
       expect(event).toBeNull();
     });
     
@@ -237,7 +233,7 @@ describe('ActionMenuDisplay', () => {
 
     test('should return null if getEventByIndex is called before displayAvailableActions for an empty list', () => {
       actionMenuDisplay.displayAvailableActions([]); // Pass empty array
-      const event = actionMenuDisplay.getEventByIndex(7);
+      const event = actionMenuDisplay.getEventByIndex(1);
       expect(event).toBeNull();
     });
 
@@ -245,7 +241,7 @@ describe('ActionMenuDisplay', () => {
       // NOTE: This test relies on the internal state not being populated if displayAvailableActions isn't called.
       // If actionMenuDisplay is re-instantiated per test (which it is via beforeEach),
       // displayedEvents would be empty.
-      const event = actionMenuDisplay.getEventByIndex(7);
+      const event = actionMenuDisplay.getEventByIndex(1);
       expect(event).toBeNull();
     });
 
@@ -261,31 +257,31 @@ describe('ActionMenuDisplay', () => {
       const allTestEvents = [...manyQuickEvents, ...fewMediumEvents];
       actionMenuDisplay.displayAvailableActions(allTestEvents);
 
-      // Quick actions are sliced to 5. Indices 7-11.
-      let event = actionMenuDisplay.getEventByIndex(7); //快0
+      // Quick actions are sliced to 5. Indices 1-5.
+      let event = actionMenuDisplay.getEventByIndex(1); //快0
       expect(event?.event_id).toBe(100);
-      event = actionMenuDisplay.getEventByIndex(11); //快4
+      event = actionMenuDisplay.getEventByIndex(5); //快4
       expect(event?.event_id).toBe(104);
       
-      // Index 12 should be the first medium event if quick events were not sliced,
-      // but since quick events are sliced to 5, index 12 is the first medium event
-      event = actionMenuDisplay.getEventByIndex(12); //中1
+      // Index 6 should be the first medium event if quick events were not sliced,
+      // but since quick events are sliced to 5, index 6 is the first medium event
+      event = actionMenuDisplay.getEventByIndex(6); //中1
       expect(event?.event_id).toBe(200);
 
-      // Index 13 should be null as there's only 1 medium event and 5 quick events displayed (total 6 events)
-      event = actionMenuDisplay.getEventByIndex(13);
+      // Index 7 should be null as there's only 1 medium event and 5 quick events displayed (total 6 events)
+      event = actionMenuDisplay.getEventByIndex(7);
       expect(event).toBeNull();
     });
   });
 
   describe('isLocationCommand', () => {
-    test('should return location ID for valid location commands', () => {
-      expect(actionMenuDisplay.isLocationCommand('1')).toBe(1);
-      expect(actionMenuDisplay.isLocationCommand('2')).toBe(2);
-      expect(actionMenuDisplay.isLocationCommand('3')).toBe(3);
-      expect(actionMenuDisplay.isLocationCommand('4')).toBe(4);
-      expect(actionMenuDisplay.isLocationCommand('5')).toBe(5);
-      expect(actionMenuDisplay.isLocationCommand('6')).toBe(6);
+    test('should return null for all inputs since location switching is removed', () => {
+      expect(actionMenuDisplay.isLocationCommand('1')).toBeNull();
+      expect(actionMenuDisplay.isLocationCommand('2')).toBeNull();
+      expect(actionMenuDisplay.isLocationCommand('3')).toBeNull();
+      expect(actionMenuDisplay.isLocationCommand('4')).toBeNull();
+      expect(actionMenuDisplay.isLocationCommand('5')).toBeNull();
+      expect(actionMenuDisplay.isLocationCommand('6')).toBeNull();
     });
 
     test('should return null for invalid location commands', () => {
@@ -298,13 +294,13 @@ describe('ActionMenuDisplay', () => {
 
   describe('isEventCommand', () => {
     test('should return event index for valid event commands', () => {
-      expect(actionMenuDisplay.isEventCommand('7')).toBe(7);
-      expect(actionMenuDisplay.isEventCommand('10')).toBe(10);
+      expect(actionMenuDisplay.isEventCommand('1')).toBe(1);
+      expect(actionMenuDisplay.isEventCommand('4')).toBe(4);
       expect(actionMenuDisplay.isEventCommand('15')).toBe(15);
     });
 
     test('should return null for invalid event commands', () => {
-      expect(actionMenuDisplay.isEventCommand('6')).toBeNull(); // Below 7
+      expect(actionMenuDisplay.isEventCommand('0')).toBeNull(); // Below 1
       expect(actionMenuDisplay.isEventCommand('a')).toBeNull();
       expect(actionMenuDisplay.isEventCommand('')).toBeNull();
       expect(actionMenuDisplay.isEventCommand('abc')).toBeNull();
@@ -350,7 +346,6 @@ describe('ActionMenuDisplay', () => {
       const output = actionMenuDisplay.displayAvailableActions(mockEvents);
       
       expect(output).toContain(mockTexts.availableActions);
-      expect(output).toContain(mockTexts.sceneSwitch);
       expect(output).toContain(mockTexts.quickActions);
       expect(output).toContain(mockTexts.mediumActions);
       expect(output).toContain(mockTexts.longActions);

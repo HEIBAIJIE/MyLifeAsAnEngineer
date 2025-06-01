@@ -30,8 +30,6 @@ export class LocalizationService {
       philosophyInsight: '哲学感悟',
       weekDays: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
       availableActions: '可选操作',
-      sceneSwitch: '场景切换:',
-      locations: ['公司', '商店', '家', '公园', '餐馆', '医院'],
       currentSceneEvents: '当前场景可用事件:',
       noEventsAvailable: '当前场景暂无可用事件',
       quickActions: '快速行动 (≤1小时):',
@@ -80,8 +78,6 @@ export class LocalizationService {
       philosophyInsight: 'Philosophy Insight',
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       availableActions: 'Available Actions',
-      sceneSwitch: 'Scene Switch:',
-      locations: ['Company', 'Store', 'Home', 'Park', 'Restaurant', 'Hospital'],
       currentSceneEvents: 'Available Events in Current Scene:',
       noEventsAvailable: 'No events available in current scene',
       quickActions: 'Quick Actions (≤1 hour):',
@@ -184,19 +180,20 @@ Explore the essence and meaning of life through emotional and rational paths.
 │   通过工程师的视角体验生活，在感性和理性之间找到平衡        │
 │                                                             │
 │ 基本操作:                                                   │
-│   - 数字1-6: 切换场景 (公司/商店/家/公园/餐馆/医院)        │
-│   - 数字7+: 执行对应的事件                                  │
+│   - 数字1+: 执行对应的事件                                  │
 │   - s: 保存游戏进度                                         │
 │   - l: 读取游戏进度                                         │
 │   - i: 查看物品栏                                           │
 │   - h: 显示帮助                                             │
 │   - q: 退出游戏                                             │
+│   - lang: 切换语言                                          │
 │                                                             │
 │ 游戏机制:                                                   │
 │   - 时间系统: 每天48个时间单元，每个单元30分钟              │
 │   - 工作日/周末: 影响可用事件                               │
 │   - 感性/理性: 影响专注力消耗和事件效果                     │
 │   - 疲劳/饥饿: 需要通过休息和进食来恢复                     │
+│   - 场景切换: 通过事件中的场景切换选项来改变位置            │
 └─────────────────────────────────────────────────────────────┘`;
     } else {
       return `┌─────────────────────────────────────────────────────────────┐
@@ -207,19 +204,20 @@ Explore the essence and meaning of life through emotional and rational paths.
 │   emotional and rational paths                              │
 │                                                             │
 │ Basic Controls:                                             │
-│   - Numbers 1-6: Switch scenes (Company/Store/Home/etc.)   │
-│   - Numbers 7+: Execute corresponding events               │
+│   - Numbers 1+: Execute corresponding events               │
 │   - s: Save game progress                                   │
 │   - l: Load game progress                                   │
 │   - i: View inventory                                       │
 │   - h: Show help                                            │
 │   - q: Quit game                                            │
+│   - lang: Switch language                                   │
 │                                                             │
 │ Game Mechanics:                                             │
 │   - Time system: 48 time units per day, 30 minutes each    │
 │   - Workday/Weekend: Affects available events              │
 │   - Emotional/Rational: Affects focus consumption & effects │
 │   - Fatigue/Hunger: Need rest and food to recover          │
+│   - Scene switching: Change location through scene events  │
 └─────────────────────────────────────────────────────────────┘`;
     }
   }
