@@ -180,24 +180,100 @@ describe('ActionMenuDisplay', () => {
   });
 
   describe('getEventByIndex', () => {
-    test('should return correct event for valid index', () => {
-      const event = actionMenuDisplay.getEventByIndex(mockEvents, 7);
-      expect(event).toEqual(mockEvents[0]); // Index 7 maps to array index 0
+    test('should return correct event for valid index based on display order', () => {
+      // displayAvailableActions populates the internal displayedEvents list
+      actionMenuDisplay.displayAvailableActions(mockEvents);
       
-      const event2 = actionMenuDisplay.getEventByIndex(mockEvents, 9);
-      expect(event2).toEqual(mockEvents[2]); // Index 9 maps to array index 2
+      // Quick actions first
+      // mockEvents[1] is '休息' (time_cost: 2)
+      // mockEvents[3] is '吃饭' (time_cost: 1)
+      // Displayed order for quick: 休息 (index 7), 吃饭 (index 8)
+      let event = actionMenuDisplay.getEventByIndex(7);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 32)); // 休息
+      
+      event = actionMenuDisplay.getEventByIndex(8);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 34)); // 吃饭
+
+      // Medium actions next
+      // mockEvents[2] is '学习' (time_cost: 4)
+      // mockEvents[4] is '开会' (time_cost: 3)
+      // Displayed order for medium: 学习 (index 9), 开会 (index 10)
+      event = actionMenuDisplay.getEventByIndex(9);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 33)); // 学习
+      
+      event = actionMenuDisplay.getEventByIndex(10);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 35)); // 开会
+
+      // Long actions last
+      // mockEvents[0] is '工作' (time_cost: 8)
+      // mockEvents[5] is '睡觉' (time_cost: 16)
+      // Displayed order for long: 工作 (index 11), 睡觉 (index 12)
+      event = actionMenuDisplay.getEventByIndex(11);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 31)); // 工作
+
+      event = actionMenuDisplay.getEventByIndex(12);
+      expect(event).toEqual(mockEvents.find(e => e.event_id === 36)); // 睡觉
     });
 
-    test('should return null for invalid index', () => {
-      const event = actionMenuDisplay.getEventByIndex(mockEvents, 6); // Too low
+    test('should return null for invalid index (too low)', () => {
+      actionMenuDisplay.displayAvailableActions(mockEvents);
+      const event = actionMenuDisplay.getEventByIndex(6); // Index 6 is for locations
       expect(event).toBeNull();
-      
-      const event2 = actionMenuDisplay.getEventByIndex(mockEvents, 20); // Too high
-      expect(event2).toBeNull();
     });
 
-    test('should return null for empty events array', () => {
-      const event = actionMenuDisplay.getEventByIndex([], 7);
+    test('should return null for invalid index (too high)', () => {
+      actionMenuDisplay.displayAvailableActions(mockEvents);
+      // Total 6 events displayed, so max index is 7 + 6 - 1 = 12
+      const event = actionMenuDisplay.getEventByIndex(13); 
+      expect(event).toBeNull();
+    });
+    
+    test('should return null for invalid index (non-numeric string)', () => {
+      actionMenuDisplay.displayAvailableActions(mockEvents);
+      // @ts-expect-error testing invalid input
+      const event = actionMenuDisplay.getEventByIndex('abc');
+      expect(event).toBeNull();
+    });
+
+    test('should return null if getEventByIndex is called before displayAvailableActions for an empty list', () => {
+      actionMenuDisplay.displayAvailableActions([]); // Pass empty array
+      const event = actionMenuDisplay.getEventByIndex(7);
+      expect(event).toBeNull();
+    });
+
+    test('should return null if getEventByIndex is called before displayAvailableActions when events exist but display is not yet called', () => {
+      // NOTE: This test relies on the internal state not being populated if displayAvailableActions isn't called.
+      // If actionMenuDisplay is re-instantiated per test (which it is via beforeEach),
+      // displayedEvents would be empty.
+      const event = actionMenuDisplay.getEventByIndex(7);
+      expect(event).toBeNull();
+    });
+
+    test('should correctly handle limits on displayed events', () => {
+      const manyQuickEvents: AvailableEvent[] = [];
+      for (let i = 0; i < 7; i++) { // 7 quick events
+        manyQuickEvents.push({ event_id: 100 + i, event_name_cn: `快${i}`, event_name_en: `Q${i}`, time_cost: 1 });
+      }
+      const fewMediumEvents: AvailableEvent[] = [
+        { event_id: 200, event_name_cn: '中1', event_name_en: 'M1', time_cost: 3 }
+      ];
+      
+      const allTestEvents = [...manyQuickEvents, ...fewMediumEvents];
+      actionMenuDisplay.displayAvailableActions(allTestEvents);
+
+      // Quick actions are sliced to 5. Indices 7-11.
+      let event = actionMenuDisplay.getEventByIndex(7); //快0
+      expect(event?.event_id).toBe(100);
+      event = actionMenuDisplay.getEventByIndex(11); //快4
+      expect(event?.event_id).toBe(104);
+      
+      // Index 12 should be the first medium event if quick events were not sliced,
+      // but since quick events are sliced to 5, index 12 is the first medium event
+      event = actionMenuDisplay.getEventByIndex(12); //中1
+      expect(event?.event_id).toBe(200);
+
+      // Index 13 should be null as there's only 1 medium event and 5 quick events displayed (total 6 events)
+      event = actionMenuDisplay.getEventByIndex(13);
       expect(event).toBeNull();
     });
   });
