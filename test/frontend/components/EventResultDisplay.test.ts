@@ -208,8 +208,11 @@ describe('EventResultDisplay', () => {
 
   describe('displaySaveResult', () => {
     test('should display successful save result', () => {
-      const saveData = 'encoded_save_data_12345';
-      const output = eventResultDisplay.displaySaveResult(saveData);
+      const saveResult = {
+        success: true,
+        saveData: 'encoded_save_data_12345'
+      };
+      const output = eventResultDisplay.displaySaveResult(saveResult);
 
       expect(output).toContain('💾 游戏已保存！');
       expect(output).toContain('存档代码 (请妥善保存):');
@@ -218,7 +221,21 @@ describe('EventResultDisplay', () => {
     });
 
     test('should display failed save result', () => {
-      const output = eventResultDisplay.displaySaveResult(null);
+      const saveResult = {
+        success: false,
+        error: 'Failed to save game: disk full'
+      };
+      const output = eventResultDisplay.displaySaveResult(saveResult);
+
+      expect(output).toContain('❌ 保存失败: Failed to save game: disk full');
+      expect(output).not.toContain('💾 游戏已保存！');
+    });
+
+    test('should display failed save result without error message', () => {
+      const saveResult = {
+        success: false
+      };
+      const output = eventResultDisplay.displaySaveResult(saveResult);
 
       expect(output).toContain('❌ 保存失败');
       expect(output).not.toContain('💾 游戏已保存！');
@@ -227,8 +244,11 @@ describe('EventResultDisplay', () => {
     test('should display save result in English', () => {
       mockLocalizationService.getCurrentLanguage.mockReturnValue('en');
       
-      const saveData = 'encoded_save_data_12345';
-      const output = eventResultDisplay.displaySaveResult(saveData);
+      const saveResult = {
+        success: true,
+        saveData: 'encoded_save_data_12345'
+      };
+      const output = eventResultDisplay.displaySaveResult(saveResult);
 
       expect(output).toContain('💾 Game saved!');
       expect(output).toContain('Save code (please keep it safe):');
@@ -237,13 +257,29 @@ describe('EventResultDisplay', () => {
 
   describe('displayLoadResult', () => {
     test('should display successful load result', () => {
-      const output = eventResultDisplay.displayLoadResult(true);
+      const loadResult = {
+        success: true
+      };
+      const output = eventResultDisplay.displayLoadResult(loadResult);
 
       expect(output).toContain('📁 游戏读档成功！');
     });
 
     test('should display failed load result', () => {
-      const output = eventResultDisplay.displayLoadResult(false);
+      const loadResult = {
+        success: false,
+        error: 'Failed to load game: Invalid save data format'
+      };
+      const output = eventResultDisplay.displayLoadResult(loadResult);
+
+      expect(output).toContain('❌ 读档失败: Failed to load game: Invalid save data format');
+    });
+
+    test('should display failed load result without error message', () => {
+      const loadResult = {
+        success: false
+      };
+      const output = eventResultDisplay.displayLoadResult(loadResult);
 
       expect(output).toContain('❌ 读档失败');
     });
@@ -251,12 +287,19 @@ describe('EventResultDisplay', () => {
     test('should display load result in English', () => {
       mockLocalizationService.getCurrentLanguage.mockReturnValue('en');
       
-      const output = eventResultDisplay.displayLoadResult(true);
+      const loadResult = {
+        success: true
+      };
+      const output = eventResultDisplay.displayLoadResult(loadResult);
 
       expect(output).toContain('📁 Game loaded successfully!');
       
-      const failedOutput = eventResultDisplay.displayLoadResult(false);
-      expect(failedOutput).toContain('❌ Load failed');
+      const failedResult = {
+        success: false,
+        error: 'Invalid data'
+      };
+      const failedOutput = eventResultDisplay.displayLoadResult(failedResult);
+      expect(failedOutput).toContain('❌ Load failed: Invalid data');
     });
   });
 

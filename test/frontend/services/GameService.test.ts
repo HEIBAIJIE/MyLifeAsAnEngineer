@@ -253,47 +253,64 @@ describe('GameService', () => {
   });
 
   describe('saveGame', () => {
-    test('should return save data when successful', async () => {
+    test('should return success result when save succeeds', async () => {
       const mockSaveData = {
         save_data: 'encoded_save_data_string'
       };
 
       mockSendCommand.mockReturnValue(JSON.stringify({
-        type: 'save_result',
+        type: 'game_saved',
         data: mockSaveData
       }));
 
       const result = await gameService.saveGame();
       
-      expect(result).toEqual(mockSaveData);
+      expect(result.success).toBe(true);
+      expect(result.saveData).toBe('encoded_save_data_string');
+      expect(result.error).toBeUndefined();
       expect(mockSendCommand).toHaveBeenCalledWith(JSON.stringify({
         type: 'save_game',
         language: 'zh'
       }));
     });
 
-    test('should return null when save fails', async () => {
+    test('should return error result when save fails', async () => {
       mockSendCommand.mockReturnValue(JSON.stringify({
         type: 'error',
-        error: 'Save failed'
+        error: 'Failed to save game: disk full'
       }));
 
       const result = await gameService.saveGame();
       
-      expect(result).toBeNull();
+      expect(result.success).toBe(false);
+      expect(result.saveData).toBeUndefined();
+      expect(result.error).toBe('Failed to save game: disk full');
+    });
+
+    test('should return error result when response type is unknown', async () => {
+      mockSendCommand.mockReturnValue(JSON.stringify({
+        type: 'unknown_type',
+        data: {}
+      }));
+
+      const result = await gameService.saveGame();
+      
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('未知错误');
     });
   });
 
   describe('loadGame', () => {
-    test('should return true when load succeeds', async () => {
+    test('should return success result when load succeeds', async () => {
       mockSendCommand.mockReturnValue(JSON.stringify({
-        type: 'load_result',
-        data: {}
+        type: 'game_loaded',
+        data: { success: true }
       }));
 
       const result = await gameService.loadGame('test_save_data');
       
-      expect(result).toBe(true);
+      expect(result.success).toBe(true);
+      expect(result.error).toBeUndefined();
       expect(mockSendCommand).toHaveBeenCalledWith(JSON.stringify({
         type: 'load_game',
         params: { save_data: 'test_save_data' },
@@ -301,15 +318,28 @@ describe('GameService', () => {
       }));
     });
 
-    test('should return false when load fails', async () => {
+    test('should return error result when load fails', async () => {
       mockSendCommand.mockReturnValue(JSON.stringify({
         type: 'error',
-        error: 'Invalid save data'
+        error: 'Failed to load game: Invalid save data format'
       }));
 
       const result = await gameService.loadGame('invalid_data');
       
-      expect(result).toBe(false);
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('Failed to load game: Invalid save data format');
+    });
+
+    test('should return error result when response type is unknown', async () => {
+      mockSendCommand.mockReturnValue(JSON.stringify({
+        type: 'unknown_type',
+        data: {}
+      }));
+
+      const result = await gameService.loadGame('test_data');
+      
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('未知错误');
     });
   });
 

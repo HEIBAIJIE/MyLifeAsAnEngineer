@@ -9,7 +9,7 @@ export class SaveManager {
     this.resourceManager = resourceManager;
   }
 
-  saveGame(): { type: string; data: { save_data: string } } {
+  saveGame(): { type: string; data?: { save_data: string }; error?: string } {
     try {
       const gameState = this.resourceManager.getGameState();
       const stateStr = JSON.stringify(gameState);
@@ -20,18 +20,24 @@ export class SaveManager {
         data: { save_data: saveData }
       };
     } catch (error) {
-      throw new Error('Failed to save game: ' + (error as Error).message);
+      return {
+        type: 'error',
+        error: 'Failed to save game: ' + (error as Error).message
+      };
     }
   }
 
-  loadGame(saveData: string): { type: string; data: { success: boolean } } {
+  loadGame(saveData: string): { type: string; data?: { success: boolean }; error?: string } {
     try {
       const stateStr = base64Decode(saveData);
       const gameState: GameState = JSON.parse(stateStr);
       
       // Validate the game state structure
       if (!this.isValidGameState(gameState)) {
-        throw new Error('Invalid save data format');
+        return {
+          type: 'error',
+          error: 'Invalid save data format'
+        };
       }
       
       this.resourceManager.setGameState(gameState);
@@ -43,9 +49,7 @@ export class SaveManager {
     } catch (error) {
       return {
         type: 'error',
-        data: { 
-          success: false
-        }
+        error: 'Failed to load game: ' + (error as Error).message
       };
     }
   }

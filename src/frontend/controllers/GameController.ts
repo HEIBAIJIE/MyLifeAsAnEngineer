@@ -180,8 +180,8 @@ export class GameController {
   }
 
   private async saveGame(): Promise<void> {
-    const saveData = await this.gameService.saveGame();
-    console.log(this.resultDisplay.displaySaveResult(saveData?.save_data || null));
+    const result = await this.gameService.saveGame();
+    console.log(this.resultDisplay.displaySaveResult(result));
   }
 
   private async loadGame(): Promise<void> {
@@ -196,8 +196,8 @@ export class GameController {
       return;
     }
 
-    const success = await this.gameService.loadGame(saveData.trim());
-    console.log(this.resultDisplay.displayLoadResult(success));
+    const result = await this.gameService.loadGame(saveData.trim());
+    console.log(this.resultDisplay.displayLoadResult(result));
   }
 
   private async showInventory(): Promise<void> {

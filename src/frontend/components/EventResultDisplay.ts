@@ -77,34 +77,42 @@ export class EventResultDisplay {
     return output;
   }
 
-  displaySaveResult(saveData: string | null): string {
+  displaySaveResult(result: { success: boolean; saveData?: string; error?: string }): string {
     const lang = this.localization.getCurrentLanguage();
     let output = '';
 
-    if (saveData) {
+    if (result.success && result.saveData) {
       const savedMessage = lang === 'zh' ? '💾 游戏已保存！' : '💾 Game saved!';
       const codeMessage = lang === 'zh' ? '存档代码 (请妥善保存):' : 'Save code (please keep it safe):';
       
       output += `${savedMessage}\n`;
       output += `${codeMessage}\n`;
       output += '─'.repeat(65) + '\n';
-      output += `${saveData}\n`;
+      output += `${result.saveData}\n`;
       output += '─'.repeat(65) + '\n';
     } else {
       const errorMessage = lang === 'zh' ? '❌ 保存失败' : '❌ Save failed';
-      output += `${errorMessage}\n`;
+      output += `${errorMessage}`;
+      if (result.error) {
+        output += `: ${result.error}`;
+      }
+      output += '\n';
     }
 
     return output;
   }
 
-  displayLoadResult(success: boolean): string {
+  displayLoadResult(result: { success: boolean; error?: string }): string {
     const lang = this.localization.getCurrentLanguage();
     
-    if (success) {
+    if (result.success) {
       return lang === 'zh' ? '📁 游戏读档成功！\n' : '📁 Game loaded successfully!\n';
     } else {
-      return lang === 'zh' ? '❌ 读档失败\n' : '❌ Load failed\n';
+      let errorMessage = lang === 'zh' ? '❌ 读档失败' : '❌ Load failed';
+      if (result.error) {
+        errorMessage += `: ${result.error}`;
+      }
+      return errorMessage + '\n';
     }
   }
 

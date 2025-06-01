@@ -53,6 +53,17 @@ export interface SaveData {
   save_data: string;
 }
 
+export interface SaveResult {
+  success: boolean;
+  saveData?: string;
+  error?: string;
+}
+
+export interface LoadResult {
+  success: boolean;
+  error?: string;
+}
+
 export type Language = 'zh' | 'en';
 
 export interface UITexts {

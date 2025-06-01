@@ -112,20 +112,44 @@ export class GameService {
     return this.executeEvent(locationId);
   }
 
-  async saveGame(): Promise<SaveData | null> {
+  async saveGame(): Promise<{ success: boolean; saveData?: string; error?: string }> {
     const response = this.sendCommand({ type: 'save_game' });
-    if (response.type === 'save_result') {
-      return response.data;
+    if (response.type === 'game_saved' && response.data) {
+      return {
+        success: true,
+        saveData: response.data.save_data
+      };
+    } else if (response.type === 'error') {
+      return {
+        success: false,
+        error: response.error || (this.currentLanguage === 'zh' ? '保存失败' : 'Save failed')
+      };
     }
-    return null;
+    return {
+      success: false,
+      error: this.currentLanguage === 'zh' ? '未知错误' : 'Unknown error'
+    };
   }
 
-  async loadGame(saveData: string): Promise<boolean> {
+  async loadGame(saveData: string): Promise<{ success: boolean; error?: string }> {
     const response = this.sendCommand({
       type: 'load_game',
       params: { save_data: saveData }
     });
-    return response.type === 'load_result';
+    
+    if (response.type === 'game_loaded') {
+      return { success: true };
+    } else if (response.type === 'error') {
+      return {
+        success: false,
+        error: response.error || (this.currentLanguage === 'zh' ? '读档失败' : 'Load failed')
+      };
+    }
+    
+    return {
+      success: false,
+      error: this.currentLanguage === 'zh' ? '未知错误' : 'Unknown error'
+    };
   }
 
   async getInventory(): Promise<InventoryItem[]> {
