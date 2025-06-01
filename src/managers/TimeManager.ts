@@ -9,7 +9,8 @@ export class TimeManager {
   }
 
   getCurrentTime(): number {
-    return this.resourceManager.getResourceValue(1) || 14; // Default start time
+    const time = this.resourceManager.getResourceValue(1);
+    return time || 14; // Default start time when time is 0, null, or undefined
   }
 
   advanceTime(timeUnits: number): void {
@@ -19,16 +20,20 @@ export class TimeManager {
 
   getTimeInfo(): TimeInfo {
     const currentTime = this.getCurrentTime();
-    const hour = currentTime % 48;
-    const daysPassed = Math.floor((currentTime - 14) / 48);
+    // 修复时间计算逻辑 - 如果是默认时间，按正常计算；如果是0，也按正常计算
+    const actualTime = this.resourceManager.getResourceValue(1);
+    const timeToUse = actualTime !== null && actualTime !== undefined ? actualTime : 14;
+    
+    const hour = Math.floor((timeToUse % 48) / 2); // Convert to 24-hour format
+    const daysPassed = Math.floor((timeToUse - 14) / 48);
     const dayOfWeek = (daysPassed % 7) + 1; // 1 = Monday, 7 = Sunday
     const isWeekend = dayOfWeek === 6 || dayOfWeek === 7;
-    const isNight = hour >= 36 || hour < 14;
+    const isNight = hour >= 18 || hour < 6; // 6 PM to 6 AM is night
     
     return {
-      current_time: currentTime,
-      hour: Math.floor(hour / 2), // Convert to 24-hour format
-      day: (daysPassed % 30) + 1,
+      current_time: timeToUse,
+      hour: hour,
+      day: Math.max(1, (daysPassed % 30) + 1), // Ensure day is at least 1
       day_of_week: dayOfWeek,
       is_weekend: isWeekend,
       is_workday: !isWeekend,

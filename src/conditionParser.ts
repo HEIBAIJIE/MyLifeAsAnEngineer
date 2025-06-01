@@ -40,8 +40,23 @@ export class ConditionParser {
       return !this.parseCondition(condition.substring(1).trim());
     }
     
-    // Handle comparison operations
-    const comparisonMatch = condition.match(/(.+?)(==|!=|>=|<=|>|<)(.+)/);
+    // Handle special conditions FIRST (before comparison operations)
+    if (condition === 'rent_payment_failed') {
+      return this.resources[2] < 2800; // Money < rent
+    }
+    
+    if (condition === 'all_attributes>60') {
+      const attributeIds = [13, 14, 15, 16, 17, 18, 19, 20]; // Health, fatigue, hunger, rational, emotional, focus, mood, skill
+      return attributeIds.every(id => (this.resources[id] || 0) > 60);
+    }
+    
+    if (condition === 'no_attribute<30') {
+      const attributeIds = [13, 14, 15, 16, 17, 18, 19, 20];
+      return attributeIds.every(id => (this.resources[id] || 0) >= 30);
+    }
+    
+    // Handle comparison operations - 修复正则表达式以避免匹配>>等无效操作符
+    const comparisonMatch = condition.match(/(.+?)(==|!=|>=|<=|>(?!>)|<(?!<))(.+)/);
     if (comparisonMatch) {
       const [, left, operator, right] = comparisonMatch;
       const leftValue = this.evaluateExpression(left.trim());
@@ -58,21 +73,6 @@ export class ConditionParser {
       }
     }
     
-    // Handle special conditions
-    if (condition === 'rent_payment_failed') {
-      return this.resources[2] < 2800; // Money < rent
-    }
-    
-    if (condition === 'all_attributes>60') {
-      const attributeIds = [13, 14, 15, 16, 17, 18, 19, 20]; // Health, fatigue, hunger, rational, emotional, focus, mood, skill
-      return attributeIds.every(id => this.resources[id] > 60);
-    }
-    
-    if (condition === 'no_attribute<30') {
-      const attributeIds = [13, 14, 15, 16, 17, 18, 19, 20];
-      return !attributeIds.some(id => this.resources[id] < 30);
-    }
-    
     // TODO: Handle more complex conditions like consecutive_7days, skill_not_improved_for_15_days, etc.
     
     return false;
@@ -81,6 +81,16 @@ export class ConditionParser {
   // Evaluate an expression to get a numeric value
   evaluateExpression(expression: string): number {
     expression = expression.trim();
+    
+    // Handle conditional expressions FIRST (before resource references)
+    const conditionalMatch = expression.match(/conditional\[([^?]+)\?([^:]+):([^\]]+)\]/);
+    if (conditionalMatch) {
+      const [, condition, trueValue, falseValue] = conditionalMatch;
+      const conditionResult = this.parseCondition(condition.trim());
+      return conditionResult 
+        ? this.evaluateExpression(trueValue.trim()) 
+        : this.evaluateExpression(falseValue.trim());
+    }
     
     // Handle resource references
     const resourceMatch = expression.match(/resource\[(\d+)\]/);
@@ -106,15 +116,6 @@ export class ConditionParser {
     const floorMatch = expression.match(/floor\[(.+)\]/);
     if (floorMatch) {
       return Math.floor(this.evaluateExpression(floorMatch[1]));
-    }
-    
-    // Handle conditional expressions
-    const conditionalMatch = expression.match(/conditional\[(.+?)\?(.+?):(.+?)\]/);
-    if (conditionalMatch) {
-      const [, condition, trueValue, falseValue] = conditionalMatch;
-      return this.parseCondition(condition) 
-        ? this.evaluateExpression(trueValue) 
-        : this.evaluateExpression(falseValue);
     }
     
     // Handle true/false as 1/0

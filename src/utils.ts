@@ -1,32 +1,43 @@
 // Base64 encoding/decoding without Node.js Buffer
 export function base64Encode(str: string): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  let result = '';
-  let i = 0;
+  if (!str) return '';
   
-  while (i < str.length) {
-    const a = str.charCodeAt(i++);
-    const b = i < str.length ? str.charCodeAt(i++) : 0;
-    const c = i < str.length ? str.charCodeAt(i++) : 0;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  
+  // Convert string to UTF-8 bytes first
+  const utf8Bytes = unescape(encodeURIComponent(str));
+  let result = '';
+  
+  for (let i = 0; i < utf8Bytes.length; i += 3) {
+    const a = utf8Bytes.charCodeAt(i);
+    const b = i + 1 < utf8Bytes.length ? utf8Bytes.charCodeAt(i + 1) : 0;
+    const c = i + 2 < utf8Bytes.length ? utf8Bytes.charCodeAt(i + 2) : 0;
     
     const bitmap = (a << 16) | (b << 8) | c;
     
     result += chars.charAt((bitmap >> 18) & 63);
     result += chars.charAt((bitmap >> 12) & 63);
-    result += i - 2 < str.length ? chars.charAt((bitmap >> 6) & 63) : '=';
-    result += i - 1 < str.length ? chars.charAt(bitmap & 63) : '=';
+    result += i + 1 < utf8Bytes.length ? chars.charAt((bitmap >> 6) & 63) : '=';
+    result += i + 2 < utf8Bytes.length ? chars.charAt(bitmap & 63) : '=';
   }
   
   return result;
 }
 
 export function base64Decode(str: string): string {
+  if (!str) return '';
+  
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   let result = '';
+  
+  // Remove whitespace and check for padding
+  str = str.replace(/\s/g, '');
+  const paddingCount = (str.match(/=/g) || []).length;
+  
+  // Remove padding for processing
+  str = str.replace(/=/g, '');
+  
   let i = 0;
-  
-  str = str.replace(/[^A-Za-z0-9+/]/g, '');
-  
   while (i < str.length) {
     const encoded1 = chars.indexOf(str.charAt(i++));
     const encoded2 = chars.indexOf(str.charAt(i++));
@@ -36,11 +47,20 @@ export function base64Decode(str: string): string {
     const bitmap = (encoded1 << 18) | (encoded2 << 12) | (encoded3 << 6) | encoded4;
     
     result += String.fromCharCode((bitmap >> 16) & 255);
-    if (encoded3 !== 64) result += String.fromCharCode((bitmap >> 8) & 255);
-    if (encoded4 !== 64) result += String.fromCharCode(bitmap & 255);
+    if (i - 2 < str.length || paddingCount < 2) {
+      result += String.fromCharCode((bitmap >> 8) & 255);
+    }
+    if (i - 1 < str.length || paddingCount < 1) {
+      result += String.fromCharCode(bitmap & 255);
+    }
   }
   
-  return result;
+  // Convert UTF-8 bytes back to Unicode string
+  try {
+    return decodeURIComponent(escape(result));
+  } catch (e) {
+    return result;
+  }
 }
 
 // Console logging wrapper for environments without console
