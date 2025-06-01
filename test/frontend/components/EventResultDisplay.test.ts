@@ -76,7 +76,6 @@ describe('EventResultDisplay', () => {
         };
         return emojiMap[id] || '📈';
       }),
-      getWelcomeMessage: jest.fn(),
       getHelpMessage: jest.fn()
     } as any;
 

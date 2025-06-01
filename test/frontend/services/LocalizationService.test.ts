@@ -85,28 +85,6 @@ describe('LocalizationService', () => {
     });
   });
 
-  describe('Welcome Message', () => {
-    test('should return Chinese welcome message when language is zh', () => {
-      localizationService.setLanguage('zh');
-      const message = localizationService.getWelcomeMessage();
-      
-      expect(message).toContain('My Life As An Engineer');
-      expect(message).toContain('命令行游戏界面');
-      expect(message).toContain('欢迎来到《我的工程师生活》！');
-      expect(message).toContain('通过感性和理性两条路径');
-    });
-
-    test('should return English welcome message when language is en', () => {
-      localizationService.setLanguage('en');
-      const message = localizationService.getWelcomeMessage();
-      
-      expect(message).toContain('My Life As An Engineer');
-      expect(message).toContain('Command Line Interface');
-      expect(message).toContain('Welcome to "My Life As An Engineer"!');
-      expect(message).toContain('emotional and rational paths');
-    });
-  });
-
   describe('Help Message', () => {
     test('should return Chinese help message when language is zh', () => {
       localizationService.setLanguage('zh');

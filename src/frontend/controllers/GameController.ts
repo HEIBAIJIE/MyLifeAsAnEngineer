@@ -34,13 +34,8 @@ export class GameController {
 
   async start(): Promise<void> {
     console.clear();
-    this.showWelcome();
     await this.refreshGameState();
     await this.gameLoop();
-  }
-
-  private showWelcome(): void {
-    console.log(this.localization.getWelcomeMessage());
   }
 
   private async refreshGameState(): Promise<void> {

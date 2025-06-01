@@ -79,7 +79,6 @@ describe('ActionMenuDisplay', () => {
       getTexts: jest.fn().mockReturnValue(mockTexts),
       getText: jest.fn(),
       getResourceEmoji: jest.fn(),
-      getWelcomeMessage: jest.fn(),
       getHelpMessage: jest.fn()
     } as any;
 
