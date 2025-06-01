@@ -1,4 +1,4 @@
-import { sendCommand } from './src/index';
+import { sendCommand } from '../src/index';
 
 console.log('测试前端与后端连接...\n');
 

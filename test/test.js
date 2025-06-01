@@ -1,4 +1,4 @@
-const { sendCommand } = require('./dist/index');
+const { sendCommand } = require('../dist/index');
 
 console.log('Testing My Life As An Engineer Backend');
 console.log('======================================\n');
@@ -23,10 +23,10 @@ console.log();
 // Test 3: Execute an event
 console.log('Test 3: Execute Event 31 (Ask about today\'s work)');
 response = JSON.parse(sendCommand('{"type":"execute_event","params":{"event_id":31}}'));
-console.log('Success:', response.success);
-console.log('Event name:', response.event_name);
-console.log('Time consumed:', response.time_consumed);
-console.log('Resource changes:', response.resource_changes);
+console.log('Success:', response.data?.success);
+console.log('Event name:', response.data?.event_name);
+console.log('Time consumed:', response.data?.time_cost);
+console.log('Resource changes:', response.data?.resource_changes);
 console.log();
 
 // Test 4: Check time progression

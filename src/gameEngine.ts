@@ -54,21 +54,21 @@ export class GameEngine {
       
       switch (command.type) {
         case 'execute_event':
-          return this.executeEvent(command.params.event_id);
+          return this.executeEvent(command.params?.event_id);
         case 'query_resource':
-          return this.queryService.queryResource(command.params.resource_id);
+          return this.queryService.queryResource(command.params?.resource_id);
         case 'query_location':
-          return this.queryService.queryLocation(command.params.location_id);
+          return this.queryService.queryLocation(command.params?.location_id);
         case 'query_available_events':
           return this.queryService.queryAvailableEvents();
         case 'query_inventory':
           return this.queryService.queryInventory();
         case 'use_item':
-          return this.useItem(command.params.item_slot);
+          return this.useItem(command.params?.item_slot);
         case 'save_game':
           return this.saveManager.saveGame();
         case 'load_game':
-          return this.saveManager.loadGame(command.params.save_data);
+          return this.saveManager.loadGame(command.params?.save_data);
         case 'get_game_state':
           return this.queryService.getGameState();
         case 'get_time_info':
@@ -82,7 +82,43 @@ export class GameEngine {
   }
 
   private executeEvent(eventId: number) {
-    return this.eventProcessor.executeEvent(eventId);
+    const result = this.eventProcessor.executeEvent(eventId);
+    
+    // 包装成标准响应格式
+    if (result.success) {
+      return {
+        type: 'event_result',
+        data: {
+          success: result.success,
+          event_id: result.event_id,
+          event_name: result.event_name,
+          text_id: result.text_id,
+          game_text: result.text_content, // 前端期望的字段名
+          time_cost: result.time_consumed,
+          resource_changes: Object.entries(result.resource_changes).map(([resourceId, change]) => ({
+            resource_id: parseInt(resourceId),
+            resource_name: this.dataManager.getResource(parseInt(resourceId))?.resource_name || `Resource ${resourceId}`,
+            change: change
+          })),
+          temporary_events: result.temporary_events_triggered.map(te => ({
+            event_id: te.temp_event_id,
+            event_name: te.event_name,
+            description: te.text_content
+          })),
+          scheduled_tasks: result.scheduled_tasks_triggered.map(st => ({
+            task_id: st.task_id,
+            task_name: st.task_name,
+            description: st.text_content
+          })),
+          ending_triggered: result.ending_triggered
+        }
+      };
+    } else {
+      return {
+        type: 'error',
+        error: result.text_content || 'Event execution failed'
+      };
+    }
   }
 
   private useItem(itemSlot: number) {

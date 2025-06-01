@@ -170,8 +170,8 @@ export interface Ending {
 // Game text types
 export interface GameText {
   text_id: number;
-  chinese_text: string;
-  english_text: string;
+  text_content: string;
+  text_content_en: string;
 }
 
 // Command types

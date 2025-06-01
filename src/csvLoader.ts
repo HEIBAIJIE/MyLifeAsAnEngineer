@@ -25,7 +25,7 @@ export class CSVLoader {
 
   private parseCSV<T>(filePath: string): T[] {
     const content = readFileSync(filePath, 'utf-8');
-    const lines = content.split('\n').filter((line: string) => line.trim());
+    const lines = content.split(/\r?\n/).filter((line: string) => line.trim());
     if (lines.length === 0) return [];
 
     const headers = lines[0].split(',').map((h: string) => h.trim());

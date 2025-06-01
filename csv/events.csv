@@ -29,7 +29,7 @@ event_id,event_name,time_cost,location_requirement,level_requirement,min_conditi
 28,前往公园/Go to Park,1,6,,,,,always,,,,,,,,,,,,,,,,,,,,,,,set[61]=4,,1028
 29,前往餐馆/Go to Restaurant,1,6,,,,,always,,,,,,,,,,,,,,,,,,,,,,,set[61]=5,,1029
 30,前往医院/Go to Hospital,1,5,,,,,always,,,,,,,,,,,,,,,,,,,,,,,set[61]=6,,1030
-31,询问今日工作（职级1）/Ask about today's work (Level 1),1,1,1,,,resource[22]==1,,,,,,,,-1,,calc[floor(5*(1+resource[70]/50))],,,,,,,,,,,,1
+31,询问今日工作（职级1）/Ask about today's work (Level 1),1,1,1,,,resource[22]==1,,,,,,,,-1,,calc[floor(5*(1+resource[70]/50))],,,,,,,,,,,,,,,,1
 32,询问今日工作（职级2）/Ask about today's work (Level 2),1,1,2,,,resource[22]==2,,,,,,,,-1,,calc[floor(6*(1+resource[70]/50))],,,,,,,,,,,,2
 33,询问今日工作（职级3）/Ask about today's work (Level 3),1,1,3,,,resource[22]==3,,,,,,,,-1,,calc[floor(7*(1+resource[70]/50))],,,,,,,,,,,,3
 34,询问今日工作（职级4）/Ask about today's work (Level 4),1,1,4,,,resource[22]==4,,,,,,,,-1,,calc[floor(8*(1+resource[70]/50))],,,,,,,,,,,,4

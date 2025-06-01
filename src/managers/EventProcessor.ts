@@ -86,7 +86,7 @@ export class EventProcessor {
 
     // Get text content
     const text = this.dataManager.getGameText(event.text_id);
-    const textContent = text ? text.chinese_text : `Event ${event.event_name} completed`;
+    const textContent = text ? text.text_content : `Event ${event.event_name} completed`;
 
     return {
       success: true,
@@ -244,7 +244,7 @@ export class EventProcessor {
         temp_event_id: id,
         event_name: tempEvent.event_name,
         text_id: tempEvent.text_id,
-        text_content: text ? text.chinese_text : tempEvent.event_name,
+        text_content: text ? text.text_content : tempEvent.event_name,
         resource_changes: changes,
         ending_triggered: ending
       });
@@ -330,7 +330,7 @@ export class EventProcessor {
         task_id: id,
         task_name: task.task_name,
         text_id: task.text_id,
-        text_content: text ? text.chinese_text : task.task_name,
+        text_content: text ? text.text_content : task.task_name,
         resource_changes: changes
       });
     });
