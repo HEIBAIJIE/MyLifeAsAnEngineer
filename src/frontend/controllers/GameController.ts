@@ -18,6 +18,7 @@ export class GameController {
   private gameState: GameState | null = null;
   private availableEvents: AvailableEvent[] = [];
   private currentLocation: LocationInfo | null = null;
+  private alreadyRefreshed: boolean = false;
 
   constructor() {
     this.rl = readline.createInterface({
@@ -75,8 +76,11 @@ export class GameController {
       
       await this.handleUserChoice(choice.trim().toLowerCase());
       
-      // 刷新游戏状态
-      await this.refreshGameState();
+      // 刷新游戏状态 - 如果在executeEvent中已经刷新过，则跳过
+      if (!this.alreadyRefreshed) {
+        await this.refreshGameState();
+      }
+      this.alreadyRefreshed = false; // 重置标志
       
       console.log('\n' + '='.repeat(65) + '\n');
     }
@@ -124,6 +128,17 @@ export class GameController {
     
     const result = await this.gameService.executeEvent(event.event_id);
     console.log(this.resultDisplay.displayEventResult(result));
+
+    // Check if this was a location change event
+    const isLocationChange = result.resource_changes?.some(change => change.resource_id === 61);
+    
+    if (isLocationChange) {
+      // Refresh game state after location change
+      await this.refreshGameState();
+      this.alreadyRefreshed = true;
+    } else {
+      this.alreadyRefreshed = false;
+    }
   }
 
   private async handleSystemCommand(command: string): Promise<void> {

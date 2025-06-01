@@ -209,6 +209,26 @@ export class EventProcessor {
     if (event.item_gained && event.item_quantity) {
       this.resourceManager.addItemToInventory(event.item_gained, event.item_quantity);
     }
+
+    // Handle permanent effect changes
+    if (event.permanent_effect_change) {
+      if (typeof event.permanent_effect_change === 'string') {
+        if (event.permanent_effect_change.startsWith('set[')) {
+          const setOp = conditionParser.evaluateSetOperation(event.permanent_effect_change);
+          if (setOp) {
+            this.resourceManager.setResourceValue(setOp.resourceId, setOp.value);
+            changes[setOp.resourceId] = setOp.value;
+          }
+        } else if (event.permanent_effect_change.startsWith('reset[')) {
+          const match = event.permanent_effect_change.match(/reset\[(\d+)\]/);
+          if (match) {
+            const resourceId = parseInt(match[1]);
+            this.resourceManager.setResourceValue(resourceId, 0);
+            changes[resourceId] = 0;
+          }
+        }
+      }
+    }
   }
 
   private checkTemporaryEvents(language: 'zh' | 'en' = 'zh'): TemporaryEventResult[] {
