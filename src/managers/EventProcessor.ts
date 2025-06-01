@@ -27,14 +27,14 @@ export class EventProcessor {
     this.timeManager = timeManager;
   }
 
-  executeEvent(eventId: number): EventResult {
+  executeEvent(eventId: number, language: 'zh' | 'en' = 'zh'): EventResult {
     if (this.resourceManager.isGameOver()) {
-      return this.createFailureResult(eventId, '', 'Game is over');
+      return this.createFailureResult(eventId, '', 'Game is over', language);
     }
 
     const event = this.dataManager.getEvent(eventId);
     if (!event) {
-      return this.createFailureResult(eventId, '', 'Event not found');
+      return this.createFailureResult(eventId, '', 'Event not found', language);
     }
 
     // Check if event can be executed
@@ -44,13 +44,13 @@ export class EventProcessor {
     );
 
     if (!conditionParser.evaluate(event.condition_expression)) {
-      return this.createFailureResult(eventId, event.event_name, 'Conditions not met');
+      return this.createFailureResult(eventId, event.event_name, 'Conditions not met', language);
     }
 
     // Check location requirement
     if (event.location_requirement && 
         event.location_requirement !== this.resourceManager.getResourceValue(61)) {
-      return this.createFailureResult(eventId, event.event_name, 'Not in correct location');
+      return this.createFailureResult(eventId, event.event_name, 'Not in correct location', language);
     }
 
     // Execute the event
@@ -61,16 +61,21 @@ export class EventProcessor {
     // Apply resource changes
     this.applyEventResourceChanges(event, resourceChanges);
 
+    // Record time consumption (resource 1 - time)
+    if (event.time_cost > 0) {
+      resourceChanges[1] = event.time_cost; // 记录时间消耗
+    }
+
     // Consume time and process each time unit
     for (let i = 0; i < event.time_cost; i++) {
       this.timeManager.advanceTime(1);
       
       // Check and trigger temporary events
-      const tempEvents = this.checkTemporaryEvents();
+      const tempEvents = this.checkTemporaryEvents(language);
       temporaryEventsTriggered.push(...tempEvents);
       
       // Check and trigger scheduled tasks
-      const schedTasks = this.checkScheduledTasks();
+      const schedTasks = this.checkScheduledTasks(language);
       scheduledTasksTriggered.push(...schedTasks);
       
       // Apply night-time bonuses if applicable
@@ -84,9 +89,11 @@ export class EventProcessor {
       this.resourceManager.setCurrentEnding(ending);
     }
 
-    // Get text content
+    // Get text content based on language
     const text = this.dataManager.getGameText(event.text_id);
-    const textContent = text ? text.text_content : `Event ${event.event_name} completed`;
+    const textContent = text ? 
+      (language === 'en' ? text.text_content_en : text.text_content) : 
+      `Event ${event.event_name} completed`;
 
     return {
       success: true,
@@ -102,7 +109,7 @@ export class EventProcessor {
     };
   }
 
-  private createFailureResult(eventId: number, eventName: string, message: string): EventResult {
+  private createFailureResult(eventId: number, eventName: string, message: string, language: 'zh' | 'en' = 'zh'): EventResult {
     return {
       success: false,
       event_id: eventId,
@@ -203,7 +210,7 @@ export class EventProcessor {
     }
   }
 
-  private checkTemporaryEvents(): TemporaryEventResult[] {
+  private checkTemporaryEvents(language: 'zh' | 'en' = 'zh'): TemporaryEventResult[] {
     const triggered: TemporaryEventResult[] = [];
     const conditionParser = new ConditionParser(
       this.resourceManager.getAllResourceValues(),
@@ -244,7 +251,8 @@ export class EventProcessor {
         temp_event_id: id,
         event_name: tempEvent.event_name,
         text_id: tempEvent.text_id,
-        text_content: text ? text.text_content : tempEvent.event_name,
+        text_content: text ? 
+          (language === 'en' ? text.text_content_en : text.text_content) : tempEvent.event_name,
         resource_changes: changes,
         ending_triggered: ending
       });
@@ -294,7 +302,7 @@ export class EventProcessor {
     }
   }
 
-  private checkScheduledTasks(): ScheduledTaskResult[] {
+  private checkScheduledTasks(language: 'zh' | 'en' = 'zh'): ScheduledTaskResult[] {
     const triggered: ScheduledTaskResult[] = [];
     const conditionParser = new ConditionParser(
       this.resourceManager.getAllResourceValues(),
@@ -330,7 +338,8 @@ export class EventProcessor {
         task_id: id,
         task_name: task.task_name,
         text_id: task.text_id,
-        text_content: text ? text.text_content : task.task_name,
+        text_content: text ? 
+          (language === 'en' ? text.text_content_en : text.text_content) : task.task_name,
         resource_changes: changes
       });
     });

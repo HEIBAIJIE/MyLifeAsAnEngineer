@@ -19,7 +19,7 @@ export class QueryService {
     this.timeManager = timeManager;
   }
 
-  queryResource(resourceId: number) {
+  queryResource(resourceId: number, language: 'zh' | 'en' = 'zh') {
     const resource = this.dataManager.getResource(resourceId);
     const value = this.resourceManager.getResourceValue(resourceId);
     
@@ -35,7 +35,7 @@ export class QueryService {
     };
   }
 
-  queryLocation(locationId?: number) {
+  queryLocation(locationId?: number, language: 'zh' | 'en' = 'zh') {
     const currentLocationId = locationId || this.resourceManager.getResourceValue(61);
     const location = this.dataManager.getLocation(currentLocationId);
     
@@ -49,7 +49,7 @@ export class QueryService {
     };
   }
 
-  queryAvailableEvents() {
+  queryAvailableEvents(language: 'zh' | 'en' = 'zh') {
     const currentLocation = this.resourceManager.getResourceValue(61);
     const conditionParser = new ConditionParser(
       this.resourceManager.getAllResourceValues(),
@@ -83,7 +83,7 @@ export class QueryService {
     };
   }
 
-  queryInventory() {
+  queryInventory(language: 'zh' | 'en' = 'zh') {
     const inventory: Array<{
       slot: number;
       item_id: number;

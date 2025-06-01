@@ -51,20 +51,21 @@ export class GameEngine {
   processCommand(commandStr: string): any {
     try {
       const command = JSON.parse(commandStr);
+      const language = command.language || 'zh'; // 默认中文
       
       switch (command.type) {
         case 'execute_event':
-          return this.executeEvent(command.params?.event_id);
+          return this.executeEvent(command.params?.event_id, language);
         case 'query_resource':
-          return this.queryService.queryResource(command.params?.resource_id);
+          return this.queryService.queryResource(command.params?.resource_id, language);
         case 'query_location':
-          return this.queryService.queryLocation(command.params?.location_id);
+          return this.queryService.queryLocation(command.params?.location_id, language);
         case 'query_available_events':
-          return this.queryService.queryAvailableEvents();
+          return this.queryService.queryAvailableEvents(language);
         case 'query_inventory':
-          return this.queryService.queryInventory();
+          return this.queryService.queryInventory(language);
         case 'use_item':
-          return this.useItem(command.params?.item_slot);
+          return this.useItem(command.params?.item_slot, language);
         case 'save_game':
           return this.saveManager.saveGame();
         case 'load_game':
@@ -81,8 +82,8 @@ export class GameEngine {
     }
   }
 
-  private executeEvent(eventId: number) {
-    const result = this.eventProcessor.executeEvent(eventId);
+  private executeEvent(eventId: number, language: 'zh' | 'en' = 'zh') {
+    const result = this.eventProcessor.executeEvent(eventId, language);
     
     // 包装成标准响应格式
     if (result.success) {
@@ -121,11 +122,12 @@ export class GameEngine {
     }
   }
 
-  private useItem(itemSlot: number) {
+  private useItem(itemSlot: number, language: 'zh' | 'en' = 'zh') {
     // TODO: Implement item usage logic
+    const errorMessage = language === 'en' ? 'Item usage not yet implemented' : '物品使用功能尚未实现';
     return {
       type: 'error',
-      error: 'Item usage not yet implemented'
+      error: errorMessage
     };
   }
 

@@ -25,6 +25,7 @@ class GameCLI {
   private gameState: GameState | null = null;
   private availableEvents: AvailableEvent[] = [];
   private currentLocation: string = '';
+  private currentLanguage: 'zh' | 'en' = 'zh'; // 添加语言状态
 
   constructor() {
     this.rl = readline.createInterface({
@@ -41,15 +42,27 @@ class GameCLI {
   }
 
   private showWelcome() {
-    console.log('╔══════════════════════════════════════════════════════════════╗');
-    console.log('║                    My Life As An Engineer                    ║');
-    console.log('║                      命令行游戏界面                          ║');
-    console.log('╚══════════════════════════════════════════════════════════════╝');
-    console.log();
-    console.log('欢迎来到《我的工程师生活》！');
-    console.log('在这个游戏中，你将扮演一名工程师，体验真实的职场生活。');
-    console.log('通过感性和理性两条路径，探索生活的本质和意义。');
-    console.log();
+    if (this.currentLanguage === 'zh') {
+      console.log('╔══════════════════════════════════════════════════════════════╗');
+      console.log('║                    My Life As An Engineer                    ║');
+      console.log('║                      命令行游戏界面                          ║');
+      console.log('╚══════════════════════════════════════════════════════════════╝');
+      console.log();
+      console.log('欢迎来到《我的工程师生活》！');
+      console.log('在这个游戏中，你将扮演一名工程师，体验真实的职场生活。');
+      console.log('通过感性和理性两条路径，探索生活的本质和意义。');
+      console.log();
+    } else {
+      console.log('╔══════════════════════════════════════════════════════════════╗');
+      console.log('║                    My Life As An Engineer                    ║');
+      console.log('║                    Command Line Interface                    ║');
+      console.log('╚══════════════════════════════════════════════════════════════╝');
+      console.log();
+      console.log('Welcome to "My Life As An Engineer"!');
+      console.log('In this game, you will play as an engineer and experience real workplace life.');
+      console.log('Explore the essence and meaning of life through emotional and rational paths.');
+      console.log();
+    }
   }
 
   private async refreshGameState() {
@@ -60,59 +73,116 @@ class GameCLI {
         this.gameState = stateResponse.data;
       }
 
-      // 获取可用事件
-      const eventsResponse = JSON.parse(sendCommand('{"type":"query_available_events"}'));
+      // 获取可用事件（带语言参数）
+      const eventsResponse = JSON.parse(sendCommand(`{"type":"query_available_events","language":"${this.currentLanguage}"}`));
       if (eventsResponse.type === 'query_result') {
         this.availableEvents = eventsResponse.data.available_events;
       }
 
-      // 获取当前位置
+      // 获取当前位置（带语言参数）
       try {
-        const locationResponse = JSON.parse(sendCommand('{"type":"query_location"}'));
+        const locationResponse = JSON.parse(sendCommand(`{"type":"query_location","language":"${this.currentLanguage}"}`));
         if (locationResponse.type === 'query_result') {
           this.currentLocation = locationResponse.data.location_name;
         } else {
           // 如果查询失败，使用默认位置名称
           const locationId = this.gameState?.resources[61] || 1;
-          const locationNames = ['', '公司', '商店', '家', '公园', '餐馆', '医院'];
-          this.currentLocation = locationNames[locationId] || '未知位置';
+          const locationNames = this.currentLanguage === 'zh' ? 
+            ['', '公司', '商店', '家', '公园', '餐馆', '医院'] :
+            ['', 'Company', 'Store', 'Home', 'Park', 'Restaurant', 'Hospital'];
+          this.currentLocation = locationNames[locationId] || (this.currentLanguage === 'zh' ? '未知位置' : 'Unknown Location');
         }
       } catch (error) {
         // 如果查询失败，使用默认位置名称
         const locationId = this.gameState?.resources[61] || 1;
-        const locationNames = ['', '公司', '商店', '家', '公园', '餐馆', '医院'];
-        this.currentLocation = locationNames[locationId] || '未知位置';
+        const locationNames = this.currentLanguage === 'zh' ? 
+          ['', '公司', '商店', '家', '公园', '餐馆', '医院'] :
+          ['', 'Company', 'Store', 'Home', 'Park', 'Restaurant', 'Hospital'];
+        this.currentLocation = locationNames[locationId] || (this.currentLanguage === 'zh' ? '未知位置' : 'Unknown Location');
       }
     } catch (error) {
-      console.error('获取游戏状态失败:', error);
+      const errorMessage = this.currentLanguage === 'zh' ? '获取游戏状态失败:' : 'Failed to get game state:';
+      console.error(errorMessage, error);
     }
   }
 
   private displayGameStatus() {
     if (!this.gameState) return;
 
+    const texts = this.currentLanguage === 'zh' ? {
+      gameStatus: '游戏状态',
+      time: '时间',
+      location: '位置',
+      weekend: '周末',
+      workday: '工作日',
+      night: '夜晚',
+      day: '白天',
+      money: '金钱',
+      health: '健康',
+      fatigue: '疲劳',
+      hunger: '饥饿',
+      rational: '理性',
+      emotional: '感性',
+      focus: '专注',
+      mood: '心情',
+      skill: '技能',
+      jobLevel: '职级',
+      project: '项目',
+      boss: '老板',
+      socialInfluence: '社交影响力',
+      techReputation: '技术声誉',
+      philosophyInsight: '哲学感悟',
+      weekDays: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+    } : {
+      gameStatus: 'Game Status',
+      time: 'Time',
+      location: 'Location',
+      weekend: 'Weekend',
+      workday: 'Workday',
+      night: 'Night',
+      day: 'Day',
+      money: 'Money',
+      health: 'Health',
+      fatigue: 'Fatigue',
+      hunger: 'Hunger',
+      rational: 'Rational',
+      emotional: 'Emotional',
+      focus: 'Focus',
+      mood: 'Mood',
+      skill: 'Skill',
+      jobLevel: 'Job Level',
+      project: 'Project',
+      boss: 'Boss',
+      socialInfluence: 'Social Influence',
+      techReputation: 'Tech Reputation',
+      philosophyInsight: 'Philosophy Insight',
+      weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    };
+
     console.log('┌─────────────────────────────────────────────────────────────┐');
-    console.log('│                        游戏状态                            │');
+    console.log(`│                        ${texts.gameStatus.padEnd(28)}│`);
     console.log('├─────────────────────────────────────────────────────────────┤');
     
     // 时间信息
     const timeInfo = this.gameState.time_info;
-    const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-    console.log(`│ 时间: ${timeInfo.time_display || '07:00'} ${weekDays[timeInfo.day_of_week]} ${timeInfo.is_weekend ? '(周末)' : '(工作日)'} ${timeInfo.is_night ? '(夜晚)' : '(白天)'}`);
-    console.log(`│ 位置: ${this.currentLocation}`);
+    const weekDay = texts.weekDays[timeInfo.day_of_week];
+    const dayType = timeInfo.is_weekend ? texts.weekend : texts.workday;
+    const timeOfDay = timeInfo.is_night ? texts.night : texts.day;
+    console.log(`│ ${texts.time}: ${timeInfo.time_display || '07:00'} ${weekDay} (${dayType}) (${timeOfDay})`);
+    console.log(`│ ${texts.location}: ${this.currentLocation}`);
     console.log('├─────────────────────────────────────────────────────────────┤');
     
     // 基础属性 - 使用正确的资源索引（从1开始）
     const resources = this.gameState.resources;
-    console.log(`│ 💰 金钱: ${resources[2] || 0}     ❤️  健康: ${resources[13] || 0}/100     😴 疲劳: ${resources[14] || 0}/100`);
-    console.log(`│ 🍽️  饥饿: ${resources[15] || 0}/100     🧠 理性: ${resources[16] || 0}/100     💖 感性: ${resources[17] || 0}/100`);
-    console.log(`│ 🎯 专注: ${resources[18] || 0}/100     😊 心情: ${resources[19] || 0}/100    🔧 技能: ${resources[20] || 0}/100`);
-    console.log(`│ 👔 职级: ${resources[22] || 0}/10     📊 项目: ${resources[23] || 0}/100    😠 老板: ${resources[21] || 0}/100`);
+    console.log(`│ 💰 ${texts.money}: ${resources[2] || 0}     ❤️  ${texts.health}: ${resources[13] || 0}/100     😴 ${texts.fatigue}: ${resources[14] || 0}/100`);
+    console.log(`│ 🍽️  ${texts.hunger}: ${resources[15] || 0}/100     🧠 ${texts.rational}: ${resources[16] || 0}/100     💖 ${texts.emotional}: ${resources[17] || 0}/100`);
+    console.log(`│ 🎯 ${texts.focus}: ${resources[18] || 0}/100     😊 ${texts.mood}: ${resources[19] || 0}/100    🔧 ${texts.skill}: ${resources[20] || 0}/100`);
+    console.log(`│ 👔 ${texts.jobLevel}: ${resources[22] || 0}/10     📊 ${texts.project}: ${resources[23] || 0}/100    😠 ${texts.boss}: ${resources[21] || 0}/100`);
     
     // 社交属性
     if (resources[70] || resources[71] || resources[72]) {
       console.log('├─────────────────────────────────────────────────────────────┤');
-      console.log(`│ 🤝 社交影响力: ${resources[70] || 0}/100  🏆 技术声誉: ${resources[71] || 0}/100  🤔 哲学感悟: ${resources[72] || 0}/100`);
+      console.log(`│ 🤝 ${texts.socialInfluence}: ${resources[70] || 0}/100  🏆 ${texts.techReputation}: ${resources[71] || 0}/100  🤔 ${texts.philosophyInsight}: ${resources[72] || 0}/100`);
     }
     
     console.log('└─────────────────────────────────────────────────────────────┘');
@@ -120,18 +190,55 @@ class GameCLI {
   }
 
   private displayAvailableActions() {
+    const texts = this.currentLanguage === 'zh' ? {
+      availableActions: '可选操作',
+      sceneSwitch: '场景切换:',
+      locations: ['公司', '商店', '家', '公园', '餐馆', '医院'],
+      currentSceneEvents: '当前场景可用事件:',
+      noEventsAvailable: '当前场景暂无可用事件',
+      quickActions: '快速行动 (≤1小时):',
+      mediumActions: '中等行动 (1-2.5小时):',
+      longActions: '长时间行动 (>2.5小时):',
+      otherActions: '其他操作:',
+      save: '存档',
+      load: '读档',
+      inventory: '查看物品栏',
+      help: '帮助',
+      quit: '退出',
+      switchLang: '切换语言',
+      hour: '小时'
+    } : {
+      availableActions: 'Available Actions',
+      sceneSwitch: 'Scene Switch:',
+      locations: ['Company', 'Store', 'Home', 'Park', 'Restaurant', 'Hospital'],
+      currentSceneEvents: 'Available Events in Current Scene:',
+      noEventsAvailable: 'No events available in current scene',
+      quickActions: 'Quick Actions (≤1 hour):',
+      mediumActions: 'Medium Actions (1-2.5 hours):',
+      longActions: 'Long Actions (>2.5 hours):',
+      otherActions: 'Other Actions:',
+      save: 'Save',
+      load: 'Load',
+      inventory: 'Inventory',
+      help: 'Help',
+      quit: 'Quit',
+      switchLang: 'Switch Language',
+      hour: 'hour'
+    };
+
     console.log('┌─────────────────────────────────────────────────────────────┐');
-    console.log('│                      可选操作                               │');
+    console.log(`│                      ${texts.availableActions.padEnd(28)}│`);
     console.log('├─────────────────────────────────────────────────────────────┤');
     
     // 场景切换选项
-    console.log('│ 场景切换:');
-    console.log('│  [1] 公司    [2] 商店    [3] 家      [4] 公园    [5] 餐馆    [6] 医院');
+    console.log(`│ ${texts.sceneSwitch}`);
+    const locationLine = texts.locations.map((loc, i) => `[${i+1}] ${loc}`).join('    ');
+    console.log(`│  ${locationLine}`);
     console.log('├─────────────────────────────────────────────────────────────┤');
     
     // 当前场景可用事件
     if (this.availableEvents.length > 0) {
-      console.log('│ 当前场景可用事件:');
+      console.log(`│ ${texts.currentSceneEvents}`);
       let eventIndex = 7; // 从7开始编号，避免与场景切换冲突
       
       // 按时间消耗分组显示事件
@@ -140,35 +247,35 @@ class GameCLI {
       const longEvents = this.availableEvents.filter(e => e.time_cost > 5);
       
       if (shortEvents.length > 0) {
-        console.log('│  快速行动 (≤1小时):');
+        console.log(`│  ${texts.quickActions}`);
         for (const event of shortEvents.slice(0, 5)) {
-          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}小时)`);
+          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})`);
           eventIndex++;
         }
       }
       
       if (mediumEvents.length > 0) {
-        console.log('│  中等行动 (1-2.5小时):');
+        console.log(`│  ${texts.mediumActions}`);
         for (const event of mediumEvents.slice(0, 5)) {
-          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}小时)`);
+          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})`);
           eventIndex++;
         }
       }
       
       if (longEvents.length > 0) {
-        console.log('│  长时间行动 (>2.5小时):');
+        console.log(`│  ${texts.longActions}`);
         for (const event of longEvents.slice(0, 3)) {
-          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}小时)`);
+          console.log(`│   [${eventIndex}] ${event.event_name} (${event.time_cost * 0.5}${texts.hour})`);
           eventIndex++;
         }
       }
     } else {
-      console.log('│ 当前场景暂无可用事件');
+      console.log(`│ ${texts.noEventsAvailable}`);
     }
     
     console.log('├─────────────────────────────────────────────────────────────┤');
-    console.log('│ 其他操作:');
-    console.log('│  [s] 存档    [l] 读档    [i] 查看物品栏    [h] 帮助    [q] 退出');
+    console.log(`│ ${texts.otherActions}`);
+    console.log(`│  [s] ${texts.save}    [l] ${texts.load}    [i] ${texts.inventory}    [h] ${texts.help}    [q] ${texts.quit}    [lang] ${texts.switchLang}`);
     console.log('└─────────────────────────────────────────────────────────────┘');
     console.log();
   }
@@ -238,8 +345,14 @@ class GameCLI {
       case 'q':
         await this.quitGame();
         break;
+      case 'lang':
+        this.switchLanguage();
+        break;
       default:
-        console.log('❌ 无效的选择，请重新输入。');
+        const errorMessage = this.currentLanguage === 'zh' ? 
+          '❌ 无效的选择，请重新输入。' : 
+          '❌ Invalid choice, please try again.';
+        console.log(errorMessage);
     }
   }
 
@@ -265,19 +378,43 @@ class GameCLI {
   }
 
   private async executeEvent(event: AvailableEvent) {
-    console.log(`🎯 执行事件: ${event.event_name}`);
-    console.log(`⏰ 预计消耗时间: ${event.time_cost * 0.5} 小时`);
+    const texts = this.currentLanguage === 'zh' ? {
+      executing: '🎯 执行事件:',
+      estimatedTime: '⏰ 预计消耗时间:',
+      confirm: '确认执行吗？(y/n): ',
+      cancelled: '❌ 已取消操作',
+      success: '✅ 事件执行成功！',
+      failed: '❌ 事件执行失败:',
+      resourceChanges: '📊 属性变化:',
+      tempEvents: '🎲 触发临时事件:',
+      scheduledTasks: '⏰ 触发定时任务:',
+      hour: '小时'
+    } : {
+      executing: '🎯 Executing Event:',
+      estimatedTime: '⏰ Estimated Time Cost:',
+      confirm: 'Confirm execution? (y/n): ',
+      cancelled: '❌ Operation cancelled',
+      success: '✅ Event executed successfully!',
+      failed: '❌ Event execution failed:',
+      resourceChanges: '📊 Resource Changes:',
+      tempEvents: '🎲 Temporary Events Triggered:',
+      scheduledTasks: '⏰ Scheduled Tasks Triggered:',
+      hour: 'hour'
+    };
+
+    console.log(`${texts.executing} ${event.event_name}`);
+    console.log(`${texts.estimatedTime} ${event.time_cost * 0.5} ${texts.hour}`);
     
-    const confirm = await this.getUserInput('确认执行吗？(y/n): ');
+    const confirm = await this.getUserInput(texts.confirm);
     if (confirm.toLowerCase() !== 'y' && confirm.toLowerCase() !== 'yes') {
-      console.log('❌ 已取消操作');
+      console.log(texts.cancelled);
       return;
     }
 
-    const response = JSON.parse(sendCommand(`{"type":"execute_event","params":{"event_id":${event.event_id}}}`));
+    const response = JSON.parse(sendCommand(`{"type":"execute_event","params":{"event_id":${event.event_id}},"language":"${this.currentLanguage}"}`));
     
     if (response.type === 'event_result') {
-      console.log('✅ 事件执行成功！');
+      console.log(texts.success);
       
       // 显示事件结果
       const result = response.data;
@@ -287,7 +424,7 @@ class GameCLI {
       
       // 显示资源变化
       if (result.resource_changes && result.resource_changes.length > 0) {
-        console.log('\n📊 属性变化:');
+        console.log(`\n${texts.resourceChanges}`);
         for (const change of result.resource_changes) {
           const sign = change.change > 0 ? '+' : '';
           const emoji = this.getResourceEmoji(change.resource_id);
@@ -297,7 +434,7 @@ class GameCLI {
       
       // 显示临时事件
       if (result.temporary_events && result.temporary_events.length > 0) {
-        console.log('\n🎲 触发临时事件:');
+        console.log(`\n${texts.tempEvents}`);
         for (const tempEvent of result.temporary_events) {
           console.log(`   ⚡ ${tempEvent.event_name}: ${tempEvent.description}`);
         }
@@ -305,14 +442,14 @@ class GameCLI {
       
       // 显示定时任务
       if (result.scheduled_tasks && result.scheduled_tasks.length > 0) {
-        console.log('\n⏰ 触发定时任务:');
+        console.log(`\n${texts.scheduledTasks}`);
         for (const task of result.scheduled_tasks) {
           console.log(`   📅 ${task.task_name}: ${task.description}`);
         }
       }
       
     } else {
-      console.log('❌ 事件执行失败:', response.error || '未知错误');
+      console.log(`${texts.failed}`, response.error || (this.currentLanguage === 'zh' ? '未知错误' : 'Unknown error'));
     }
   }
 
@@ -432,6 +569,14 @@ class GameCLI {
       this.rl.close();
       process.exit(0);
     }
+  }
+
+  private switchLanguage() {
+    this.currentLanguage = this.currentLanguage === 'zh' ? 'en' : 'zh';
+    const message = this.currentLanguage === 'zh' ? 
+      '🌐 语言已切换为中文' : 
+      '🌐 Language switched to English';
+    console.log(message);
   }
 
   private getUserInput(prompt: string): Promise<string> {

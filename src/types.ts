@@ -190,6 +190,7 @@ export type CommandType =
 export interface Command {
   type: CommandType;
   params: Record<string, any>;
+  language?: 'zh' | 'en';
 }
 
 // Response types
