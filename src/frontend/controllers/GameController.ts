@@ -3,8 +3,9 @@ import { GameService } from '../services/GameService';
 import { LocalizationService } from '../services/LocalizationService';
 import { GameStatusDisplay } from '../components/GameStatusDisplay';
 import { ActionMenuDisplay } from '../components/ActionMenuDisplay';
+import { EntityMenuDisplay } from '../components/EntityMenuDisplay';
 import { EventResultDisplay } from '../components/EventResultDisplay';
-import { GameState, AvailableEvent, LocationInfo, Language } from '../types';
+import { GameState, AvailableEvent, AvailableEntity, EntityEventsData, EntityEvent, LocationInfo, Language } from '../types';
 import { getEventName } from '../../utils';
 
 export class GameController {
@@ -13,10 +14,12 @@ export class GameController {
   private localization: LocalizationService;
   private statusDisplay: GameStatusDisplay;
   private actionDisplay: ActionMenuDisplay;
+  private entityDisplay: EntityMenuDisplay;
   private resultDisplay: EventResultDisplay;
   
   private gameState: GameState | null = null;
   private availableEvents: AvailableEvent[] = [];
+  private availableEntities: AvailableEntity[] = [];
   private currentLocation: LocationInfo | null = null;
   private alreadyRefreshed: boolean = false;
 
@@ -30,11 +33,11 @@ export class GameController {
     this.localization = LocalizationService.getInstance();
     this.statusDisplay = new GameStatusDisplay();
     this.actionDisplay = new ActionMenuDisplay();
+    this.entityDisplay = new EntityMenuDisplay();
     this.resultDisplay = new EventResultDisplay();
   }
 
   async start(): Promise<void> {
-    console.clear();
     await this.refreshGameState();
     await this.gameLoop();
   }
@@ -46,6 +49,9 @@ export class GameController {
       
       // 获取可用事件
       this.availableEvents = await this.gameService.getAvailableEvents();
+      
+      // 获取可用实体
+      this.availableEntities = await this.gameService.getAvailableEntities();
       
       // 获取当前位置
       this.currentLocation = await this.gameService.getCurrentLocation();
@@ -94,23 +100,23 @@ export class GameController {
   }
 
   private displayAvailableActions(): void {
-    const actionOutput = this.actionDisplay.displayAvailableActions(this.availableEvents);
-    console.log(actionOutput);
+    const entityOutput = this.entityDisplay.displayAvailableEntities(this.availableEntities);
+    console.log(entityOutput);
   }
 
   private async handleUserChoice(choice: string): Promise<void> {
-    // 事件执行
-    const eventIndex = this.actionDisplay.isEventCommand(choice);
-    if (eventIndex) {
-      const event = this.actionDisplay.getEventByIndex(eventIndex);
-      if (event) {
-        await this.executeEvent(event);
+    // 检查是否是实体选择
+    const entityIndex = this.entityDisplay.isEntityCommand(choice);
+    if (entityIndex) {
+      const entity = this.entityDisplay.getEntityByIndex(entityIndex);
+      if (entity) {
+        await this.showEntityEvents(entity);
         return;
       }
     }
 
-    // 系统命令
-    const systemCommand = this.actionDisplay.isSystemCommand(choice);
+    // 检查系统命令
+    const systemCommand = this.entityDisplay.isSystemCommand(choice);
     if (systemCommand) {
       await this.handleSystemCommand(systemCommand);
       return;
@@ -120,11 +126,63 @@ export class GameController {
     console.log(this.resultDisplay.displayError(''));
   }
 
-  private async executeEvent(event: AvailableEvent): Promise<void> {
-    const texts = this.localization.getTexts();
+  private async showEntityEvents(entity: AvailableEntity): Promise<void> {
+    while (true) {
+      const entityEventsData = await this.gameService.getEntityEvents(entity.entity_id);
+      if (!entityEventsData) {
+        const errorMessage = this.localization.getCurrentLanguage() === 'zh' ? 
+          '❌ 无法获取实体交互选项' : '❌ Cannot get entity interaction options';
+        console.log(errorMessage);
+        return;
+      }
+
+      this.displayGameStatus();
+      const entityEventsOutput = this.entityDisplay.displayEntityEvents(entityEventsData);
+      console.log(entityEventsOutput);
+      
+      const choice = await this.getUserInput(
+        this.localization.getCurrentLanguage() === 'zh' ? 
+          '请选择交互选项 (输入数字或字母): ' : 
+          'Please choose an interaction option (enter number or letter): '
+      );
+      console.log();
+      
+      const trimmedChoice = choice.trim().toLowerCase();
+      
+      // 检查是否是返回命令
+      if (this.entityDisplay.isBackCommand(trimmedChoice)) {
+        return; // 返回到主游戏循环
+      }
+
+      // 检查是否是事件选择
+      const eventIndex = this.entityDisplay.isEventCommand(trimmedChoice);
+      if (eventIndex) {
+        const event = this.entityDisplay.getEventByIndex(eventIndex);
+        if (event) {
+          await this.executeEntityEvent(event);
+          // 事件执行后继续循环，显示更新后的实体事件
+          continue;
+        }
+      }
+
+      // 检查系统命令
+      const systemCommand = this.entityDisplay.isSystemCommand(trimmedChoice);
+      if (systemCommand) {
+        await this.handleSystemCommand(systemCommand);
+        // 系统命令执行后继续显示实体事件
+        continue;
+      }
+
+      // 无效选择
+      console.log(this.resultDisplay.displayError(''));
+    }
+  }
+
+  private async executeEntityEvent(event: EntityEvent): Promise<void> {
     const language = this.localization.getCurrentLanguage();
+    const eventName = language === 'zh' ? event.event_name_cn : event.event_name_en;
     
-    console.log(this.resultDisplay.displayEventConfirmation(getEventName(event, language), event.time_cost));
+    console.log(this.resultDisplay.displayEventConfirmation(eventName, event.time_cost));
     
     const result = await this.gameService.executeEvent(event.event_id);
     console.log(this.resultDisplay.displayEventResult(result));
@@ -234,6 +292,10 @@ export class GameController {
 
   public async getAvailableEvents(): Promise<AvailableEvent[]> {
     return this.availableEvents;
+  }
+
+  public async getAvailableEntities(): Promise<AvailableEntity[]> {
+    return this.availableEntities;
   }
 
   public getCurrentLocation(): LocationInfo | null {

@@ -75,6 +75,7 @@ export interface Item {
 export interface Entity {
   entity_id: number;
   entity_name: string;
+  entity_name_en: string;
   entity_type: 'person' | 'object' | 'facility';
   location: number;
   available_events: number[];
@@ -184,6 +185,8 @@ export type CommandType =
   | 'query_resource' 
   | 'query_location' 
   | 'query_available_events'
+  | 'query_available_entities'
+  | 'query_entity_events'
   | 'query_inventory'
   | 'use_item'
   | 'save_game'

@@ -19,6 +19,30 @@ export interface AvailableEvent {
   time_cost: number;
 }
 
+export interface AvailableEntity {
+  entity_id: number;
+  entity_name: string;
+  entity_name_en: string;
+  entity_type: string;
+  can_interact: boolean;
+  available_events_count: number;
+}
+
+export interface EntityEvent {
+  event_id: number;
+  event_name_cn: string;
+  event_name_en: string;
+  time_cost: number;
+  can_execute: boolean;
+}
+
+export interface EntityEventsData {
+  entity_id: number;
+  entity_name: string;
+  entity_name_en: string;
+  available_events: EntityEvent[];
+}
+
 export interface EventResult {
   success: boolean;
   game_text?: string;

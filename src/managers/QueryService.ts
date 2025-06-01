@@ -243,4 +243,112 @@ export class QueryService {
       data: { endings }
     };
   }
+
+  // New methods for entity-based interaction
+  queryAvailableEntities(language: Language = 'zh') {
+    const currentLocation = this.resourceManager.getResourceValue(61);
+    const conditionParser = new ConditionParser(
+      this.resourceManager.getAllResourceValues(),
+      this.timeManager.getTimeInfo()
+    );
+    const availableEntities: Array<{
+      entity_id: number;
+      entity_name: string;
+      entity_name_en: string;
+      entity_type: string;
+      can_interact: boolean;
+      available_events_count: number;
+    }> = [];
+    
+    this.dataManager.getAllEntities().forEach((entity, id) => {
+      if (entity.location === currentLocation) {
+        // Check if player can interact with this entity
+        const canInteract = conditionParser.evaluate(entity.interaction_requirements || 'always');
+        
+        // Count available events for this entity
+        let availableEventsCount = 0;
+        if (canInteract) {
+          entity.available_events.forEach(eventId => {
+            const event = this.dataManager.getEvent(eventId);
+            if (event && conditionParser.evaluate(event.condition_expression)) {
+              availableEventsCount++;
+            }
+          });
+        }
+        
+        availableEntities.push({
+          entity_id: id,
+          entity_name: entity.entity_name,
+          entity_name_en: entity.entity_name_en,
+          entity_type: entity.entity_type,
+          can_interact: canInteract,
+          available_events_count: availableEventsCount
+        });
+      }
+    });
+    
+    return {
+      type: 'query_result',
+      data: {
+        location_id: currentLocation,
+        available_entities: availableEntities
+      }
+    };
+  }
+
+  queryEntityEvents(entityId: number, language: Language = 'zh') {
+    const entity = this.dataManager.getEntity(entityId);
+    if (!entity) {
+      return {
+        type: 'error',
+        error: language === 'zh' ? '实体不存在' : 'Entity not found'
+      };
+    }
+
+    const conditionParser = new ConditionParser(
+      this.resourceManager.getAllResourceValues(),
+      this.timeManager.getTimeInfo()
+    );
+
+    // Check if player can interact with this entity
+    const canInteract = conditionParser.evaluate(entity.interaction_requirements || 'always');
+    if (!canInteract) {
+      return {
+        type: 'error',
+        error: language === 'zh' ? '无法与此实体交互' : 'Cannot interact with this entity'
+      };
+    }
+
+    const availableEvents: Array<{
+      event_id: number;
+      event_name_cn: string;
+      event_name_en: string;
+      time_cost: number;
+      can_execute: boolean;
+    }> = [];
+
+    entity.available_events.forEach(eventId => {
+      const event = this.dataManager.getEvent(eventId);
+      if (event) {
+        const canExecute = conditionParser.evaluate(event.condition_expression);
+        availableEvents.push({
+          event_id: event.event_id,
+          event_name_cn: event.event_name_cn,
+          event_name_en: event.event_name_en,
+          time_cost: event.time_cost,
+          can_execute: canExecute
+        });
+      }
+    });
+
+    return {
+      type: 'query_result',
+      data: {
+        entity_id: entityId,
+        entity_name: entity.entity_name,
+        entity_name_en: entity.entity_name_en,
+        available_events: availableEvents
+      }
+    };
+  }
 } 

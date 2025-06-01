@@ -2,6 +2,9 @@ import { sendCommand } from '../../index';
 import {
   GameState,
   AvailableEvent,
+  AvailableEntity,
+  EntityEvent,
+  EntityEventsData,
   EventResult,
   InventoryItem,
   LocationInfo,
@@ -55,6 +58,29 @@ export class GameService {
       return response.data.available_events || [];
     }
     return [];
+  }
+
+  async getAvailableEntities(): Promise<AvailableEntity[]> {
+    const response = this.sendCommand({ 
+      type: 'query_available_entities',
+      language: this.currentLanguage
+    });
+    if (response.type === 'query_result') {
+      return response.data.available_entities || [];
+    }
+    return [];
+  }
+
+  async getEntityEvents(entityId: number): Promise<EntityEventsData | null> {
+    const response = this.sendCommand({ 
+      type: 'query_entity_events',
+      params: { entity_id: entityId },
+      language: this.currentLanguage
+    });
+    if (response.type === 'query_result') {
+      return response.data;
+    }
+    return null;
   }
 
   async getCurrentLocation(): Promise<LocationInfo | null> {

@@ -107,15 +107,40 @@ export class CSVLoader {
   }
 
   loadEntities(): Entity[] {
-    const entities = this.parseCSV<Entity>(join(this.basePath, 'entities.csv'));
-    return entities.map(entity => {
-      // Parse available_events array
-      if (typeof entity.available_events === 'string') {
-        entity.available_events = (entity.available_events as string)
-          .split(';')
-          .map(e => parseInt(e.trim()))
-          .filter(e => !isNaN(e));
+    const rawEntities = this.parseCSV<any>(join(this.basePath, 'entities.csv'));
+    return rawEntities.map(rawEntity => {
+      // Determine entity type based on entity name
+      let entityType: 'person' | 'object' | 'facility' = 'object';
+      const entityName = rawEntity.entity_name.toLowerCase();
+      if (entityName.includes('老板') || entityName.includes('同事') || entityName.includes('售货员') || 
+          entityName.includes('服务员') || entityName.includes('医生') || entityName.includes('护士') || 
+          entityName.includes('路人')) {
+        entityType = 'person';
+      } else if (entityName.includes('会议室') || entityName.includes('走廊') || entityName.includes('厕所') || 
+                 entityName.includes('食堂') || entityName.includes('长椅') || entityName.includes('街道')) {
+        entityType = 'facility';
       }
+
+      // Map CSV field names to Entity interface fields
+      const entity: Entity = {
+        entity_id: rawEntity.entity_id,
+        entity_name: rawEntity.entity_name,
+        entity_name_en: rawEntity.entity_name_en,
+        entity_type: entityType,
+        location: rawEntity.location_id,
+        available_events: [],
+        interaction_requirements: rawEntity.interaction_conditions || 'always'
+      };
+
+      // Parse available_events string (comma-separated in quotes)
+      if (typeof rawEntity.available_events === 'string') {
+        const eventsStr = rawEntity.available_events.replace(/"/g, ''); // Remove quotes
+        entity.available_events = eventsStr
+          .split(',')
+          .map((e: string) => parseInt(e.trim()))
+          .filter((e: number) => !isNaN(e));
+      }
+
       return entity;
     });
   }

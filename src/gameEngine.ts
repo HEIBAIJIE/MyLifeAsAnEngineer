@@ -62,6 +62,10 @@ export class GameEngine {
           return this.queryService.queryLocation(command.params?.location_id, language);
         case 'query_available_events':
           return this.queryService.queryAvailableEvents(language);
+        case 'query_available_entities':
+          return this.queryService.queryAvailableEntities(language);
+        case 'query_entity_events':
+          return this.queryService.queryEntityEvents(command.params?.entity_id, language);
         case 'query_inventory':
           return this.queryService.queryInventory(language);
         case 'use_item':
