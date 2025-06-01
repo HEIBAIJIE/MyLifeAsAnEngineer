@@ -9,8 +9,18 @@ import {
   Ending,
   GameText
 } from '../types';
-import { CSVLoader } from '../csvLoader';
 import { Language, getResourceName, getTaskName, getEventName, getLocalizedText } from '../utils';
+
+// 条件导入：在浏览器环境中使用浏览器版本的CSVLoader
+declare const window: any;
+let CSVLoader: any;
+if (typeof window !== 'undefined') {
+  // 浏览器环境
+  CSVLoader = require('../csvLoader.browser').CSVLoader;
+} else {
+  // Node.js环境
+  CSVLoader = require('../csvLoader').CSVLoader;
+}
 
 export class GameDataManager {
   private resources: Map<number, Resource> = new Map();
@@ -32,14 +42,14 @@ export class GameDataManager {
     const data = loader.loadAllData();
     
     // Convert arrays to maps for efficient lookup
-    data.resources.forEach(r => this.resources.set(r.resource_id, r));
-    data.events.forEach(e => this.events.set(e.event_id, e));
-    data.items.forEach(i => this.items.set(i.item_id, i));
-    data.entities.forEach(e => this.entities.set(e.entity_id, e));
-    data.temporaryEvents.forEach(t => this.temporaryEvents.set(t.temp_event_id, t));
-    data.scheduledTasks.forEach(s => this.scheduledTasks.set(s.task_id, s));
-    data.locations.forEach(l => this.locations.set(l.location_id, l));
-    data.endings.forEach(e => this.endings.set(e.ending_id, e));
+    data.resources.forEach((r: Resource) => this.resources.set(r.resource_id, r));
+    data.events.forEach((e: Event) => this.events.set(e.event_id, e));
+    data.items.forEach((i: Item) => this.items.set(i.item_id, i));
+    data.entities.forEach((e: Entity) => this.entities.set(e.entity_id, e));
+    data.temporaryEvents.forEach((t: TemporaryEvent) => this.temporaryEvents.set(t.temp_event_id, t));
+    data.scheduledTasks.forEach((s: ScheduledTask) => this.scheduledTasks.set(s.task_id, s));
+    data.locations.forEach((l: Location) => this.locations.set(l.location_id, l));
+    data.endings.forEach((e: Ending) => this.endings.set(e.ending_id, e));
     this.gameTexts = data.gameTexts;
   }
 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的工程师生活 - My Life As An Engineer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 开始页面 -->
+        <div id="start-screen" class="screen active">
+            <div class="pixel-border">
+                <h1 class="game-title">我的工程师生活</h1>
+                <h2 class="game-subtitle">My Life As An Engineer</h2>
+                <div class="menu-options">
+                    <button class="pixel-button" id="new-game-btn">开始新游戏</button>
+                    <button class="pixel-button" id="load-game-btn">读取存档</button>
+                    <button class="pixel-button" id="exit-game-btn">退出游戏</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 读档对话框 -->
+        <div id="load-dialog" class="dialog" style="display: none;">
+            <div class="dialog-content">
+                <h3>读取存档</h3>
+                <textarea id="save-input" placeholder="请输入BASE64存档数据..."></textarea>
+                <div class="dialog-buttons">
+                    <button class="pixel-button" id="confirm-load-btn">确认读取</button>
+                    <button class="pixel-button" id="cancel-load-btn">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 场景页面 -->
+        <div id="scene-screen" class="screen">
+            <div class="game-ui">
+                <!-- 顶部状态栏 -->
+                <div id="status-bar" class="status-bar">
+                    <!-- 状态信息将在这里动态生成 -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="pixel-button small" id="save-btn">存档</button>
+                    <button class="pixel-button small" id="load-btn">读档</button>
+                    <button class="pixel-button small" id="inventory-btn">物品栏</button>
+                    <button class="pixel-button small" id="worldmap-btn">大地图</button>
+                    <button class="pixel-button small" id="lang-btn">中文</button>
+                </div>
+
+                <!-- 主游戏区域 -->
+                <div class="main-game-area">
+                    <!-- 左侧：角色状态 -->
+                    <div id="character-status" class="character-status">
+                        <!-- 角色状态将在这里动态生成 -->
+                    </div>
+
+                    <!-- 右侧：交互区域 -->
+                    <div id="actions-container" class="actions-container">
+                        <!-- 实体和事件将在这里动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 事件结果对话框 -->
+        <div id="event-dialog" class="dialog" style="display: none;">
+            <div class="dialog-content">
+                <div id="event-content">
+                    <!-- 事件内容将在这里动态生成 -->
+                </div>
+                <button class="pixel-button" id="close-event-btn">关闭</button>
+            </div>
+        </div>
+
+        <!-- 物品栏对话框 -->
+        <div id="inventory-dialog" class="dialog" style="display: none;">
+            <div class="dialog-content">
+                <h3>物品栏</h3>
+                <div id="inventory-list" class="inventory-list">
+                    <!-- 物品列表将在这里动态生成 -->
+                </div>
+                <button class="pixel-button" id="close-inventory-btn">关闭</button>
+            </div>
+        </div>
+
+        <!-- 存档对话框 -->
+        <div id="save-dialog" class="dialog" style="display: none;">
+            <div class="dialog-content">
+                <h3>游戏存档</h3>
+                <p>请复制以下存档数据：</p>
+                <textarea id="save-data-text" readonly></textarea>
+                <button class="pixel-button" id="copy-save-btn">复制存档</button>
+                <button class="pixel-button" id="close-save-btn">关闭</button>
+            </div>
+        </div>
+
+        <!-- 大地图页面 -->
+        <div id="worldmap-screen" class="screen">
+            <div class="worldmap-container">
+                <h2>世界地图</h2>
+                <div id="worldmap-container" class="map-grid">
+                    <!-- 地图位置将在这里动态生成 -->
+                </div>
+                <button class="pixel-button back-btn" id="back-to-scene-btn">返回场景</button>
+            </div>
+        </div>
+
+        <!-- 结局页面 -->
+        <div id="ending-screen" class="screen">
+            <div class="ending-container">
+                <div id="ending-content" class="ending-content">
+                    <!-- 结局内容将在这里动态生成 -->
+                </div>
+                <div class="ending-actions">
+                    <button class="pixel-button" id="restart-game-btn">重新开始</button>
+                    <button class="pixel-button" id="back-to-menu-btn">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="backend-adapter.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 
