@@ -12,4 +12,21 @@ global.console = {
 };
 
 // Set up global test timeout
-jest.setTimeout(10000); 
+jest.setTimeout(10000);
+
+// Setup for all tests
+import 'jest';
+
+// Add btoa and atob polyfills for Node.js environment
+global.btoa = (str: string): string => {
+  return Buffer.from(str, 'binary').toString('base64');
+};
+
+global.atob = (str: string): string => {
+  return Buffer.from(str, 'base64').toString('binary');
+};
+
+// Setup common test configuration
+beforeEach(() => {
+  jest.clearAllMocks();
+}); 

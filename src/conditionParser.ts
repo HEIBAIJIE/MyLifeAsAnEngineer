@@ -122,6 +122,28 @@ export class ConditionParser {
     if (expression === 'true') return 1;
     if (expression === 'false') return 0;
     
+    // Handle simple attribute names mapped to resource IDs
+    const attributeMapping: Record<string, number> = {
+      'time': 1,
+      'money': 2,
+      'health': 13,
+      'fatigue': 14,
+      'hunger': 15,
+      'rational': 16,
+      'emotional': 17,
+      'focus': 18,
+      'mood': 19,
+      'skill': 20,
+      'boss_dissatisfaction': 21,
+      'job_level': 22,
+      'project_progress': 23,
+      'location': 61
+    };
+    
+    if (attributeMapping[expression]) {
+      return this.resources[attributeMapping[expression]] || 0;
+    }
+    
     // Handle numeric values
     const num = parseFloat(expression);
     if (!isNaN(num)) return num;

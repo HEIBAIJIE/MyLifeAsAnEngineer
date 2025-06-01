@@ -58,8 +58,11 @@ export class SaveManager {
     return (
       state &&
       typeof state === 'object' &&
+      state.resources !== null && 
       typeof state.resources === 'object' &&
+      state.temporary_event_triggers !== null &&
       typeof state.temporary_event_triggers === 'object' &&
+      state.last_task_triggers !== null &&
       typeof state.last_task_triggers === 'object' &&
       typeof state.game_over === 'boolean'
     );

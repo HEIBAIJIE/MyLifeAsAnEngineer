@@ -380,6 +380,9 @@ export class EventProcessor {
       if (typeof task.money_change === 'string') {
         if (task.money_change.startsWith('calc[') || task.money_change.startsWith('conditional[')) {
           moneyChange = conditionParser.evaluateExpression(task.money_change);
+        } else {
+          // Handle simple numeric strings
+          moneyChange = parseFloat(task.money_change) || 0;
         }
       } else {
         moneyChange = task.money_change;
