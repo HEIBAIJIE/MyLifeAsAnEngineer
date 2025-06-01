@@ -4,6 +4,7 @@ import { getEventName } from '../../utils';
 
 export class ActionMenuDisplay {
   private localization: LocalizationService;
+  private displayedEvents: AvailableEvent[] = [];
 
   constructor() {
     this.localization = LocalizationService.getInstance();
@@ -13,7 +14,8 @@ export class ActionMenuDisplay {
     const texts = this.localization.getTexts();
     const language = this.localization.getCurrentLanguage();
     let output = '';
-    
+    this.displayedEvents = [];
+
     output += '┌─────────────────────────────────────────────────────────────┐\n';
     output += `│ ${texts.availableActions}\n`;
     output += '├─────────────────────────────────────────────────────────────┤\n';
@@ -36,6 +38,7 @@ export class ActionMenuDisplay {
         output += `│  ${texts.quickActions}\n`;
         for (const event of shortEvents.slice(0, 5)) {
           output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
+          this.displayedEvents.push(event);
           eventIndex++;
         }
       }
@@ -44,6 +47,7 @@ export class ActionMenuDisplay {
         output += `│  ${texts.mediumActions}\n`;
         for (const event of mediumEvents.slice(0, 5)) {
           output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
+          this.displayedEvents.push(event);
           eventIndex++;
         }
       }
@@ -52,6 +56,7 @@ export class ActionMenuDisplay {
         output += `│  ${texts.longActions}\n`;
         for (const event of longEvents.slice(0, 3)) {
           output += `│   [${eventIndex}] ${getEventName(event, language)} (${event.time_cost * 0.5}${texts.hour})\n`;
+          this.displayedEvents.push(event);
           eventIndex++;
         }
       }
@@ -67,10 +72,10 @@ export class ActionMenuDisplay {
     return output;
   }
 
-  getEventByIndex(availableEvents: AvailableEvent[], index: number): AvailableEvent | null {
+  getEventByIndex(index: number): AvailableEvent | null {
     const eventArrayIndex = index - 7;
-    if (eventArrayIndex >= 0 && eventArrayIndex < availableEvents.length) {
-      return availableEvents[eventArrayIndex];
+    if (eventArrayIndex >= 0 && eventArrayIndex < this.displayedEvents.length) {
+      return this.displayedEvents[eventArrayIndex];
     }
     return null;
   }

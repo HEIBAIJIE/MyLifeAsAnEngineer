@@ -110,7 +110,7 @@ export class GameController {
     // 事件执行
     const eventIndex = this.actionDisplay.isEventCommand(choice);
     if (eventIndex) {
-      const event = this.actionDisplay.getEventByIndex(this.availableEvents, eventIndex);
+      const event = this.actionDisplay.getEventByIndex(eventIndex);
       if (event) {
         await this.executeEvent(event);
         return;
