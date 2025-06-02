@@ -32,10 +32,11 @@ module.exports = {
   },
   output: {
     filename: 'game-engine.js',
-    path: path.resolve(__dirname, 'frontend-web/dist'),
+    path: path.resolve(__dirname, 'frontend-web/public/dist'),
     library: 'GameEngineBackend',
     libraryTarget: 'umd',
-    globalObject: 'this'
+    globalObject: 'this',
+    clean: true
   },
   optimization: {
     minimize: false // 保持代码可读性，便于调试

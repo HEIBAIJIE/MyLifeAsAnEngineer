@@ -32,6 +32,8 @@ export class GameDataManager {
   private locations: Map<number, Location> = new Map();
   private endings: Map<number, Ending> = new Map();
   private gameTexts: Map<number, GameText> = new Map();
+  private dataLoaded: boolean = false;
+  private loadingPromise: Promise<void> | null = null;
 
   constructor() {
     this.loadGameData();
@@ -39,8 +41,31 @@ export class GameDataManager {
 
   private loadGameData() {
     const loader = new CSVLoader();
-    const data = loader.loadAllData();
     
+    // Check if we're in browser environment and need async loading
+    if (typeof window !== 'undefined') {
+      this.loadingPromise = this.loadGameDataAsync(loader);
+    } else {
+      this.loadGameDataSync(loader);
+    }
+  }
+
+  private async loadGameDataAsync(loader: any) {
+    try {
+      const data = await loader.loadAllData();
+      this.processLoadedData(data);
+    } catch (error) {
+      console.error('Error loading game data:', error);
+      throw error;
+    }
+  }
+
+  private loadGameDataSync(loader: any) {
+    const data = loader.loadAllData();
+    this.processLoadedData(data);
+  }
+
+  private processLoadedData(data: any) {
     console.log('Loading game data...');
     console.log('Events from CSV loader:', data.events.length);
     console.log('First 10 events:', data.events.slice(0, 10));
@@ -70,83 +95,265 @@ export class GameDataManager {
       endings: this.endings.size,
       gameTexts: this.gameTexts.size
     });
+
+    this.dataLoaded = true;
   }
 
-  // Getter methods
+  // Method to ensure data is loaded before accessing it
+  async ensureDataLoaded(): Promise<void> {
+    if (this.dataLoaded) {
+      return;
+    }
+    if (this.loadingPromise) {
+      await this.loadingPromise;
+    }
+    if (!this.dataLoaded) {
+      throw new Error('Game data failed to load');
+    }
+  }
+
+  // Async getter methods for browser compatibility
+  async getResourceAsync(id: number): Promise<Resource | undefined> {
+    await this.ensureDataLoaded();
+    return this.resources.get(id);
+  }
+
+  async getEventAsync(id: number): Promise<Event | undefined> {
+    await this.ensureDataLoaded();
+    return this.events.get(id);
+  }
+
+  async getItemAsync(id: number): Promise<Item | undefined> {
+    await this.ensureDataLoaded();
+    return this.items.get(id);
+  }
+
+  async getEntityAsync(id: number): Promise<Entity | undefined> {
+    await this.ensureDataLoaded();
+    return this.entities.get(id);
+  }
+
+  async getTemporaryEventAsync(id: number): Promise<TemporaryEvent | undefined> {
+    await this.ensureDataLoaded();
+    return this.temporaryEvents.get(id);
+  }
+
+  async getScheduledTaskAsync(id: number): Promise<ScheduledTask | undefined> {
+    await this.ensureDataLoaded();
+    return this.scheduledTasks.get(id);
+  }
+
+  async getLocationAsync(id: number): Promise<Location | undefined> {
+    await this.ensureDataLoaded();
+    return this.locations.get(id);
+  }
+
+  async getEndingAsync(id: number): Promise<Ending | undefined> {
+    await this.ensureDataLoaded();
+    return this.endings.get(id);
+  }
+
+  async getGameTextAsync(id: number): Promise<GameText | undefined> {
+    await this.ensureDataLoaded();
+    return this.gameTexts.get(id);
+  }
+
+  // Synchronous getter methods (for backward compatibility, will throw if data not loaded in browser)
   getResource(id: number): Resource | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getResourceAsync() in browser environment.');
+    }
     return this.resources.get(id);
   }
 
   getEvent(id: number): Event | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getEventAsync() in browser environment.');
+    }
     return this.events.get(id);
   }
 
   getItem(id: number): Item | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getItemAsync() in browser environment.');
+    }
     return this.items.get(id);
   }
 
   getEntity(id: number): Entity | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getEntityAsync() in browser environment.');
+    }
     return this.entities.get(id);
   }
 
   getTemporaryEvent(id: number): TemporaryEvent | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getTemporaryEventAsync() in browser environment.');
+    }
     return this.temporaryEvents.get(id);
   }
 
   getScheduledTask(id: number): ScheduledTask | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getScheduledTaskAsync() in browser environment.');
+    }
     return this.scheduledTasks.get(id);
   }
 
   getLocation(id: number): Location | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getLocationAsync() in browser environment.');
+    }
     return this.locations.get(id);
   }
 
   getEnding(id: number): Ending | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getEndingAsync() in browser environment.');
+    }
     return this.endings.get(id);
   }
 
   getGameText(id: number): GameText | undefined {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getGameTextAsync() in browser environment.');
+    }
     return this.gameTexts.get(id);
   }
 
   // Collection getters
+  async getAllResourcesAsync(): Promise<Map<number, Resource>> {
+    await this.ensureDataLoaded();
+    return this.resources;
+  }
+
+  async getAllEventsAsync(): Promise<Map<number, Event>> {
+    await this.ensureDataLoaded();
+    return this.events;
+  }
+
+  async getAllItemsAsync(): Promise<Map<number, Item>> {
+    await this.ensureDataLoaded();
+    return this.items;
+  }
+
+  async getAllEntitiesAsync(): Promise<Map<number, Entity>> {
+    await this.ensureDataLoaded();
+    return this.entities;
+  }
+
+  async getAllTemporaryEventsAsync(): Promise<Map<number, TemporaryEvent>> {
+    await this.ensureDataLoaded();
+    return this.temporaryEvents;
+  }
+
+  async getAllScheduledTasksAsync(): Promise<Map<number, ScheduledTask>> {
+    await this.ensureDataLoaded();
+    return this.scheduledTasks;
+  }
+
+  async getAllLocationsAsync(): Promise<Map<number, Location>> {
+    await this.ensureDataLoaded();
+    return this.locations;
+  }
+
+  async getAllEndingsAsync(): Promise<Map<number, Ending>> {
+    await this.ensureDataLoaded();
+    return this.endings;
+  }
+
+  async getAllGameTextsAsync(): Promise<Map<number, GameText>> {
+    await this.ensureDataLoaded();
+    return this.gameTexts;
+  }
+
+  // Synchronous collection getters (for backward compatibility)
   getAllResources(): Map<number, Resource> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllResourcesAsync() in browser environment.');
+    }
     return this.resources;
   }
 
   getAllEvents(): Map<number, Event> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllEventsAsync() in browser environment.');
+    }
     return this.events;
   }
 
   getAllItems(): Map<number, Item> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllItemsAsync() in browser environment.');
+    }
     return this.items;
   }
 
   getAllEntities(): Map<number, Entity> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllEntitiesAsync() in browser environment.');
+    }
     return this.entities;
   }
 
   getAllTemporaryEvents(): Map<number, TemporaryEvent> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllTemporaryEventsAsync() in browser environment.');
+    }
     return this.temporaryEvents;
   }
 
   getAllScheduledTasks(): Map<number, ScheduledTask> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllScheduledTasksAsync() in browser environment.');
+    }
     return this.scheduledTasks;
   }
 
   getAllLocations(): Map<number, Location> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllLocationsAsync() in browser environment.');
+    }
     return this.locations;
   }
 
   getAllEndings(): Map<number, Ending> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllEndingsAsync() in browser environment.');
+    }
     return this.endings;
   }
 
   getAllGameTexts(): Map<number, GameText> {
+    if (!this.dataLoaded && typeof window !== 'undefined') {
+      throw new Error('Game data not loaded yet. Use getAllGameTextsAsync() in browser environment.');
+    }
     return this.gameTexts;
   }
 
   // Localized getter methods
+  async getResourceNameAsync(id: number, language: Language = 'zh'): Promise<string> {
+    const resource = await this.getResourceAsync(id);
+    return resource ? getResourceName(resource, language) : `Resource ${id}`;
+  }
+
+  async getTaskNameAsync(id: number, language: Language = 'zh'): Promise<string> {
+    const task = await this.getScheduledTaskAsync(id);
+    return task ? getTaskName(task, language) : `Task ${id}`;
+  }
+
+  async getTemporaryEventNameAsync(id: number, language: Language = 'zh'): Promise<string> {
+    const event = await this.getTemporaryEventAsync(id);
+    return event ? getEventName(event, language) : `Event ${id}`;
+  }
+
+  async getLocalizedGameTextAsync(id: number, language: Language = 'zh'): Promise<string> {
+    const gameText = await this.getGameTextAsync(id);
+    return gameText ? getLocalizedText(gameText, language) : `Text ${id}`;
+  }
+
+  // Synchronous localized getters (for backward compatibility)
   getResourceName(id: number, language: Language = 'zh'): string {
     const resource = this.getResource(id);
     return resource ? getResourceName(resource, language) : `Resource ${id}`;

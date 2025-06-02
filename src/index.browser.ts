@@ -11,6 +11,9 @@ class BrowserGameEngine extends GameEngine {
     try {
       console.log('Initializing Browser GameEngine...');
       
+      // 首先调用父类的初始化方法来初始化ResourceManager
+      await super.initialize();
+      
       // 数据管理器在构造函数中已经初始化了数据
       const dataManager = this.getDataManager();
       

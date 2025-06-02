@@ -4,27 +4,28 @@
   "description": "Backend for My Life As An Engineer game",
   "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node start-game.ts",
-    "build": "tsc",
-    "build:browser": "webpack --mode=production && cp frontend-web/dist/game-engine.js frontend-web/public/dist/game-engine.js",
-    "build:browser:dev": "webpack --mode=development && cp frontend-web/dist/game-engine.js frontend-web/public/dist/game-engine.js",
-    "build:browser:watch": "webpack --mode=development --watch",
-    "dev": "npm run dev:build-and-serve",
-    "dev:parallel": "concurrently \"npm run dev:backend\" \"npm run dev:frontend:delayed\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",
-    "dev:backend": "npm run build:browser:watch",
-    "dev:frontend": "cd frontend-web && npm run dev",
-    "dev:frontend:delayed": "npm run wait-for-backend && npm run dev:frontend",
-    "dev:build-and-serve": "npm run build:browser:dev && concurrently \"npm run dev:backend\" \"npm run dev:frontend\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",
-    "wait-for-backend": "node scripts/wait-for-backend.js",
-    "frontend": "ts-node src/frontend/index.ts",
+    "clean": "rimraf dist frontend-web/dist",
+    
+    "build:backend": "tsc",
+    "build:cli": "npm run build:backend",
+    "build:web-backend": "webpack --mode=production",
+    "build:web-frontend": "cd frontend-web && npm run build",
+    "build:web": "npm run clean && npm run build:web-backend && npm run build:web-frontend",
+    
+    "dev:backend": "tsc --watch",
+    "dev:cli": "ts-node start-game.ts",
+    "dev:web-backend": "webpack --mode=development --watch",
+    "dev:web-frontend": "cd frontend-web && npm run dev",
+    "dev:web": "concurrently \"npm run dev:web-backend\" \"npm run dev:web-frontend\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\"",
+    
+    "start:cli": "npm run build:cli && node dist/index.js",
+    "start:web": "npm run build:web && cd frontend-web && npm run preview",
+    
+    "install:all": "npm install && cd frontend-web && npm install",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:frontend": "jest test/frontend",
-    "lint": "tslint src/**/*.ts",
-    "clean": "rimraf dist frontend-web/dist",
-    "install:all": "npm install && cd frontend-web && npm install",
-    "build:all": "npm run build:browser && cd frontend-web && npm run build"
+    "test:frontend": "jest test/frontend"
   },
   "keywords": [
     "game",

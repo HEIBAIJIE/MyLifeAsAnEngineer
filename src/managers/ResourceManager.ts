@@ -1,6 +1,9 @@
 import { Resource, GameState } from '../types';
 import { GameDataManager } from './GameDataManager';
 
+// Declare window for browser environment check
+declare const window: any;
+
 export class ResourceManager {
   private gameState: GameState;
   private dataManager: GameDataManager;
@@ -14,24 +17,46 @@ export class ResourceManager {
       game_over: false,
       current_ending: undefined
     };
-    this.initializeResources();
   }
 
-  private initializeResources() {
-    // Initialize resource values from data
-    this.dataManager.getAllResources().forEach((resource, id) => {
-      this.gameState.resources[id] = resource.initial_value;
-    });
+  async initialize(): Promise<void> {
+    await this.initializeResources();
+  }
 
-    // Initialize temporary event triggers
-    this.dataManager.getAllTemporaryEvents().forEach((tempEvent, id) => {
-      this.gameState.temporary_event_triggers[id] = 0;
-    });
+  private async initializeResources(): Promise<void> {
+    // In browser environment, use async methods
+    if (typeof window !== 'undefined') {
+      // Initialize resource values from data
+      const resources = await this.dataManager.getAllResourcesAsync();
+      resources.forEach((resource, id) => {
+        this.gameState.resources[id] = resource.initial_value;
+      });
 
-    // Initialize scheduled task triggers
-    this.dataManager.getAllScheduledTasks().forEach((task, id) => {
-      this.gameState.last_task_triggers[id] = 0;
-    });
+      // Initialize temporary event triggers
+      const temporaryEvents = await this.dataManager.getAllTemporaryEventsAsync();
+      temporaryEvents.forEach((tempEvent, id) => {
+        this.gameState.temporary_event_triggers[id] = 0;
+      });
+
+      // Initialize scheduled task triggers
+      const scheduledTasks = await this.dataManager.getAllScheduledTasksAsync();
+      scheduledTasks.forEach((task, id) => {
+        this.gameState.last_task_triggers[id] = 0;
+      });
+    } else {
+      // In Node.js environment, use sync methods
+      this.dataManager.getAllResources().forEach((resource, id) => {
+        this.gameState.resources[id] = resource.initial_value;
+      });
+
+      this.dataManager.getAllTemporaryEvents().forEach((tempEvent, id) => {
+        this.gameState.temporary_event_triggers[id] = 0;
+      });
+
+      this.dataManager.getAllScheduledTasks().forEach((task, id) => {
+        this.gameState.last_task_triggers[id] = 0;
+      });
+    }
   }
 
   // Resource value operations

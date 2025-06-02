@@ -47,6 +47,10 @@ export class GameEngine {
     this.saveManager = new SaveManager(this.resourceManager);
   }
 
+  async initialize(): Promise<void> {
+    await this.resourceManager.initialize();
+  }
+
   // Command processing methods
   processCommand(commandStr: string): any {
     try {
