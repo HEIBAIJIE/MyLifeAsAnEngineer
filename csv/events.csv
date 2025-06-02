@@ -69,46 +69,46 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 68,私下宴请（同事1）,Private dinner (Colleague 1),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,38
 69,私下闲聊（同事2）,Private chat (Colleague 2),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,39
 70,交换公司秘闻（同事2）,Exchange company gossip (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,40
-71,请教项目问题（同事2）,Ask about project issues (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,71
-72,绩效沟通（同事2）,Performance communication (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,72
-73,请教技术问题（同事2）,Ask technical questions (Colleague 2),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,73
-74,技术交流（同事2）,Technical exchange (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,315
-75,技术指导（同事2）,Technical guidance (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,301
-76,私下宴请（同事2）,Private dinner (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,302
-77,私下闲聊（同事3）,Private chat (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,77
-78,交换公司秘闻（同事3）,Exchange company gossip (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,303
-79,请教项目问题（同事3）,Ask about project issues (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,304
-80,绩效沟通（同事3）,Performance communication (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,305
-81,请教技术问题（同事3）,Ask technical questions (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,306
-82,技术交流（同事3）,Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,312
-83,技术指导（同事3）,Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,307
-84,私下宴请（同事3）,Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,308
-85,编写代码,Write code,4,1,,,,resource[20]>=5,,,,,,,,,,,,,,,,,,,,,,,,,,85
-86,发呆,Daydreaming,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,86
-87,摸鱼看内网论坛,Browse company forum,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,87
-88,摸鱼打游戏,Play games,4,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,88
-89,特性设计,Feature design,6,1,,,,resource[20]>=20,,,,,,,,,,,,,,,,,,,,,,,,,,89
-90,架构设计,Architecture design,8,1,,,,resource[20]>=25,,,,,,,,,,,,,,,,,,,,,,,,,,90
-91,软件重构,Software refactoring,6,1,,,,resource[20]>=18,,,,,,,,,,,,,,,,,,,,,,,,,,91
-92,学习业界实践,Learn industry practices,4,1,,,,resource[20]>=12,,,,,,,,,,,,,,,,,,,,,,,,,,92
-93,学习项目知识,Learn project knowledge,3,1,,,,resource[20]>=10,,,,,,,,,,,,,,,,,,,,,,,,,,93
-94,与客户沟通,Communicate with clients,3,1,,,,resource[20]>=8,,,,,,,,,,,,,,,,,,,,,,,,,,94
-95,发布技术博客,Publish tech blog,5,1,,,,resource[20]>=15,,,,,,,,,,,,,,,,,,,,,,,,,,309
-96,项目排期与任务跟踪,Project scheduling and task tracking,4,1,,,,resource[20]>=12,,,,,,,,,,,,,,,,,,,,,,,,,,96
-97,构思解决方案,Brainstorm solutions,5,1,,,,resource[20]>=18,,,,,,,,,,,,,,,,,,,,,,,,,,97
-98,技术攻关,Technical breakthrough,10,1,,,,resource[20]>=30,,,,,,,,,,,,,,,,,,,,,,,,,,98
-99,邮件汇报工作进度,Email work progress,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,99
-100,实现技术demo,Implement tech demo,6,1,,,,resource[20]>=20,,,,,,,,,,,,,,,,,,,,,,,,,,100
-101,查看技术新闻,Read tech news,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,101
-102,偷偷投简历,Secretly apply for jobs,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,102
-103,点外卖,Order food delivery,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,103
-104,订咖啡续命,Order coffee for energy,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,104
-105,看工作邮件,Check work emails,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,105
-106,散步思考,Walk and think,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,106
-107,偷听同事交流,Eavesdrop on colleagues,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,107
-108,巡视工作环境,Inspect work environment,2,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,108
-109,寻找空会议室,Find empty meeting room,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,109
-110,上厕所,Use restroom,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,110
+71,请教项目问题（同事2）,Ask about project issues (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,41
+72,绩效沟通（同事2）,Performance communication (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,42
+73,请教技术问题（同事2）,Ask technical questions (Colleague 2),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,43
+74,技术交流（同事2）,Technical exchange (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,44
+75,技术指导（同事2）,Technical guidance (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,45
+76,私下宴请（同事2）,Private dinner (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,46
+77,私下闲聊（同事3）,Private chat (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,47
+78,交换公司秘闻（同事3）,Exchange company gossip (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,48
+79,请教项目问题（同事3）,Ask about project issues (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,49
+80,绩效沟通（同事3）,Performance communication (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,50
+81,请教技术问题（同事3）,Ask technical questions (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,51
+82,技术交流（同事3）,Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,52
+83,技术指导（同事3）,Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,53
+84,私下宴请（同事3）,Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,54
+85,编写代码,Write code,4,1,,,,resource[20]>=5,,,,,,,,,,,,,,,,,,,,,,,,,,55
+86,发呆,Daydreaming,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,56
+87,摸鱼看内网论坛,Browse company forum,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,57
+88,摸鱼打游戏,Play games,4,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,58
+89,特性设计,Feature design,6,1,,,,resource[20]>=20,,,,,,,,,,,,,,,,,,,,,,,,,,59
+90,架构设计,Architecture design,8,1,,,,resource[20]>=25,,,,,,,,,,,,,,,,,,,,,,,,,,60
+91,软件重构,Software refactoring,6,1,,,,resource[20]>=18,,,,,,,,,,,,,,,,,,,,,,,,,,61
+92,学习业界实践,Learn industry practices,4,1,,,,resource[20]>=12,,,,,,,,,,,,,,,,,,,,,,,,,,62
+93,学习项目知识,Learn project knowledge,3,1,,,,resource[20]>=10,,,,,,,,,,,,,,,,,,,,,,,,,,63
+94,与客户沟通,Communicate with clients,3,1,,,,resource[20]>=8,,,,,,,,,,,,,,,,,,,,,,,,,,64
+95,发布技术博客,Publish tech blog,5,1,,,,resource[20]>=15,,,,,,,,,,,,,,,,,,,,,,,,,,65
+96,项目排期与任务跟踪,Project scheduling and task tracking,4,1,,,,resource[20]>=12,,,,,,,,,,,,,,,,,,,,,,,,,,66
+97,构思解决方案,Brainstorm solutions,5,1,,,,resource[20]>=18,,,,,,,,,,,,,,,,,,,,,,,,,,67
+98,技术攻关,Technical breakthrough,10,1,,,,resource[20]>=30,,,,,,,,,,,,,,,,,,,,,,,,,,68
+99,邮件汇报工作进度,Email work progress,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,69
+100,实现技术demo,Implement tech demo,6,1,,,,resource[20]>=20,,,,,,,,,,,,,,,,,,,,,,,,,,70
+101,查看技术新闻,Read tech news,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,71
+102,偷偷投简历,Secretly apply for jobs,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,72
+103,点外卖,Order food delivery,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,73
+104,订咖啡续命,Order coffee for energy,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,74
+105,看工作邮件,Check work emails,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,75
+106,散步思考,Walk and think,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,76
+107,偷听同事交流,Eavesdrop on colleagues,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,77
+108,巡视工作环境,Inspect work environment,2,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,78
+109,寻找空会议室,Find empty meeting room,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,79
+110,上厕所,Use restroom,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,80
 111,休息片刻,Take a short break,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,111
 112,整理仪容,Tidy appearance,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,112
 113,自我反思,Self-reflection,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,113
