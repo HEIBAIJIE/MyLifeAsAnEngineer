@@ -47,6 +47,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: tcog-frontend-service  # 保留原服务名
+            name: tcog-frontend  # 修改为实际存在的服务名
             port:
               number: 80
