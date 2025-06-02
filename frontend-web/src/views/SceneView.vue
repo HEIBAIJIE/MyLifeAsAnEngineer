@@ -398,6 +398,7 @@ const executeEvent = (eventId: number) => {
   width: clamp(250px, 25vw, 350px);
   background: rgba(0, 17, 0, 0.9);
   padding: clamp(12px, 2vw, 20px);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -405,6 +406,7 @@ const executeEvent = (eventId: number) => {
   flex: 1;
   background: rgba(0, 17, 0, 0.9);
   padding: clamp(12px, 2vw, 20px);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -472,10 +474,20 @@ const executeEvent = (eventId: number) => {
   margin-top: clamp(2px, 0.3vw, 4px);
 }
 
+/* 实体选择和事件选择区域的稳定容器 */
+.entities-section,
+.events-section {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* 确保内容不会溢出 */
+}
+
 .entities-grid {
   display: grid;
   gap: clamp(8px, 1.5vw, 16px);
   grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 25vw, 220px), 1fr));
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .entity-card {
@@ -486,6 +498,8 @@ const executeEvent = (eventId: number) => {
   text-align: center;
   min-height: clamp(100px, 15vw, 140px);
   justify-content: space-between;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 .entity-card.interactive:hover {
@@ -500,6 +514,7 @@ const executeEvent = (eventId: number) => {
 .entity-icon {
   font-size: clamp(24px, 4vw, 48px);
   margin-bottom: clamp(6px, 1vw, 12px);
+  transition: none;
 }
 
 .entity-info {
