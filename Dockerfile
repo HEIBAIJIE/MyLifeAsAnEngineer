@@ -8,8 +8,15 @@ WORKDIR /app
 COPY package*.json ./
 COPY frontend-web/package*.json ./frontend-web/
 
-# 安装依赖
+# 安装根目录依赖
 RUN npm ci --production=false
+
+# 安装前端依赖
+WORKDIR /app/frontend-web
+RUN npm ci --production=false
+
+# 返回到app目录
+WORKDIR /app
 
 # 复制源代码
 COPY . .
