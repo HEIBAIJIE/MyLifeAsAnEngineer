@@ -28,7 +28,7 @@ spec:
         image: k8s.io/tcog-frontend:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           name: http
           protocol: TCP
         resources:
@@ -41,7 +41,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 80
+            port: 8080
             scheme: HTTP
           initialDelaySeconds: 30
           periodSeconds: 10
@@ -51,7 +51,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /health
-            port: 80
+            port: 8080
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -68,6 +68,9 @@ spec:
           mountPath: /var/cache/nginx
         - name: nginx-run
           mountPath: /var/run
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -76,14 +79,15 @@ spec:
           capabilities:
             drop:
             - ALL
-            add:
-            - NET_BIND_SERVICE
           readOnlyRootFilesystem: false
       volumes:
       - name: nginx-cache
         emptyDir: {}
       - name: nginx-run
         emptyDir: {}
+      - name: nginx-config
+        configMap:
+          name: tcog-frontend-config
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
@@ -101,7 +105,7 @@ spec:
   type: ClusterIP
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 8080
     protocol: TCP
     name: http
   selector:
@@ -164,7 +168,7 @@ data:
         add_header Referrer-Policy "strict-origin-when-cross-origin";
 
         server {
-            listen 80;
+            listen 8080;
             server_name localhost;
             root /usr/share/nginx/html;
             index index.html;
