@@ -260,49 +260,49 @@ export class BackendAdapter {
       }
 
       // 根据events.csv中的实际映射确定移动事件ID
-      // 创建位置到事件ID的映射表
+      // 移动事件映射表：[当前位置][目标位置] = 事件ID
       const travelEventMap: { [key: string]: number } = {
         // 从公司(1)出发
-        '1_2': 2,   // 前往商店
-        '1_3': 3,   // 前往家
-        '1_4': 4,   // 前往公园
-        '1_5': 5,   // 前往餐馆
-        '1_6': 6,   // 前往医院
+        '1_2': 1,   // 前往商店
+        '1_3': 2,   // 前往家
+        '1_4': 3,   // 前往公园
+        '1_5': 4,   // 前往餐馆
+        '1_6': 5,   // 前往医院
         
         // 从商店(2)出发
-        '2_1': 1,   // 前往公司
-        '2_3': 9,   // 前往家
-        '2_4': 10,  // 前往公园
-        '2_5': 11,  // 前往餐馆
-        '2_6': 12,  // 前往医院
+        '2_1': 6,   // 前往公司
+        '2_3': 7,   // 前往家
+        '2_4': 8,   // 前往公园
+        '2_5': 9,   // 前往餐馆
+        '2_6': 10,  // 前往医院
         
         // 从家(3)出发
-        '3_1': 7,   // 前往公司
-        '3_2': 8,   // 前往商店
-        '3_4': 16,  // 前往公园
-        '3_5': 17,  // 前往餐馆
-        '3_6': 18,  // 前往医院
+        '3_1': 11,  // 前往公司
+        '3_2': 12,  // 前往商店
+        '3_4': 13,  // 前往公园
+        '3_5': 14,  // 前往餐馆
+        '3_6': 15,  // 前往医院
         
         // 从公园(4)出发
-        '4_1': 13,  // 前往公司
-        '4_2': 14,  // 前往商店
-        '4_3': 15,  // 前往家
-        '4_5': 23,  // 前往餐馆 (location_requirement=4)
-        '4_6': 24,  // 前往医院
+        '4_1': 16,  // 前往公司
+        '4_2': 17,  // 前往商店
+        '4_3': 18,  // 前往家
+        '4_5': 19,  // 前往餐馆
+        '4_6': 20,  // 前往医院
         
         // 从餐馆(5)出发
-        '5_1': 19,  // 前往公司
-        '5_2': 20,  // 前往商店
-        '5_3': 21,  // 前往家
-        '5_4': 22,  // 前往公园 (location_requirement=5)
-        '5_6': 30,  // 前往医院 (location_requirement=5)
+        '5_1': 21,  // 前往公司
+        '5_2': 22,  // 前往商店
+        '5_3': 23,  // 前往家
+        '5_4': 24,  // 前往公园
+        '5_6': 25,  // 前往医院
         
         // 从医院(6)出发
-        '6_1': 25,  // 前往公司
-        '6_2': 26,  // 前往商店
-        '6_3': 27,  // 前往家
-        '6_4': 28,  // 前往公园
-        '6_5': 29,  // 前往餐馆
+        '6_1': 26,  // 前往公司
+        '6_2': 27,  // 前往商店
+        '6_3': 28,  // 前往家
+        '6_4': 29,  // 前往公园
+        '6_5': 30,  // 前往餐馆
       }
       
       const travelKey = `${currentLocationId}_${locationId}`
@@ -320,19 +320,6 @@ export class BackendAdapter {
       }
       
       console.log(`Traveling from location ${currentLocationId} to ${locationId}, using event ${eventId}`)
-      
-      // 调试：检查游戏引擎是否有这个事件
-      if (this.gameEngine) {
-        const dataManager = this.gameEngine.getDataManager()
-        const event = dataManager.getEvent(eventId)
-        console.log('Event lookup result:', event)
-        
-        // 获取所有事件来调试
-        const allEvents = dataManager.getAllEvents()
-        console.log('Total events loaded:', allEvents.size)
-        const eventIds = Array.from(allEvents.keys()) as number[]
-        console.log('Events 1-10:', eventIds.filter(id => id >= 1 && id <= 10).sort())
-      }
 
       // 执行移动事件
       const command = {

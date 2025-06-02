@@ -173,7 +173,9 @@ class Game {
             if (locationCard) {
                 const locationId = parseInt(locationCard.dataset.location);
                 if (locationId) {
-                    this.travelToLocation(locationId);
+                    this.travelToLocation(locationId).catch(error => {
+                        console.error('Travel error from event listener:', error);
+                    });
                 }
             }
         });
@@ -445,20 +447,20 @@ class Game {
 
     async travelToLocation(locationId) {
         try {
-            // 通过执行移动事件来改变位置
-            // 这里需要根据实际的事件ID来调整
-            const response = window.backendAdapter.sendCommand({
-                type: 'execute_event',
-                params: { event_id: 103 }, // 假设103是移动事件，需要根据实际情况调整
-                language: this.currentLanguage
-            });
-
-            if (response.type === 'event_result') {
+            // 使用后端适配器的移动方法
+            const result = await window.backendAdapter.travelToLocation(locationId);
+            
+            if (result.success) {
+                // 移动成功，更新游戏状态并切换到场景页面
                 await this.updateGameState();
                 this.showScreen('scene');
+            } else {
+                console.error('Travel failed:', result.error);
+                alert(this.currentLanguage === 'zh' ? '移动失败：' + result.error : 'Travel failed: ' + result.error);
             }
         } catch (error) {
             console.error('Travel error:', error);
+            alert(this.currentLanguage === 'zh' ? '移动失败' : 'Travel failed');
         }
     }
 

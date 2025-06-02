@@ -259,6 +259,113 @@ class BackendAdapter {
     getSaveManager() {
         return this.gameEngine ? this.gameEngine.getSaveManager() : null;
     }
+
+    // 位置切换 - 通过执行对应的移动事件
+    async travelToLocation(locationId) {
+        try {
+            // 首先获取当前位置
+            const gameStateResponse = this.sendCommand({
+                type: 'get_game_state',
+                language: this.currentLanguage
+            });
+            
+            if (gameStateResponse.type !== 'query_result') {
+                throw new Error('Failed to get game state');
+            }
+            
+            const currentLocationId = gameStateResponse.data.resources[61] || 3;
+            
+            console.log('Travel debug info:', {
+                currentLocationId,
+                targetLocationId: locationId
+            });
+            
+            // 如果已经在目标位置，不需要移动
+            if (currentLocationId === locationId) {
+                return { success: true };
+            }
+
+            // 根据events.csv中的实际映射确定移动事件ID
+            const travelEventMap = {
+                // 从公司(1)出发
+                '1_2': 1,   // 前往商店
+                '1_3': 2,   // 前往家
+                '1_4': 3,   // 前往公园
+                '1_5': 4,   // 前往餐馆
+                '1_6': 5,   // 前往医院
+                
+                // 从商店(2)出发
+                '2_1': 6,   // 前往公司
+                '2_3': 7,   // 前往家
+                '2_4': 8,   // 前往公园
+                '2_5': 9,   // 前往餐馆
+                '2_6': 10,  // 前往医院
+                
+                // 从家(3)出发
+                '3_1': 11,  // 前往公司
+                '3_2': 12,  // 前往商店
+                '3_4': 13,  // 前往公园
+                '3_5': 14,  // 前往餐馆
+                '3_6': 15,  // 前往医院
+                
+                // 从公园(4)出发
+                '4_1': 16,  // 前往公司
+                '4_2': 17,  // 前往商店
+                '4_3': 18,  // 前往家
+                '4_5': 19,  // 前往餐馆
+                '4_6': 20,  // 前往医院
+                
+                // 从餐馆(5)出发
+                '5_1': 21,  // 前往公司
+                '5_2': 22,  // 前往商店
+                '5_3': 23,  // 前往家
+                '5_4': 24,  // 前往公园
+                '5_6': 25,  // 前往医院
+                
+                // 从医院(6)出发
+                '6_1': 26,  // 前往公司
+                '6_2': 27,  // 前往商店
+                '6_3': 28,  // 前往家
+                '6_4': 29,  // 前往公园
+                '6_5': 30,  // 前往餐馆
+            };
+            
+            const travelKey = `${currentLocationId}_${locationId}`;
+            const eventId = travelEventMap[travelKey];
+            
+            console.log('Travel mapping:', {
+                travelKey,
+                eventId
+            });
+            
+            if (!eventId) {
+                console.error(`No travel event found for ${currentLocationId} -> ${locationId}`);
+                return { success: false, error: `无法从位置${currentLocationId}移动到位置${locationId}` };
+            }
+            
+            console.log(`Traveling from location ${currentLocationId} to ${locationId}, using event ${eventId}`);
+
+            // 执行移动事件
+            const response = this.sendCommand({
+                type: 'execute_event',
+                params: { event_id: eventId },
+                language: this.currentLanguage
+            });
+            
+            console.log('Travel response:', response);
+
+            if (response.type === 'event_result') {
+                console.log(`Successfully traveled to location ${locationId}`);
+                return { success: true };
+            } else {
+                console.error('Travel failed:', response.error);
+                return { success: false, error: response.error || '移动事件执行失败' };
+            }
+        } catch (error) {
+            console.error('Travel error:', error);
+            return { success: false, error: error.message };
+        }
+    }
 }
 
 // 创建全局实例
