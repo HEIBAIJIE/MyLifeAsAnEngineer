@@ -2,18 +2,31 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tcog-frontend-ingress
+  namespace: tcog
   labels:
     app: tcog-frontend
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    # Nginx Ingress 基本配置
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # 不使用cert-manager，因为我们用购买的证书
+    # cert-manager.io/cluster-issuer: letsencrypt-prod  # 注释掉
+    
+    # SSL安全配置
+    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+    nginx.ingress.kubernetes.io/proxy-ssl-protocols: "TLSv1.2 TLSv1.3"
+    
+    # 性能优化配置
+    nginx.ingress.kubernetes.io/proxy-body-size: "16m"  # 使用新配置的更大值
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"  # 使用新配置的值
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"   # 使用新配置的值
+    
+    # 后端协议配置
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/proxy-body-size: "16m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    
     # 启用gzip压缩
     nginx.ingress.kubernetes.io/enable-gzip: "true"
+    
     # 缓存配置
     nginx.ingress.kubernetes.io/configuration-snippet: |
       location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
@@ -28,21 +41,27 @@ metadata:
         expires 1h;
         add_header Cache-Control "public";
       }
+
 spec:
+  # 指定 Ingress Class
   ingressClassName: nginx
+  
+  # TLS 配置 - 使用购买的证书（保留原配置）
+  tls:
+  - hosts:
+    - tco-game.me
+    secretName: tco-game-me-purchased-tls
+  
+  # 路由规则
   rules:
-  - host: tcog-game.local  # 可以根据实际域名修改
+  - host: tco-game.me  # 保留原域名
     http:
       paths:
+      # 前端应用（静态资源，不需要认证）
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: tcog-frontend
+            name: tcog-frontend-service  # 保留原服务名
             port:
               number: 80
-  # 如果需要HTTPS，可以添加tls配置
-  # tls:
-  # - hosts:
-  #   - tcog-game.local
-  #   secretName: tcog-frontend-tls 
