@@ -5,18 +5,20 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist frontend-web/dist",
+    "copy-csv": "node scripts/copy-csv.js",
+    "test:csv-integration": "node scripts/test-csv-integration.js",
     
     "build:backend": "tsc",
     "build:cli": "npm run build:backend",
     "build:web-backend": "webpack --mode=production",
-    "build:web-frontend": "cd frontend-web && npm run build",
+    "build:web-frontend": "npm run copy-csv && cd frontend-web && npm run build",
     "build:web": "npm run clean && npm run build:web-backend && npm run build:web-frontend",
     
     "dev:backend": "tsc --watch",
     "dev:cli": "ts-node start-game.ts",
     "dev:web-backend": "webpack --mode=development --watch",
-    "dev:web-frontend": "cd frontend-web && npm run dev",
-    "dev:web": "concurrently \"npm run dev:web-backend\" \"npm run dev:web-frontend\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\"",
+    "dev:web-frontend": "npm run copy-csv && cd frontend-web && npm run dev",
+    "dev:web": "npm run copy-csv && concurrently \"npm run dev:web-backend\" \"npm run dev:web-frontend\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\"",
     
     "start:cli": "npm run build:cli && node dist/index.js",
     "start:web": "npm run build:web && cd frontend-web && npm run preview",
