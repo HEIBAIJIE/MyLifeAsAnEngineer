@@ -40,8 +40,15 @@ check_dependencies() {
         exit 1
     fi
     
-    if ! command -v docker &> /dev/null; then
-        log_error "Docker 未安装或不在PATH中"
+    if ! command -v nerdctl &> /dev/null; then
+        log_error "nerdctl 未安装或不在PATH中"
+        log_error "请安装containerd和nerdctl以支持Kubernetes容器镜像构建"
+        exit 1
+    fi
+    
+    # 检查containerd服务状态
+    if ! nerdctl system info &> /dev/null; then
+        log_error "containerd 服务未运行或无法连接"
         exit 1
     fi
     
@@ -70,38 +77,39 @@ build_project() {
     log_success "项目构建完成"
 }
 
-# 构建Docker镜像
-build_docker_image() {
+# 构建容器镜像（使用nerdctl和k8s.io命名空间）
+build_container_image() {
     local image_name=${1:-"tcog-frontend"}
     local image_tag=${2:-"latest"}
-    local full_image_name="${image_name}:${image_tag}"
+    local full_image_name="k8s.io/${image_name}:${image_tag}"
     
-    log_info "构建Docker镜像: ${full_image_name}"
+    log_info "使用containerd构建容器镜像: ${full_image_name}"
+    log_info "镜像将构建在k8s.io命名空间以确保Kubernetes兼容性"
     
-    # 构建镜像
-    docker build -t "${full_image_name}" .
+    # 使用nerdctl构建镜像，指定k8s.io命名空间
+    nerdctl build --namespace k8s.io -t "${full_image_name}" .
     
     # 检查镜像大小
-    local image_size=$(docker images "${image_name}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" | tail -1 | awk '{print $3}')
-    log_success "Docker镜像构建完成，大小: ${image_size}"
+    local image_size=$(nerdctl --namespace k8s.io images "${image_name}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" | tail -1 | awk '{print $3}')
+    log_success "容器镜像构建完成，大小: ${image_size}"
     
     # 测试镜像
-    log_info "测试Docker镜像..."
-    local container_id=$(docker run -d -p 8080:80 "${full_image_name}")
+    log_info "测试容器镜像..."
+    local container_id=$(nerdctl --namespace k8s.io run -d -p 8080:80 "${full_image_name}")
     
     # 等待容器启动
     sleep 5
     
     # 健康检查
     if curl -f http://localhost:8080/health &>/dev/null; then
-        log_success "Docker镜像测试通过"
+        log_success "容器镜像测试通过"
     else
-        log_warning "Docker镜像健康检查失败，但镜像已构建"
+        log_warning "容器镜像健康检查失败，但镜像已构建"
     fi
     
     # 清理测试容器
-    docker stop "${container_id}" &>/dev/null || true
-    docker rm "${container_id}" &>/dev/null || true
+    nerdctl --namespace k8s.io stop "${container_id}" &>/dev/null || true
+    nerdctl --namespace k8s.io rm "${container_id}" &>/dev/null || true
 }
 
 # 推送到镜像仓库
@@ -113,14 +121,14 @@ push_image() {
     
     if [ -n "${registry}" ]; then
         full_image_name="${registry}/${image_name}:${image_tag}"
-        # 重新标记镜像
-        docker tag "${image_name}:${image_tag}" "${full_image_name}"
+        # 重新标记镜像（从k8s.io命名空间）
+        nerdctl --namespace k8s.io tag "k8s.io/${image_name}:${image_tag}" "${full_image_name}"
     else
-        full_image_name="${image_name}:${image_tag}"
+        full_image_name="k8s.io/${image_name}:${image_tag}"
     fi
     
     log_info "推送镜像到仓库: ${full_image_name}"
-    docker push "${full_image_name}"
+    nerdctl --namespace k8s.io push "${full_image_name}"
     log_success "镜像推送完成"
 }
 
@@ -164,32 +172,37 @@ cleanup() {
     # 清理npm缓存
     npm cache clean --force 2>/dev/null || true
     
-    # 清理Docker悬挂镜像
-    docker image prune -f 2>/dev/null || true
+    # 清理containerd悬挂镜像
+    nerdctl --namespace k8s.io image prune -f 2>/dev/null || true
     
     log_success "清理完成"
 }
 
 # 显示帮助信息
 show_help() {
-    echo "TCOG Frontend 构建脚本"
+    echo "TCOG Frontend 构建脚本 (使用containerd + nerdctl)"
     echo ""
     echo "用法: $0 [选项]"
     echo ""
     echo "选项:"
     echo "  -h, --help              显示帮助信息"
-    echo "  -b, --build             只构建项目（不构建Docker镜像）"
-    echo "  -d, --docker            构建Docker镜像"
+    echo "  -b, --build             只构建项目（不构建容器镜像）"
+    echo "  -d, --docker            构建容器镜像（使用nerdctl + k8s.io命名空间）"
     echo "  -p, --push REGISTRY     推送镜像到指定仓库"
     echo "  -k, --k8s               部署到Kubernetes"
-    echo "  -a, --all               执行完整流程（构建+Docker+部署）"
+    echo "  -a, --all               执行完整流程（构建+容器镜像+部署）"
     echo "  -c, --clean             清理构建资源"
     echo "  -t, --tag TAG           指定镜像标签（默认: latest）"
     echo "  -n, --name NAME         指定镜像名称（默认: tcog-frontend）"
     echo ""
+    echo "注意:"
+    echo "  - 使用containerd和nerdctl替代Docker"
+    echo "  - 镜像构建在k8s.io命名空间以确保Kubernetes兼容性"
+    echo "  - 需要安装并启动containerd服务"
+    echo ""
     echo "示例:"
     echo "  $0 --build                          # 只构建项目"
-    echo "  $0 --docker --tag v1.0.0           # 构建Docker镜像并指定标签"
+    echo "  $0 --docker --tag v1.0.0           # 构建容器镜像并指定标签"
     echo "  $0 --all --tag v1.0.0               # 执行完整流程"
     echo "  $0 --push registry.example.com      # 推送到指定仓库"
 }
@@ -267,11 +280,11 @@ main() {
     # 执行完整流程
     if [ "$all_steps" = true ]; then
         build_project
-        build_docker_image "$image_name" "$image_tag"
+        build_container_image "$image_name" "$image_tag"
         if [ -n "$push_registry" ]; then
             push_image "$image_name" "$image_tag" "$push_registry"
         fi
-        deploy_k8s
+        deploy_to_k8s
     else
         # 执行指定步骤
         if [ "$build_only" = true ] || [ "$build_docker" = true ]; then
@@ -279,7 +292,7 @@ main() {
         fi
         
         if [ "$build_docker" = true ]; then
-            build_docker_image "$image_name" "$image_tag"
+            build_container_image "$image_name" "$image_tag"
         fi
         
         if [ -n "$push_registry" ]; then
@@ -300,8 +313,8 @@ main() {
     # 显示最终信息
     if [ "$build_docker" = true ] || [ "$all_steps" = true ]; then
         echo ""
-        log_info "Docker镜像信息:"
-        docker images "${image_name}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}"
+        log_info "容器镜像信息 (k8s.io命名空间):"
+        nerdctl --namespace k8s.io images "${image_name}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}"
     fi
     
     if [ "$deploy_k8s" = true ] || [ "$all_steps" = true ]; then
