@@ -1,32 +1,32 @@
 temp_event_id,event_name_cn,event_name_en,trigger_condition,trigger_type,max_triggers,fatigue_change,health_change,hunger_change,rational_change,emotional_change,focus_change,mood_change,skill_change,boss_dissatisfaction_change,job_level_change,project_progress_change,money_change,books_change,colleague1_favor_change,colleague1_skill_change,colleague2_favor_change,colleague2_skill_change,colleague3_favor_change,colleague3_skill_change,social_influence_change,tech_reputation_change,philosophy_insight_change,ending_triggered,text_id
-1,略微疲劳,Slightly Fatigued,resource[5]>50,repeatable,999,,-1,,,,,,,,,,,,,,,,,,,230
-2,极度疲劳,Extremely Fatigued,resource[5]>80,repeatable,999,,-3,,,-5,,,,,,,,,,,,,,,231
-3,不眠不休,Sleepless,resource[5]>=100,once,1,,,,,,,,,,,,,,,,,,,1,
-4,职场晋级1,Career Promotion 1,resource[54]==1&resource[13]==1&resource[11]>=5&resource[61]>=2,once,1,,,,,,,,,1,,,,,,,,,,,232
-5,职场晋级2,Career Promotion 2,resource[54]==1&resource[13]==2&resource[11]>=10&resource[61]>=4,once,1,,,,,,,,,1,,,,,,,,,,,233
-6,职场晋级3,Career Promotion 3,resource[54]==1&resource[13]==3&resource[11]>=15&resource[61]>=7,once,1,,,,,,,,,1,,,,,,,,,,,234
-7,职场晋级4,Career Promotion 4,resource[54]==1&resource[13]==4&resource[11]>=20&resource[61]>=11,once,1,,,,,,,,,1,,,,,,,,,,,235
-8,职场晋级5,Career Promotion 5,resource[54]==1&resource[13]==5&resource[11]>=25&resource[61]>=16,once,1,,,,,,,,,1,,,,,,,,,,,236
-9,职场晋级6,Career Promotion 6,resource[54]==1&resource[13]==6&resource[11]>=30&resource[61]>=23,once,1,,,,,,,,,1,,,,,,,,,,,237
-10,职场晋级7,Career Promotion 7,resource[54]==1&resource[13]==7&resource[11]>=40&resource[61]>=31,once,1,,,,,,,,,1,,,,,,,,,,,238
-11,职场晋级8,Career Promotion 8,resource[54]==1&resource[13]==8&resource[11]>=50&resource[61]>=41,once,1,,,,,,,,,1,,,,,,,,,,,239
-12,职场晋级9,Career Promotion 9,resource[54]==1&resource[13]==9&resource[11]>=60&resource[61]>=51,once,1,,,,,,,,,1,,,,,,,,,,,240
-13,医疗救治,Medical Treatment,resource[4]<50&resource[2]>=2000,once,1,,70,,,,,,,,,-2000,,,,,,,,,241
-14,病危警告,Critical Health Warning,resource[4]<20,repeatable,999,,,,,-20,,,,,,,,,,,,,,,242
-15,积重难返,Beyond Recovery,resource[4]<=0,once,1,,,,,,,,,,,,,,,,,,,2,
-16,饥饿难忍,Unbearable Hunger,resource[6]>50,repeatable,999,,-1,,,-2,,,,,,,,,,,,,,,243
-17,严重饥饿,Severe Hunger,resource[6]>80,repeatable,999,,-3,,,-5,,,,,,,,,,,,,,,244
-18,饥饿而死,Death by Starvation,resource[6]>=100,once,1,,,,,,,,,,,,,,,,,,,3,
-19,项目完成,Project Completed,resource[14]>=100,repeatable,999,,,,,,,,,,,reset[14],calc[8000+2000*resource[13]],,,,,,,,,245
-20,进度滞后,Progress Behind Schedule,resource[62]<calc[resource[13]*3],repeatable,999,,,,,,,,,3,,,,,,,,,,246
-21,老板的警告,Boss Warning,resource[12]>50,repeatable,999,,,,,-10,,,,,,,,,,,,,,,247
-22,老板的严重警告,Boss Serious Warning,resource[12]>80,repeatable,999,,,,,-20,,,,,,,,,,,,,,,248
-23,忍无可忍,Can't Take It Anymore,resource[12]>=100,once,1,,,,,,,,,,,,,,,,,,,4,
-24,技能与职级不匹配,Skills Don't Match Job Level,resource[11]>=80&resource[13]<7,repeatable,999,,,,5,-10,,,,,,,,,,,,,,,249
-25,财务紧张,Financial Stress,resource[2]<3000,repeatable,999,,,,5,-15,,,,,,,,,,,,,,,250
-26,情绪低落,Low Mood,resource[10]<20,repeatable,999,5,-3,,,,,,,,,,,,,,,,,251
-27,注意力涣散,Attention Deficit,resource[9]<20,repeatable,999,,,,,,,,,,,,,,,,,,,,252
-28,人际关系良好,Good Interpersonal Relations,resource[55]>60&resource[57]>60&resource[59]>60,repeatable,999,,,,,,15,,,,,,,,,,,,,,,253
-29,慢性疲劳,Chronic Fatigue,consecutive_7days[resource[5]>60],once,1,,-8,,,,,,,,,,,,,,,,,,254
-30,过度理性,Overly Rational,resource[7]>90,repeatable,999,,,,-5,,,,,,,,,,,,,,,,255
-31,过度感性,Overly Emotional,resource[8]>90,repeatable,999,,,,,-5,-5,,,,,,,,,,,,,,,256 
+1,略微疲劳,Slightly Fatigued,resource[5]>50,repeatable,999,,-1,,,,,,,,,,,,,,,,,,,,,,230
+2,极度疲劳,Extremely Fatigued,resource[5]>80,repeatable,999,,-3,,,-5,,,,,,,,,,,,,,,,,,,231
+3,不眠不休,Sleepless,resource[5]>=100,once,1,,,,,,,,,,,,,,,,,,,1,,,,,257
+4,职场晋级1,Career Promotion 1,resource[54]==1&resource[13]==1&resource[11]>=5&resource[61]>=2,once,1,,,,,,,,,1,,,,,,,,,,,,,,,232
+5,职场晋级2,Career Promotion 2,resource[54]==1&resource[13]==2&resource[11]>=10&resource[61]>=4,once,1,,,,,,,,,1,,,,,,,,,,,,,,,233
+6,职场晋级3,Career Promotion 3,resource[54]==1&resource[13]==3&resource[11]>=15&resource[61]>=7,once,1,,,,,,,,,1,,,,,,,,,,,,,,,234
+7,职场晋级4,Career Promotion 4,resource[54]==1&resource[13]==4&resource[11]>=20&resource[61]>=11,once,1,,,,,,,,,1,,,,,,,,,,,,,,,235
+8,职场晋级5,Career Promotion 5,resource[54]==1&resource[13]==5&resource[11]>=25&resource[61]>=16,once,1,,,,,,,,,1,,,,,,,,,,,,,,,236
+9,职场晋级6,Career Promotion 6,resource[54]==1&resource[13]==6&resource[11]>=30&resource[61]>=23,once,1,,,,,,,,,1,,,,,,,,,,,,,,,237
+10,职场晋级7,Career Promotion 7,resource[54]==1&resource[13]==7&resource[11]>=40&resource[61]>=31,once,1,,,,,,,,,1,,,,,,,,,,,,,,,238
+11,职场晋级8,Career Promotion 8,resource[54]==1&resource[13]==8&resource[11]>=50&resource[61]>=41,once,1,,,,,,,,,1,,,,,,,,,,,,,,,239
+12,职场晋级9,Career Promotion 9,resource[54]==1&resource[13]==9&resource[11]>=60&resource[61]>=51,once,1,,,,,,,,,1,,,,,,,,,,,,,,,240
+13,医疗救治,Medical Treatment,resource[4]<50&resource[2]>=2000,once,1,,70,,,,,,,,,-2000,,,,,,,,,,,,,241
+14,病危警告,Critical Health Warning,resource[4]<20,repeatable,999,,,,,-20,,,,,,,,,,,,,,,,,,,242
+15,积重难返,Beyond Recovery,resource[4]<=0,once,1,,,,,,,,,,,,,,,,,,,2,,,,,243
+16,饥饿难忍,Unbearable Hunger,resource[6]>50,repeatable,999,,-1,,,-2,,,,,,,,,,,,,,,,,,,244
+17,严重饥饿,Severe Hunger,resource[6]>80,repeatable,999,,-3,,,-5,,,,,,,,,,,,,,,,,,,258
+18,饥饿而死,Death by Starvation,resource[6]>=100,once,1,,,,,,,,,,,,,,,,,,,3,,,,,259
+19,项目完成,Project Completed,resource[14]>=100,repeatable,999,,,,,,,,,,,reset[14],calc[8000+2000*resource[13]],,,,,,,,,,,,245
+20,进度滞后,Progress Behind Schedule,resource[62]<calc[resource[13]*3],repeatable,999,,,,,,,,,3,,,,,,,,,,,,,,,246
+21,老板的警告,Boss Warning,resource[12]>50,repeatable,999,,,,,-10,,,,,,,,,,,,,,,,,,,247
+22,老板的严重警告,Boss Serious Warning,resource[12]>80,repeatable,999,,,,,-20,,,,,,,,,,,,,,,,,,,248
+23,忍无可忍,Can't Take It Anymore,resource[12]>=100,once,1,,,,,,,,,,,,,,,,,,,4,,,,,249
+24,技能与职级不匹配,Skills Don't Match Job Level,resource[11]>=80&resource[13]<7,repeatable,999,,,,5,-10,,,,,,,,,,,,,,,,,,,250
+25,财务紧张,Financial Stress,resource[2]<3000,repeatable,999,,,,5,-15,,,,,,,,,,,,,,,,,,,251
+26,情绪低落,Low Mood,resource[10]<20,repeatable,999,5,-3,,,,,,,,,,,,,,,,,,,,,,252
+27,注意力涣散,Attention Deficit,resource[9]<20,repeatable,999,,,,,,,,,,,,,,,,,,,,,,,,253
+28,人际关系良好,Good Interpersonal Relations,resource[55]>60&resource[57]>60&resource[59]>60,repeatable,999,,,,,,15,,,,,,,,,,,,,,,,,,254
+29,慢性疲劳,Chronic Fatigue,consecutive_7days[resource[5]>60],once,1,,-8,,,,,,,,,,,,,,,,,,,,,,255
+30,过度理性,Overly Rational,resource[7]>90,repeatable,999,,,,-5,,,,,,,,,,,,,,,,,,,,260
+31,过度感性,Overly Emotional,resource[8]>90,repeatable,999,,,,,-5,-5,,,,,,,,,,,,,,,,,,256 
