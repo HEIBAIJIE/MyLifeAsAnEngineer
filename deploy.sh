@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TCOG Frontend 快速部署脚本
+# TCOG Frontend 快速部署脚本 (本地镜像模式)
 
 set -e
 
@@ -8,7 +8,6 @@ set -e
 IMAGE_NAME="tcog-frontend"
 IMAGE_TAG="latest"
 NAMESPACE="default"
-REGISTRY=""
 
 # 颜色输出
 RED='\033[0;31m'
@@ -35,14 +34,13 @@ log_error() {
 
 show_help() {
     cat << EOF
-TCOG Frontend 快速部署脚本
+TCOG Frontend 快速部署脚本 (本地镜像模式)
 
 用法: $0 [选项]
 
 选项:
     -h, --help                显示帮助信息
     -n, --namespace NAME      指定Kubernetes命名空间 (默认: default)
-    -r, --registry URL        指定镜像仓库地址
     -t, --tag TAG            指定镜像标签 (默认: latest)
     --image-name NAME        指定镜像名称 (默认: tcog-frontend)
     --build                  从源码构建镜像
@@ -50,10 +48,14 @@ TCOG Frontend 快速部署脚本
     --delete                 删除部署
     --status                 查看部署状态
 
+注意:
+    - 本模式适用于构建和部署在同一台机器的场景
+    - 使用本地构建的镜像，无需镜像仓库
+    - 镜像存储在 k8s.io 命名空间中
+
 示例:
     $0                                    # 使用默认配置部署
     $0 --build --tag v1.0.0             # 构建并部署指定版本
-    $0 --registry registry.example.com   # 使用私有仓库
     $0 --update                          # 更新现有部署
     $0 --status                          # 查看状态
     $0 --delete                          # 删除部署
@@ -76,6 +78,21 @@ check_kubectl() {
     log_success "Kubernetes连接正常"
 }
 
+# 检查本地镜像
+check_local_image() {
+    local full_image_name="k8s.io/${IMAGE_NAME}:${IMAGE_TAG}"
+    
+    log_info "检查本地镜像: $full_image_name"
+    
+    if ! nerdctl --namespace k8s.io images --quiet "$full_image_name" &> /dev/null; then
+        log_error "本地镜像不存在: $full_image_name"
+        log_error "请先运行构建脚本构建镜像：./build.sh -d -t $IMAGE_TAG"
+        exit 1
+    fi
+    
+    log_success "本地镜像存在: $full_image_name"
+}
+
 # 创建命名空间
 create_namespace() {
     if [ "$NAMESPACE" != "default" ]; then
@@ -86,22 +103,21 @@ create_namespace() {
 
 # 构建镜像
 build_image() {
-    log_info "构建Docker镜像..."
+    log_info "构建本地镜像..."
     ./build.sh --docker --tag "$IMAGE_TAG" --name "$IMAGE_NAME"
 }
 
 # 更新镜像标签
 update_image_tag() {
-    local full_image_name="$IMAGE_NAME:$IMAGE_TAG"
-    
-    if [ -n "$REGISTRY" ]; then
-        full_image_name="$REGISTRY/$IMAGE_NAME:$IMAGE_TAG"
-    fi
+    local full_image_name="k8s.io/${IMAGE_NAME}:${IMAGE_TAG}"
     
     log_info "更新部署镜像: $full_image_name"
     
     # 更新deployment中的镜像
     kubectl set image deployment/tcog-frontend tcog-frontend="$full_image_name" -n "$NAMESPACE"
+    
+    # 设置镜像拉取策略为Never，确保使用本地镜像
+    kubectl patch deployment tcog-frontend -p '{"spec":{"template":{"spec":{"containers":[{"name":"tcog-frontend","imagePullPolicy":"Never"}]}}}}' -n "$NAMESPACE"
     
     # 等待rolling update完成
     kubectl rollout status deployment/tcog-frontend -n "$NAMESPACE" --timeout=300s
@@ -109,20 +125,17 @@ update_image_tag() {
 
 # 部署应用
 deploy_app() {
-    log_info "部署应用到Kubernetes..."
+    log_info "部署应用到Kubernetes（使用本地镜像）..."
     
-    # 应用配置文件，替换命名空间
+    # 应用配置文件，替换命名空间和镜像配置
     local temp_dir=$(mktemp -d)
     
     # 处理deployment.yaml
     sed "s/namespace: default/namespace: $NAMESPACE/g" k8s/deployment.yaml > "$temp_dir/deployment.yaml"
     
-    # 如果指定了镜像仓库，更新镜像地址
-    if [ -n "$REGISTRY" ]; then
-        sed -i "s|image: tcog-frontend:latest|image: $REGISTRY/$IMAGE_NAME:$IMAGE_TAG|g" "$temp_dir/deployment.yaml"
-    else
-        sed -i "s|image: tcog-frontend:latest|image: $IMAGE_NAME:$IMAGE_TAG|g" "$temp_dir/deployment.yaml"
-    fi
+    # 更新镜像地址为本地镜像，并设置 imagePullPolicy 为 Never
+    sed -i "s|image: tcog-frontend:latest|image: k8s.io/$IMAGE_NAME:$IMAGE_TAG|g" "$temp_dir/deployment.yaml"
+    sed -i "s|imagePullPolicy: Always|imagePullPolicy: Never|g" "$temp_dir/deployment.yaml"
     
     # 处理其他配置文件
     sed "s/namespace: default/namespace: $NAMESPACE/g" k8s/ingress.yaml > "$temp_dir/ingress.yaml"
@@ -163,6 +176,10 @@ show_status() {
     kubectl get hpa tcog-frontend-hpa -n "$NAMESPACE"
     
     echo ""
+    echo "=== Local Images ==="
+    nerdctl --namespace k8s.io images "${IMAGE_NAME}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}"
+    
+    echo ""
     echo "=== Events ==="
     kubectl get events -n "$NAMESPACE" --sort-by='.lastTimestamp' | tail -10
 }
@@ -200,10 +217,6 @@ main() {
                 NAMESPACE="$2"
                 shift 2
                 ;;
-            -r|--registry)
-                REGISTRY="$2"
-                shift 2
-                ;;
             -t|--tag)
                 IMAGE_TAG="$2"
                 shift 2
@@ -229,7 +242,7 @@ main() {
                 shift
                 ;;
             *)
-                log_error "未知选项: $1"
+                log_error "未知参数: $1"
                 show_help
                 exit 1
                 ;;
@@ -239,7 +252,10 @@ main() {
     # 检查kubectl
     check_kubectl
     
-    # 执行操作
+    # 创建命名空间
+    create_namespace
+    
+    # 执行相应操作
     if [ "$delete_flag" = true ]; then
         delete_deployment
         exit 0
@@ -250,40 +266,27 @@ main() {
         exit 0
     fi
     
-    # 创建命名空间
-    create_namespace
-    
-    # 构建镜像
     if [ "$build_image_flag" = true ]; then
         build_image
     fi
     
-    # 更新或部署
+    # 检查本地镜像（除非正在构建）
+    if [ "$build_image_flag" = false ]; then
+        check_local_image
+    fi
+    
     if [ "$update_flag" = true ]; then
         update_image_tag
     else
         deploy_app
     fi
     
-    # 显示状态
-    show_status
-    
+    log_success "部署操作完成"
     echo ""
-    log_success "部署完成！"
-    
-    # 显示访问信息
-    local ingress_ip=$(kubectl get ingress tcog-frontend-ingress -n "$NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
-    local ingress_hostname=$(kubectl get ingress tcog-frontend-ingress -n "$NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || echo "")
-    
-    if [ -n "$ingress_ip" ]; then
-        log_info "应用访问地址: http://$ingress_ip"
-    elif [ -n "$ingress_hostname" ]; then
-        log_info "应用访问地址: http://$ingress_hostname"
-    else
-        log_info "使用 kubectl port-forward 进行本地访问:"
-        log_info "kubectl port-forward svc/tcog-frontend 8080:80 -n $NAMESPACE"
-        log_info "然后访问: http://localhost:8080"
-    fi
+    log_info "部署信息:"
+    echo "  镜像: k8s.io/${IMAGE_NAME}:${IMAGE_TAG}"
+    echo "  命名空间: ${NAMESPACE}"
+    echo "  镜像拉取策略: Never (使用本地镜像)"
 }
 
 # 运行主函数

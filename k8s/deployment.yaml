@@ -25,8 +25,8 @@ spec:
     spec:
       containers:
       - name: tcog-frontend
-        image: tcog-frontend:latest
-        imagePullPolicy: Always
+        image: k8s.io/tcog-frontend:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
           name: http
