@@ -187,6 +187,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { GameState, Location, Entity, GameEvent } from '../types'
+import { BackendAdapter } from '../services/BackendAdapter'
 
 // Props
 interface Props {
@@ -211,6 +212,9 @@ const emit = defineEmits<{
 const selectedEntity = ref<Entity | null>(null)
 const entityEvents = ref<GameEvent[]>([])
 
+// 创建后端适配器实例（从全局获取）
+const backend = (window as any).backendAdapter as BackendAdapter
+
 // 计算属性
 const currentLocationName = computed(() => {
   return props.currentLocation?.location_name || '未知位置'
@@ -222,7 +226,7 @@ const currentTimeDisplay = computed(() => {
 
 const sceneBackgroundStyle = computed(() => {
   const locationId = props.currentLocation?.location_id || 3
-  const backgrounds = {
+  const backgrounds: Record<number, string> = {
     1: 'linear-gradient(135deg, #34495e, #2c3e50)', // 公司
     2: 'linear-gradient(135deg, #8e44ad, #9b59b6)', // 商店
     3: 'linear-gradient(135deg, #27ae60, #2ecc71)', // 家
@@ -237,12 +241,12 @@ const sceneBackgroundStyle = computed(() => {
 const basicStats = computed(() => {
   const resources = props.gameState?.resources || {}
   return [
-    { key: 'money', icon: '💰', name: '金钱', value: resources[2] || 0, max: null },
-    { key: 'health', icon: '❤️', name: '健康', value: resources[4] || 0, max: 100 },
-    { key: 'fatigue', icon: '😴', name: '疲劳', value: resources[5] || 0, max: 100 },
-    { key: 'hunger', icon: '🍽️', name: '饥饿', value: resources[6] || 0, max: 100 },
-    { key: 'focus', icon: '🎯', name: '专注', value: resources[9] || 0, max: 100 },
-    { key: 'mood', icon: '😊', name: '心情', value: resources[10] || 0, max: 100 }
+    { key: 'money', icon: '💰', name: '金钱', value: resources[1] || 0, max: null },
+    { key: 'health', icon: '❤️', name: '健康', value: resources[2] || 0, max: 100 },
+    { key: 'fatigue', icon: '😴', name: '疲劳', value: resources[3] || 0, max: 100 },
+    { key: 'hunger', icon: '🍽️', name: '饥饿', value: resources[4] || 0, max: 100 },
+    { key: 'focus', icon: '🎯', name: '专注', value: resources[7] || 0, max: 100 },
+    { key: 'mood', icon: '😊', name: '心情', value: resources[8] || 0, max: 100 }
   ]
 })
 
@@ -250,10 +254,10 @@ const basicStats = computed(() => {
 const careerStats = computed(() => {
   const resources = props.gameState?.resources || {}
   return [
-    { key: 'skill', icon: '🔧', name: '技能', value: resources[11] || 0, max: 100 },
-    { key: 'level', icon: '👔', name: '职级', value: resources[13] || 0, max: 10 },
-    { key: 'project', icon: '📊', name: '项目', value: resources[14] || 0, max: 100 },
-    { key: 'boss', icon: '😠', name: '老板', value: resources[12] || 0, max: 100 }
+    { key: 'skill', icon: '🔧', name: '技能', value: resources[9] || 0, max: 100 },
+    { key: 'level', icon: '👔', name: '职级', value: resources[10] || 0, max: 10 },
+    { key: 'project', icon: '📊', name: '项目', value: resources[23] || 0, max: 100 },
+    { key: 'boss', icon: '😠', name: '老板', value: resources[24] || 0, max: 100 }
   ]
 })
 
@@ -261,11 +265,11 @@ const careerStats = computed(() => {
 const philosophyStats = computed(() => {
   const resources = props.gameState?.resources || {}
   return [
-    { key: 'rational', icon: '🧠', name: '理性', value: resources[7] || 0, max: 100 },
-    { key: 'emotional', icon: '💖', name: '感性', value: resources[8] || 0, max: 100 },
-    { key: 'social', icon: '🤝', name: '社交', value: resources[63] || 0, max: 100 },
-    { key: 'reputation', icon: '🏆', name: '声誉', value: resources[64] || 0, max: 100 },
-    { key: 'insight', icon: '🤔', name: '感悟', value: resources[65] || 0, max: 100 }
+    { key: 'rational', icon: '🧠', name: '理性', value: resources[5] || 0, max: 100 },
+    { key: 'emotional', icon: '💖', name: '感性', value: resources[6] || 0, max: 100 },
+    { key: 'social', icon: '🤝', name: '社交', value: resources[25] || 0, max: 100 },
+    { key: 'reputation', icon: '🏆', name: '声誉', value: resources[26] || 0, max: 100 },
+    { key: 'insight', icon: '🤔', name: '感悟', value: resources[27] || 0, max: 100 }
   ]
 })
 
@@ -304,24 +308,16 @@ const selectEntity = async (entity: Entity) => {
   if (!entity.can_interact) return
   
   selectedEntity.value = entity
-  // 这里应该调用后端获取实体事件
-  // 暂时使用模拟数据
-  entityEvents.value = [
-    {
-      event_id: 101,
-      event_name_cn: '编写代码',
-      event_name_en: 'Write Code',
-      time_cost: 4,
-      can_execute: true
-    },
-    {
-      event_id: 102,
-      event_name_cn: '摸鱼',
-      event_name_en: 'Slack Off',
-      time_cost: 2,
-      can_execute: true
-    }
-  ]
+  
+  try {
+    // 调用后端获取实体事件
+    const eventsData = await backend.getEntityEvents(entity.entity_id)
+    entityEvents.value = eventsData.available_events || []
+  } catch (error) {
+    console.error('Failed to get entity events:', error)
+    // 如果获取失败，使用空数组
+    entityEvents.value = []
+  }
 }
 
 const backToEntities = () => {

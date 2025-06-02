@@ -53,7 +53,7 @@ export class BackendAdapter {
       }
 
       const script = document.createElement('script')
-      script.src = './dist/game-engine.js'
+      script.src = '/dist/game-engine.js'
       script.onload = () => {
         console.log('Game engine script loaded successfully')
         resolve()
@@ -234,5 +234,10 @@ export class BackendAdapter {
       return this.gameEngine.isGameOver()
     }
     return false
+  }
+
+  // 检查是否已初始化
+  get initialized(): boolean {
+    return this.isInitialized
   }
 } 

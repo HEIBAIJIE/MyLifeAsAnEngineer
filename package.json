@@ -8,14 +8,23 @@
     "build": "tsc",
     "build:browser": "webpack --mode=production",
     "build:browser:dev": "webpack --mode=development",
-    "dev": "ts-node start-game.ts",
+    "build:browser:watch": "webpack --mode=development --watch",
+    "dev": "npm run dev:build-and-serve",
+    "dev:parallel": "concurrently \"npm run dev:backend\" \"npm run dev:frontend:delayed\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",
+    "dev:backend": "npm run build:browser:watch",
+    "dev:frontend": "cd frontend-web && npm run dev",
+    "dev:frontend:delayed": "npm run wait-for-backend && npm run dev:frontend",
+    "dev:build-and-serve": "npm run build:browser:dev && concurrently \"npm run dev:backend\" \"npm run dev:frontend\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",
+    "wait-for-backend": "node scripts/wait-for-backend.js",
     "frontend": "ts-node src/frontend/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:frontend": "jest test/frontend",
     "lint": "tslint src/**/*.ts",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist frontend-web/dist",
+    "install:all": "npm install && cd frontend-web && npm install",
+    "build:all": "npm run build:browser && cd frontend-web && npm run build"
   },
   "keywords": [
     "game",
@@ -34,7 +43,9 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "ts-loader": "^9.5.1",
-    "path-browserify": "^1.0.1"
+    "path-browserify": "^1.0.1",
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
   },
   "dependencies": {}
 }

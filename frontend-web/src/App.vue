@@ -106,7 +106,13 @@ const backend = new BackendAdapter()
 
 // 生命周期
 onMounted(async () => {
-  await backend.initialize()
+  try {
+    // 创建全局后端适配器实例但不立即初始化
+    ;(window as any).backendAdapter = backend
+    console.log('Backend adapter instance created')
+  } catch (error) {
+    console.error('Failed to create backend adapter instance:', error)
+  }
 })
 
 // 视图切换
@@ -118,6 +124,12 @@ const goToEnding = () => { currentView.value = 'ending' }
 // 游戏操作
 const handleNewGame = async () => {
   try {
+    // 初始化后端适配器
+    if (!backend.initialized) {
+      await backend.initialize()
+      console.log('Backend initialized successfully')
+    }
+    
     await backend.resetGame()
     await updateGameState()
     currentView.value = 'scene'
