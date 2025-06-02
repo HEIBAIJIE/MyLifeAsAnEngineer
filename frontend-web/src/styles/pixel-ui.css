@@ -1,0 +1,380 @@
+/* 像素艺术游戏UI样式 */
+
+/* 字体导入 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* 全局重置和基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Press Start 2P', monospace;
+  background: #000;
+  color: #00ff00;
+  overflow: hidden;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* 像素边框样式 */
+.pixel-border {
+  border: 2px solid #004400;
+  border-image: 
+    repeating-linear-gradient(
+      45deg,
+      #004400 0px,
+      #004400 2px,
+      transparent 2px,
+      transparent 4px
+    ) 2;
+  box-shadow: 
+    inset 0 0 0 1px #002200,
+    0 0 0 1px #002200,
+    0 2px 0 #002200;
+}
+
+.pixel-border:hover {
+  border-color: #006600;
+  box-shadow: 
+    inset 0 0 0 1px #004400,
+    0 0 0 1px #004400,
+    0 2px 0 #004400,
+    0 0 8px #00ff00;
+}
+
+/* 像素按钮样式 */
+.pixel-button {
+  font-family: 'Press Start 2P', monospace;
+  background: rgba(0, 60, 0, 0.8);
+  border: 2px solid #006600;
+  color: #00ff00;
+  padding: 8px 16px;
+  font-size: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  box-shadow: 
+    0 2px 0 #003300,
+    inset 0 1px 0 #009900;
+}
+
+.pixel-button:hover {
+  background: rgba(0, 80, 0, 0.9);
+  border-color: #00aa00;
+  transform: translateY(-1px);
+  box-shadow: 
+    0 3px 0 #003300,
+    inset 0 1px 0 #00bb00,
+    0 0 10px #00ff00;
+}
+
+.pixel-button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 0 #003300,
+    inset 0 1px 0 #006600;
+}
+
+.pixel-button.large {
+  padding: 12px 24px;
+  font-size: 10px;
+}
+
+.pixel-button.small {
+  padding: 6px 12px;
+  font-size: 6px;
+}
+
+.pixel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pixel-button:disabled:hover {
+  transform: none;
+  box-shadow: 
+    0 2px 0 #003300,
+    inset 0 1px 0 #009900;
+}
+
+/* 像素发光文字 */
+.pixel-glow {
+  animation: pixel-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pixel-glow {
+  from {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
+      2px 2px 0px #000;
+  }
+  to {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor,
+      2px 2px 0px #000;
+  }
+}
+
+/* 像素文本样式 */
+.pixel-text {
+  font-size: 10px;
+  color: #cccccc;
+  text-shadow: 1px 1px 0px #000;
+  line-height: 1.4;
+}
+
+.pixel-text-large {
+  font-size: 14px;
+  color: #00ffff;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.pixel-text-small {
+  font-size: 8px;
+  color: #999999;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.pixel-text-subtitle {
+  font-size: 9px;
+  color: #888888;
+  text-shadow: 1px 1px 0px #000;
+  line-height: 1.6;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #001100;
+  border: 1px solid #003300;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #006600;
+  border: 1px solid #004400;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #008800;
+}
+
+/* 输入框样式 */
+.pixel-input {
+  font-family: 'Press Start 2P', monospace;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #004400;
+  color: #00ff00;
+  padding: 8px;
+  font-size: 8px;
+}
+
+.pixel-input:focus {
+  outline: none;
+  border-color: #00ff00;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.pixel-input::placeholder {
+  color: #666;
+  opacity: 0.8;
+}
+
+/* 资源显示样式 */
+.resource-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #003300;
+  border-radius: 0;
+}
+
+.resource-icon {
+  font-size: 12px;
+  filter: drop-shadow(1px 1px 0px #000);
+}
+
+.resource-value {
+  font-size: 8px;
+  color: #cccccc;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.resource-value.low {
+  color: #ff6600;
+}
+
+.resource-value.high {
+  color: #00ff00;
+}
+
+/* 实体卡片样式 */
+.entity-card {
+  background: rgba(0, 20, 0, 0.8);
+  border: 2px solid #004400;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.entity-card:hover {
+  border-color: #006600;
+  background: rgba(0, 30, 0, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #002200, 0 0 15px #00ff00;
+}
+
+.entity-card.selected {
+  border-color: #00ff00;
+  background: rgba(0, 40, 0, 0.9);
+  box-shadow: 0 0 15px #00ff00;
+}
+
+.entity-icon {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 8px;
+  filter: drop-shadow(2px 2px 0px #000);
+}
+
+.entity-name {
+  font-size: 9px;
+  color: #00ffff;
+  text-align: center;
+  text-shadow: 1px 1px 0px #000;
+}
+
+/* 事件列表样式 */
+.event-item {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #003300;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.event-item:hover {
+  border-color: #006600;
+  background: rgba(0, 20, 0, 0.8);
+  transform: translateX(4px);
+}
+
+.event-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.event-name {
+  font-size: 9px;
+  color: #00ffff;
+  text-shadow: 1px 1px 0px #000;
+  margin-bottom: 4px;
+}
+
+.event-cost {
+  font-size: 7px;
+  color: #ff9900;
+  text-shadow: 1px 1px 0px #000;
+}
+
+/* 加载动画 */
+.pixel-loading {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #003300;
+  border-top: 2px solid #00ff00;
+  border-radius: 0;
+  animation: pixel-spin 1s linear infinite;
+}
+
+@keyframes pixel-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 通知样式 */
+.pixel-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 40, 0, 0.95);
+  border: 2px solid #00ff00;
+  padding: 12px 16px;
+  z-index: 10000;
+  animation: pixel-slide-in 0.5s ease-out;
+}
+
+@keyframes pixel-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-text {
+  font-size: 8px;
+  color: #00ff00;
+  text-shadow: 1px 1px 0px #000;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .pixel-button {
+    padding: 10px 18px;
+    font-size: 9px;
+  }
+  
+  .pixel-text {
+    font-size: 9px;
+  }
+  
+  .pixel-text-large {
+    font-size: 12px;
+  }
+  
+  .entity-icon {
+    font-size: 20px;
+  }
+  
+  .entity-name {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pixel-button {
+    padding: 8px 16px;
+    font-size: 8px;
+  }
+  
+  .pixel-text {
+    font-size: 8px;
+  }
+  
+  .pixel-text-large {
+    font-size: 10px;
+  }
+} 

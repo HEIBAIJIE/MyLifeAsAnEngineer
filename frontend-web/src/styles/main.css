@@ -1,0 +1,408 @@
+/* 复古像素风格主样式 */
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 基础样式 */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  background: #000;
+  color: #00ff00;
+  overflow: hidden;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+/* 像素边框样式 */
+.pixel-border {
+  border: 4px solid #00ff00;
+  border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='%2300ff00' stroke-width='4'/%3e%3c/svg%3e") 4;
+  position: relative;
+  background: #001100;
+}
+
+.pixel-border::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: 
+    linear-gradient(45deg, #000 25%, transparent 25%),
+    linear-gradient(-45deg, #000 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #000 75%),
+    linear-gradient(-45deg, transparent 75%, #000 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  z-index: -1;
+}
+
+/* 像素按钮样式 */
+.pixel-button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 12px 20px;
+  background: #001100;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  cursor: pointer;
+  position: relative;
+  text-transform: uppercase;
+  transition: all 0.1s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+.pixel-button:hover {
+  background: #00ff00;
+  color: #000;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.pixel-button:active {
+  transform: translate(1px, 1px);
+}
+
+.pixel-button:disabled {
+  background: #333;
+  color: #666;
+  border-color: #666;
+  cursor: not-allowed;
+}
+
+.pixel-button.small {
+  padding: 8px 12px;
+  font-size: 8px;
+  min-width: 80px;
+}
+
+.pixel-button.large {
+  padding: 16px 32px;
+  font-size: 14px;
+  min-width: 200px;
+}
+
+/* 像素文本框样式 */
+.pixel-input {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 8px;
+  background: #000;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  outline: none;
+  resize: none;
+}
+
+.pixel-input:focus {
+  box-shadow: 0 0 10px #00ff00;
+}
+
+/* 像素对话框样式 */
+.pixel-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.pixel-dialog-content {
+  background: #001100;
+  border: 4px solid #00ff00;
+  padding: 20px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.pixel-dialog-content h3 {
+  color: #00ff00;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* 像素卡片样式 */
+.pixel-card {
+  background: #002200;
+  border: 2px solid #00aa00;
+  padding: 12px;
+  margin: 8px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+}
+
+.pixel-card:hover {
+  border-color: #00ff00;
+  box-shadow: 0 0 8px #00ff00;
+  background: #003300;
+}
+
+.pixel-card.active {
+  background: #004400;
+  border-color: #00ff00;
+  box-shadow: 0 0 12px #00ff00;
+}
+
+.pixel-card.disabled {
+  background: #111;
+  border-color: #444;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* 像素网格布局 */
+.pixel-grid {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+}
+
+.pixel-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.pixel-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.pixel-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 像素文本样式 */
+.pixel-text {
+  color: #00ff00;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.pixel-text-title {
+  font-size: 16px;
+  color: #00ffff;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.pixel-text-subtitle {
+  font-size: 10px;
+  color: #ffff00;
+  text-align: center;
+  margin: 8px 0;
+}
+
+.pixel-text-small {
+  font-size: 8px;
+  color: #aaffaa;
+}
+
+.pixel-text-error {
+  color: #ff4444;
+}
+
+.pixel-text-success {
+  color: #44ff44;
+}
+
+.pixel-text-warning {
+  color: #ffff44;
+}
+
+/* 像素状态栏 */
+.pixel-status-bar {
+  background: #000;
+  border-bottom: 2px solid #00ff00;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pixel-status-item {
+  display: flex;
+  align-items: center;
+  margin: 4px 8px;
+}
+
+.pixel-status-label {
+  color: #aaffaa;
+  margin-right: 8px;
+}
+
+.pixel-status-value {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+/* 像素进度条 */
+.pixel-progress {
+  width: 100%;
+  height: 12px;
+  background: #000;
+  border: 1px solid #00ff00;
+  position: relative;
+  margin: 4px 0;
+}
+
+.pixel-progress-bar {
+  height: 100%;
+  background: #00ff00;
+  transition: width 0.3s ease;
+}
+
+.pixel-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: #000;
+  z-index: 1;
+}
+
+/* 像素表格 */
+.pixel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+
+.pixel-table th,
+.pixel-table td {
+  border: 1px solid #00aa00;
+  padding: 8px;
+  text-align: left;
+  font-size: 8px;
+}
+
+.pixel-table th {
+  background: #003300;
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.pixel-table tr:nth-child(even) {
+  background: #001a00;
+}
+
+.pixel-table tr:hover {
+  background: #002a00;
+}
+
+/* 像素滚动条 */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+  border: 1px solid #00aa00;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #44ff44;
+}
+
+/* 像素动画 */
+@keyframes pixel-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes pixel-glow {
+  0%, 100% { box-shadow: 0 0 5px #00ff00; }
+  50% { box-shadow: 0 0 20px #00ff00; }
+}
+
+@keyframes pixel-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.pixel-blink {
+  animation: pixel-blink 1s infinite;
+}
+
+.pixel-glow {
+  animation: pixel-glow 2s infinite;
+}
+
+.pixel-shake {
+  animation: pixel-shake 0.5s infinite;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  html, body {
+    font-size: 10px;
+  }
+  
+  .pixel-button {
+    padding: 8px 12px;
+    font-size: 8px;
+    min-width: 100px;
+  }
+  
+  .pixel-dialog-content {
+    margin: 10px;
+    padding: 16px;
+  }
+  
+  .pixel-grid {
+    gap: 4px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  html, body {
+    font-size: 8px;
+  }
+  
+  .pixel-button {
+    padding: 6px 10px;
+    font-size: 7px;
+    min-width: 80px;
+  }
+  
+  .pixel-status-bar {
+    padding: 4px 8px;
+  }
+  
+  .pixel-dialog-content {
+    margin: 5px;
+    padding: 12px;
+  }
+} 
