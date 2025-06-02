@@ -179,18 +179,18 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 178,询问推荐菜品,Ask for recommendations,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,178
 179,了解餐厅特色,Learn restaurant specialties,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,179
 180,要求打包,Request takeaway,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,180
-181,品尝美食,Taste delicious food,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,151
-182,享受用餐时光,Enjoy dining time,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,152
-183,控制用餐节奏,Control eating pace,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,153
-184,记录美食体验,Record food experience,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,154
-185,查看菜单详情,Check menu details,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,155
-186,观察用餐礼仪,Observe dining etiquette,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,156
-187,了解餐厅评价,Learn restaurant reviews,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,157
-188,常规体检,Regular medical checkup,4,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,158
-189,咨询健康问题,Consult health issues,3,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,159
-190,定期健康管理,Regular health management,5,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,160
-191,获取健康建议,Get health advice,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,161
-192,查询健康信息,Query health information,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,162
+181,品尝美食,Taste delicious food,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,181
+182,享受用餐时光,Enjoy dining time,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,182
+183,控制用餐节奏,Control eating pace,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,183
+184,记录美食体验,Record food experience,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,184
+185,查看菜单详情,Check menu details,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,185
+186,观察用餐礼仪,Observe dining etiquette,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,186
+187,了解餐厅评价,Learn restaurant reviews,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,187
+188,常规体检,Regular medical checkup,4,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,188
+189,咨询健康问题,Consult health issues,3,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,189
+190,定期健康管理,Regular health management,5,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,190
+191,获取健康建议,Get health advice,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,191
+192,查询健康信息,Query health information,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,192
 193,预约后续检查,Schedule follow-up,1,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,163
 194,关注身体状况,Monitor physical condition,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,164
 195,制定健康计划,Make health plan,3,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,165
