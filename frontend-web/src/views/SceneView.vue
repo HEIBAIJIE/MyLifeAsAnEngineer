@@ -378,85 +378,85 @@ const executeEvent = (eventId: number) => {
 
 .status-left {
   display: flex;
-  gap: 20px;
+  gap: clamp(16px, 2vw, 24px);
 }
 
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 12px);
 }
 
 .scene-content {
   flex: 1;
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: clamp(12px, 2vw, 20px);
+  padding: clamp(12px, 2vw, 20px);
   overflow: hidden;
 }
 
 .character-panel {
-  width: 300px;
+  width: clamp(250px, 25vw, 350px);
   background: rgba(0, 17, 0, 0.9);
-  padding: 16px;
+  padding: clamp(12px, 2vw, 20px);
   overflow-y: auto;
 }
 
 .interaction-panel {
   flex: 1;
   background: rgba(0, 17, 0, 0.9);
-  padding: 16px;
+  padding: clamp(12px, 2vw, 20px);
   overflow-y: auto;
 }
 
 .panel-title {
   color: #00ff00;
-  font-size: 12px;
-  margin-bottom: 16px;
+  font-size: var(--ui-font-size);
+  margin-bottom: clamp(12px, 1.5vw, 20px);
   text-align: center;
   border-bottom: 1px solid #004400;
-  padding-bottom: 8px;
+  padding-bottom: clamp(6px, 1vw, 10px);
 }
 
 .stats-section {
-  margin-bottom: 20px;
+  margin-bottom: clamp(16px, 2vw, 24px);
 }
 
 .section-title {
   color: #ffff00;
-  font-size: 10px;
-  margin-bottom: 12px;
+  font-size: var(--small-font-size);
+  margin-bottom: clamp(8px, 1.2vw, 16px);
   text-align: center;
 }
 
 .stats-grid {
   display: grid;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 12px);
 }
 
 .stat-item {
   display: grid;
-  grid-template-columns: 20px 1fr auto;
+  grid-template-columns: clamp(16px, 2vw, 24px) 1fr auto;
   grid-template-rows: auto auto;
-  gap: 4px;
+  gap: clamp(3px, 0.5vw, 6px);
   align-items: center;
-  padding: 6px;
+  padding: clamp(4px, 0.8vw, 8px);
   background: rgba(0, 34, 0, 0.5);
   border: 1px solid #004400;
 }
 
 .stat-icon {
   grid-row: 1 / 3;
-  font-size: 14px;
+  font-size: var(--ui-font-size);
   text-align: center;
 }
 
 .stat-name {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   color: #aaffaa;
 }
 
 .stat-value {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   text-align: right;
   font-weight: bold;
 }
@@ -468,23 +468,23 @@ const executeEvent = (eventId: number) => {
 
 .pixel-progress {
   grid-column: 2 / 4;
-  height: 6px;
-  margin-top: 2px;
+  height: clamp(4px, 0.8vw, 8px);
+  margin-top: clamp(2px, 0.3vw, 4px);
 }
 
 .entities-grid {
   display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(8px, 1.5vw, 16px);
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 25vw, 220px), 1fr));
 }
 
 .entity-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: clamp(12px, 2vw, 20px);
   text-align: center;
-  min-height: 120px;
+  min-height: clamp(100px, 15vw, 140px);
   justify-content: space-between;
 }
 
@@ -498,8 +498,8 @@ const executeEvent = (eventId: number) => {
 }
 
 .entity-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: clamp(24px, 4vw, 48px);
+  margin-bottom: clamp(6px, 1vw, 12px);
 }
 
 .entity-info {
@@ -510,44 +510,45 @@ const executeEvent = (eventId: number) => {
 }
 
 .entity-name {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #00ff00;
-  margin-bottom: 4px;
+  margin-bottom: clamp(3px, 0.5vw, 6px);
 }
 
 .entity-events-count {
   color: #aaffaa;
+  font-size: var(--small-font-size);
 }
 
 .interaction-hint {
   color: #ffff00;
-  font-size: 7px;
-  margin-top: 8px;
+  font-size: var(--tiny-font-size);
+  margin-top: clamp(6px, 1vw, 10px);
 }
 
 .no-interaction {
   color: #666;
-  font-size: 7px;
-  margin-top: 8px;
+  font-size: var(--tiny-font-size);
+  margin-top: clamp(6px, 1vw, 10px);
 }
 
 .events-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: clamp(8px, 1.5vw, 16px);
+  margin-bottom: clamp(12px, 2vw, 20px);
 }
 
 .events-grid {
   display: grid;
-  gap: 12px;
+  gap: clamp(8px, 1.5vw, 16px);
 }
 
 .event-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: clamp(10px, 1.5vw, 16px);
 }
 
 .event-card.executable:hover {
@@ -563,38 +564,41 @@ const executeEvent = (eventId: number) => {
 }
 
 .event-name {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #00ff00;
-  margin-bottom: 4px;
+  margin-bottom: clamp(3px, 0.5vw, 6px);
 }
 
 .event-details {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: clamp(2px, 0.3vw, 4px);
 }
 
 .event-time {
   color: #aaffaa;
+  font-size: var(--small-font-size);
 }
 
 .event-requirements {
   color: #ffaa00;
+  font-size: var(--small-font-size);
 }
 
 .event-execute-btn {
-  margin-left: 12px;
+  margin-left: clamp(8px, 1.2vw, 16px);
 }
 
 .cannot-execute {
-  font-size: 8px;
-  margin-left: 12px;
+  font-size: var(--small-font-size);
+  margin-left: clamp(8px, 1.2vw, 16px);
 }
 
 .no-events {
   text-align: center;
-  padding: 20px;
+  padding: clamp(16px, 2.5vw, 24px);
   color: #666;
+  font-size: var(--ui-font-size);
 }
 
 .scene-decoration {
@@ -609,8 +613,8 @@ const executeEvent = (eventId: number) => {
 
 .decoration-element {
   position: absolute;
-  width: 2px;
-  height: 2px;
+  width: clamp(2px, 0.3vw, 4px);
+  height: clamp(2px, 0.3vw, 4px);
   background: #00ff00;
   opacity: 0.2;
   animation: decoration-twinkle 3s infinite;
@@ -630,7 +634,7 @@ const executeEvent = (eventId: number) => {
 /* 响应式设计 */
 @media (max-width: 1024px) {
   .character-panel {
-    width: 250px;
+    width: clamp(220px, 22vw, 280px);
   }
   
   .entities-grid {
@@ -641,12 +645,12 @@ const executeEvent = (eventId: number) => {
 @media (max-width: 768px) {
   .scene-content {
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(8px, 1.5vw, 16px);
   }
   
   .character-panel {
     width: 100%;
-    height: 200px;
+    height: clamp(180px, 25vh, 240px);
   }
   
   .interaction-panel {
@@ -655,23 +659,23 @@ const executeEvent = (eventId: number) => {
   
   .status-left {
     flex-direction: column;
-    gap: 4px;
+    gap: clamp(3px, 0.5vw, 6px);
   }
   
   .action-buttons {
     flex-wrap: wrap;
-    gap: 4px;
+    gap: clamp(3px, 0.5vw, 6px);
   }
 }
 
 @media (max-width: 480px) {
   .scene-content {
-    padding: 8px;
+    padding: clamp(6px, 1vw, 12px);
   }
   
   .character-panel,
   .interaction-panel {
-    padding: 8px;
+    padding: clamp(6px, 1vw, 12px);
   }
   
   .stats-grid {
@@ -679,12 +683,12 @@ const executeEvent = (eventId: number) => {
   }
   
   .entity-card {
-    min-height: 80px;
-    padding: 8px;
+    min-height: clamp(80px, 12vw, 120px);
+    padding: clamp(6px, 1vw, 12px);
   }
   
   .entity-icon {
-    font-size: 24px;
+    font-size: clamp(20px, 3vw, 32px);
   }
 }
 </style> 

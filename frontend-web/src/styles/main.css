@@ -7,12 +7,31 @@
   box-sizing: border-box;
 }
 
+/* 动态字体大小系统 - 基于视口宽度 */
+:root {
+  /* 基础字体大小计算 - 最小16px，最大32px */
+  --base-font-size: clamp(16px, 2vw, 32px);
+  --small-font-size: clamp(12px, 1.5vw, 24px);
+  --large-font-size: clamp(20px, 2.5vw, 40px);
+  --title-font-size: clamp(24px, 3vw, 48px);
+  --subtitle-font-size: clamp(14px, 1.8vw, 28px);
+  
+  /* 按钮字体大小 */
+  --button-font-size: clamp(14px, 1.6vw, 28px);
+  --button-small-font-size: clamp(12px, 1.2vw, 20px);
+  --button-large-font-size: clamp(18px, 2.2vw, 36px);
+  
+  /* 界面元素字体大小 */
+  --ui-font-size: clamp(12px, 1.4vw, 24px);
+  --tiny-font-size: clamp(10px, 1vw, 18px);
+}
+
 /* 基础样式 */
 html, body {
   width: 100%;
   height: 100%;
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: var(--base-font-size);
   line-height: 1.4;
   background: #000;
   color: #00ff00;
@@ -58,8 +77,8 @@ html, body {
 /* 像素按钮样式 */
 .pixel-button {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  padding: 12px 20px;
+  font-size: var(--button-font-size);
+  padding: clamp(8px, 1vw, 16px) clamp(16px, 2vw, 32px);
   background: #001100;
   color: #00ff00;
   border: 2px solid #00ff00;
@@ -67,7 +86,7 @@ html, body {
   position: relative;
   text-transform: uppercase;
   transition: all 0.1s ease;
-  min-width: 120px;
+  min-width: clamp(120px, 15vw, 240px);
   text-align: center;
 }
 
@@ -89,22 +108,22 @@ html, body {
 }
 
 .pixel-button.small {
-  padding: 8px 12px;
-  font-size: 8px;
-  min-width: 80px;
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.5vw, 24px);
+  font-size: var(--button-small-font-size);
+  min-width: clamp(80px, 10vw, 160px);
 }
 
 .pixel-button.large {
-  padding: 16px 32px;
-  font-size: 14px;
-  min-width: 200px;
+  padding: clamp(12px, 1.5vw, 24px) clamp(24px, 3vw, 48px);
+  font-size: var(--button-large-font-size);
+  min-width: clamp(200px, 25vw, 400px);
 }
 
 /* 像素文本框样式 */
 .pixel-input {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  padding: 8px;
+  font-size: var(--ui-font-size);
+  padding: clamp(6px, 1vw, 12px);
   background: #000;
   color: #00ff00;
   border: 2px solid #00ff00;
@@ -133,8 +152,8 @@ html, body {
 .pixel-dialog-content {
   background: #001100;
   border: 4px solid #00ff00;
-  padding: 20px;
-  max-width: 600px;
+  padding: clamp(16px, 2vw, 32px);
+  max-width: clamp(400px, 60vw, 800px);
   max-height: 80vh;
   overflow-y: auto;
   position: relative;
@@ -144,15 +163,15 @@ html, body {
   color: #00ff00;
   margin-bottom: 16px;
   text-align: center;
-  font-size: 12px;
+  font-size: var(--subtitle-font-size);
 }
 
 /* 像素卡片样式 */
 .pixel-card {
   background: #002200;
   border: 2px solid #00aa00;
-  padding: 12px;
-  margin: 8px;
+  padding: clamp(8px, 1.2vw, 16px);
+  margin: clamp(4px, 0.8vw, 12px);
   cursor: pointer;
   transition: all 0.1s ease;
   position: relative;
@@ -180,8 +199,8 @@ html, body {
 /* 像素网格布局 */
 .pixel-grid {
   display: grid;
-  gap: 8px;
-  padding: 8px;
+  gap: clamp(4px, 0.8vw, 12px);
+  padding: clamp(4px, 0.8vw, 12px);
 }
 
 .pixel-grid-2 {
@@ -200,24 +219,25 @@ html, body {
 .pixel-text {
   color: #00ff00;
   text-shadow: 1px 1px 0px #000;
+  font-size: var(--base-font-size);
 }
 
 .pixel-text-title {
-  font-size: 16px;
+  font-size: var(--title-font-size);
   color: #00ffff;
   text-align: center;
-  margin: 16px 0;
+  margin: clamp(12px, 2vw, 24px) 0;
 }
 
 .pixel-text-subtitle {
-  font-size: 10px;
+  font-size: var(--subtitle-font-size);
   color: #ffff00;
   text-align: center;
-  margin: 8px 0;
+  margin: clamp(6px, 1vw, 12px) 0;
 }
 
 .pixel-text-small {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   color: #aaffaa;
 }
 
@@ -237,7 +257,7 @@ html, body {
 .pixel-status-bar {
   background: #000;
   border-bottom: 2px solid #00ff00;
-  padding: 8px 16px;
+  padding: clamp(6px, 1vw, 12px) clamp(12px, 2vw, 24px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -247,23 +267,25 @@ html, body {
 .pixel-status-item {
   display: flex;
   align-items: center;
-  margin: 4px 8px;
+  margin: clamp(2px, 0.5vw, 6px) clamp(4px, 0.8vw, 12px);
 }
 
 .pixel-status-label {
   color: #aaffaa;
-  margin-right: 8px;
+  margin-right: clamp(4px, 0.8vw, 12px);
+  font-size: var(--ui-font-size);
 }
 
 .pixel-status-value {
   color: #00ff00;
   font-weight: bold;
+  font-size: var(--ui-font-size);
 }
 
 /* 像素进度条 */
 .pixel-progress {
   width: 100%;
-  height: 12px;
+  height: clamp(8px, 1vw, 16px);
   background: #000;
   border: 1px solid #00ff00;
   position: relative;
@@ -281,7 +303,7 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 8px;
+  font-size: var(--tiny-font-size);
   color: #000;
   z-index: 1;
 }
@@ -296,9 +318,9 @@ html, body {
 .pixel-table th,
 .pixel-table td {
   border: 1px solid #00aa00;
-  padding: 8px;
+  padding: clamp(4px, 0.8vw, 12px);
   text-align: left;
-  font-size: 8px;
+  font-size: var(--ui-font-size);
 }
 
 .pixel-table th {
@@ -317,7 +339,7 @@ html, body {
 
 /* 像素滚动条 */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: clamp(8px, 1vw, 16px);
 }
 
 ::-webkit-scrollbar-track {
@@ -363,46 +385,392 @@ html, body {
   animation: pixel-shake 0.5s infinite;
 }
 
-/* 响应式设计 */
+/* 响应式设计 - 极小屏幕调整 */
 @media (max-width: 768px) {
-  html, body {
-    font-size: 10px;
-  }
-  
-  .pixel-button {
-    padding: 8px 12px;
-    font-size: 8px;
-    min-width: 100px;
+  :root {
+    /* 移动设备上稍微减小字体 */
+    --base-font-size: clamp(14px, 2.2vw, 24px);
+    --button-font-size: clamp(12px, 1.8vw, 20px);
+    --title-font-size: clamp(20px, 3.5vw, 32px);
   }
   
   .pixel-dialog-content {
     margin: 10px;
-    padding: 16px;
-  }
-  
-  .pixel-grid {
-    gap: 4px;
-    padding: 4px;
+    padding: clamp(12px, 2vw, 20px);
   }
 }
 
 @media (max-width: 480px) {
-  html, body {
-    font-size: 8px;
-  }
-  
-  .pixel-button {
-    padding: 6px 10px;
-    font-size: 7px;
-    min-width: 80px;
+  :root {
+    /* 小屏幕设备进一步调整 */
+    --base-font-size: clamp(12px, 2.5vw, 20px);
+    --button-font-size: clamp(10px, 2vw, 16px);
+    --title-font-size: clamp(16px, 4vw, 24px);
   }
   
   .pixel-status-bar {
-    padding: 4px 8px;
+    padding: clamp(4px, 1vw, 8px);
   }
   
   .pixel-dialog-content {
     margin: 5px;
-    padding: 12px;
+    padding: clamp(8px, 1.5vw, 16px);
   }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1920px) {
+  :root {
+    /* 4K及以上屏幕 - 增大字体 */
+    --base-font-size: clamp(24px, 1.5vw, 40px);
+    --button-font-size: clamp(20px, 1.2vw, 32px);
+    --title-font-size: clamp(32px, 2vw, 56px);
+    --subtitle-font-size: clamp(18px, 1.3vw, 32px);
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    /* 超大屏幕 */
+    --base-font-size: clamp(28px, 1.2vw, 48px);
+    --button-font-size: clamp(24px, 1vw, 40px);
+    --title-font-size: clamp(40px, 1.8vw, 64px);
+  }
+}
+
+/* 游戏特定样式 */
+.character-status {
+  background: rgba(0, 20, 0, 0.8);
+  border: 2px solid #004400;
+  padding: clamp(12px, 1.5vw, 24px);
+  margin: clamp(4px, 0.8vw, 12px);
+}
+
+.character-status h3 {
+  color: #00ffff;
+  font-size: var(--subtitle-font-size);
+  margin-bottom: clamp(8px, 1vw, 16px);
+  text-shadow: 1px 1px 0px #000;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 20vw, 200px), 1fr));
+  gap: clamp(6px, 1vw, 12px);
+}
+
+.resource-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(4px, 0.8vw, 8px);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #003300;
+}
+
+.resource-name {
+  font-size: var(--ui-font-size);
+  color: #cccccc;
+}
+
+.resource-value {
+  font-size: var(--ui-font-size);
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.actions-container {
+  background: rgba(0, 20, 0, 0.8);
+  border: 2px solid #004400;
+  padding: clamp(12px, 1.5vw, 24px);
+  margin: clamp(4px, 0.8vw, 12px);
+}
+
+.actions-container h3 {
+  color: #00ffff;
+  font-size: var(--subtitle-font-size);
+  margin-bottom: clamp(8px, 1vw, 16px);
+  text-shadow: 1px 1px 0px #000;
+}
+
+.entities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 25vw, 300px), 1fr));
+  gap: clamp(8px, 1.2vw, 16px);
+}
+
+.entity-card {
+  background: rgba(0, 30, 0, 0.8);
+  border: 2px solid #004400;
+  padding: clamp(12px, 1.5vw, 20px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.entity-card.interactive:hover {
+  border-color: #00ff00;
+  background: rgba(0, 40, 0, 0.9);
+  box-shadow: 0 0 15px #00ff00;
+}
+
+.entity-card.non-interactive {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.entity-icon {
+  font-size: clamp(20px, 3vw, 40px);
+  text-align: center;
+  margin-bottom: clamp(6px, 1vw, 12px);
+}
+
+.entity-info {
+  text-align: center;
+}
+
+.entity-name {
+  font-size: var(--ui-font-size);
+  color: #00ffff;
+  margin-bottom: clamp(4px, 0.5vw, 8px);
+}
+
+.entity-events-count {
+  font-size: var(--small-font-size);
+  color: #cccccc;
+}
+
+.interact-hint {
+  font-size: var(--tiny-font-size);
+  color: #ffff00;
+  text-align: center;
+  margin-top: clamp(4px, 0.5vw, 8px);
+}
+
+.no-interact {
+  font-size: var(--tiny-font-size);
+  color: #666;
+  text-align: center;
+  margin-top: clamp(4px, 0.5vw, 8px);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.entity-events-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: clamp(12px, 1.5vw, 20px);
+  gap: clamp(8px, 1vw, 16px);
+}
+
+.back-btn {
+  background: rgba(0, 60, 0, 0.8);
+  border: 2px solid #006600;
+  color: #00ff00;
+  padding: clamp(6px, 1vw, 12px) clamp(12px, 1.5vw, 20px);
+  font-size: var(--ui-font-size);
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.back-btn:hover {
+  background: rgba(0, 80, 0, 0.9);
+  border-color: #00aa00;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.events-grid {
+  display: grid;
+  gap: clamp(8px, 1vw, 16px);
+}
+
+.event-card {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #003300;
+  padding: clamp(10px, 1.2vw, 16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.event-card.executable {
+  border-color: #006600;
+}
+
+.event-card.executable:hover {
+  border-color: #00ff00;
+  background: rgba(0, 20, 0, 0.8);
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.event-card.non-executable {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-name {
+  font-size: var(--ui-font-size);
+  color: #00ffff;
+  margin-bottom: clamp(4px, 0.5vw, 6px);
+}
+
+.event-time {
+  font-size: var(--small-font-size);
+  color: #ff9900;
+}
+
+.event-btn {
+  background: rgba(0, 80, 0, 0.8);
+  border: 2px solid #00aa00;
+  color: #00ff00;
+  padding: clamp(6px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
+  font-size: var(--small-font-size);
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.event-btn:hover {
+  background: rgba(0, 100, 0, 0.9);
+  border-color: #00ff00;
+  box-shadow: 0 0 8px #00ff00;
+}
+
+.cannot-execute {
+  color: #666;
+  font-size: var(--small-font-size);
+  padding: clamp(6px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
+}
+
+/* 事件结果样式 */
+.event-result {
+  padding: clamp(12px, 1.5vw, 20px);
+}
+
+.event-result h3 {
+  font-size: var(--subtitle-font-size);
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+
+.event-text {
+  font-size: var(--base-font-size);
+  color: #cccccc;
+  line-height: 1.6;
+  margin-bottom: clamp(12px, 1.5vw, 16px);
+}
+
+.time-cost {
+  font-size: var(--ui-font-size);
+  color: #ff9900;
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+
+.resource-changes {
+  margin-bottom: clamp(12px, 1.5vw, 16px);
+}
+
+.resource-changes h4 {
+  font-size: var(--ui-font-size);
+  color: #ffff00;
+  margin-bottom: clamp(6px, 0.8vw, 10px);
+}
+
+.resource-change {
+  display: flex;
+  justify-content: space-between;
+  padding: clamp(4px, 0.6vw, 8px);
+  margin-bottom: clamp(4px, 0.5vw, 6px);
+  background: rgba(0, 0, 0, 0.4);
+  font-size: var(--ui-font-size);
+}
+
+.resource-change.positive {
+  border-left: 3px solid #00ff00;
+}
+
+.resource-change.negative {
+  border-left: 3px solid #ff6600;
+}
+
+.temporary-events, .scheduled-tasks {
+  margin-bottom: clamp(12px, 1.5vw, 16px);
+}
+
+.temporary-events h4, .scheduled-tasks h4 {
+  font-size: var(--ui-font-size);
+  color: #ffff00;
+  margin-bottom: clamp(6px, 0.8vw, 10px);
+}
+
+.temp-event, .scheduled-task {
+  background: rgba(0, 0, 0, 0.4);
+  padding: clamp(8px, 1vw, 12px);
+  margin-bottom: clamp(6px, 0.8vw, 8px);
+  border-left: 3px solid #ffff00;
+  font-size: var(--ui-font-size);
+}
+
+/* 库存相关样式 */
+.empty-inventory {
+  text-align: center;
+  padding: clamp(24px, 3vw, 40px);
+  font-size: var(--base-font-size);
+  color: #666;
+}
+
+.item-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--ui-font-size);
+}
+
+.use-item-btn {
+  background: rgba(0, 80, 0, 0.8);
+  border: 2px solid #00aa00;
+  color: #00ff00;
+  padding: clamp(4px, 0.6vw, 8px) clamp(8px, 1vw, 12px);
+  font-size: var(--small-font-size);
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.use-item-btn:hover {
+  background: rgba(0, 100, 0, 0.9);
+  border-color: #00ff00;
+  box-shadow: 0 0 8px #00ff00;
+}
+
+/* 世界地图相关 */
+.current-marker {
+  background: #ffff00;
+  color: #000;
+  padding: clamp(2px, 0.4vw, 4px) clamp(4px, 0.6vw, 8px);
+  font-size: var(--tiny-font-size);
+  border-radius: 0;
+  font-weight: bold;
+  text-shadow: none;
+  animation: blink 1s infinite;
+}
+
+.travel-btn {
+  background: rgba(0, 60, 0, 0.8);
+  border: 2px solid #006600;
+  color: #00ff00;
+  padding: clamp(6px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
+  font-size: var(--ui-font-size);
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.travel-btn:hover {
+  background: rgba(0, 80, 0, 0.9);
+  border-color: #00aa00;
+  box-shadow: 0 0 10px #00ff00;
 } 

@@ -135,19 +135,19 @@ const copyToClipboard = async () => {
 }
 
 .dialog-title {
-  font-size: 16px;
+  font-size: var(--subtitle-font-size);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000, 0 0 10px #00ffff;
 }
 
 .dialog-content {
-  margin-bottom: 25px;
+  margin-bottom: clamp(20px, 2vw, 30px);
 }
 
 .dialog-text {
-  font-size: 12px;
+  font-size: var(--ui-font-size);
   color: #cccccc;
-  margin-bottom: 15px;
+  margin-bottom: clamp(12px, 1.5vw, 18px);
   text-shadow: 1px 1px 0px #000;
 }
 
@@ -161,10 +161,10 @@ const copyToClipboard = async () => {
   border: 2px solid #004400;
   color: #00ff00;
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  padding: 12px;
+  font-size: var(--small-font-size);
+  padding: clamp(10px, 1.5vw, 16px);
   resize: vertical;
-  min-height: 150px;
+  min-height: clamp(120px, 18vw, 180px);
   cursor: pointer;
 }
 
@@ -175,10 +175,10 @@ const copyToClipboard = async () => {
 }
 
 .copy-button {
-  margin-top: 10px;
+  margin-top: clamp(8px, 1vw, 12px);
   width: 100%;
-  padding: 12px;
-  font-size: 10px;
+  padding: clamp(10px, 1.5vw, 16px);
+  font-size: var(--button-font-size);
   background: rgba(0, 80, 0, 0.8);
   border-color: #00aa00;
   color: #00ff00;
@@ -191,20 +191,20 @@ const copyToClipboard = async () => {
 }
 
 .dialog-tip {
-  margin-top: 15px;
-  padding: 10px;
+  margin-top: clamp(12px, 1.5vw, 18px);
+  padding: clamp(8px, 1.2vw, 12px);
   background: rgba(0, 40, 0, 0.5);
   border-left: 3px solid #00ff00;
 }
 
 .copy-status {
-  margin-top: 10px;
+  margin-top: clamp(8px, 1vw, 12px);
   text-align: center;
 }
 
 .success-text {
   color: #00ff00;
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   text-shadow: 1px 1px 0px #000, 0 0 8px #00ff00;
 }
 
@@ -214,9 +214,9 @@ const copyToClipboard = async () => {
 }
 
 .pixel-button {
-  padding: 12px 20px;
-  font-size: 10px;
-  min-width: 120px;
+  padding: clamp(10px, 1.5vw, 16px) clamp(16px, 2.5vw, 24px);
+  font-size: var(--button-font-size);
+  min-width: clamp(120px, 20vw, 180px);
 }
 
 .pixel-button.primary {
@@ -234,12 +234,12 @@ const copyToClipboard = async () => {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .dialog-container {
-    padding: 20px;
+    padding: clamp(16px, 3vw, 24px);
     width: 95%;
   }
   
   .save-display {
-    font-size: 6px;
+    font-size: var(--tiny-font-size);
   }
 }
 </style> 

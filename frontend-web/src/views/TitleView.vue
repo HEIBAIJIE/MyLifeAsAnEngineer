@@ -136,31 +136,31 @@ defineEmits<{
 
 .title-line {
   display: block;
-  font-size: 20px;
+  font-size: var(--title-font-size);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000, 0 0 10px #00ffff;
-  margin-bottom: 10px;
+  margin-bottom: clamp(8px, 1vw, 16px);
   animation: pixel-glow 3s infinite;
 }
 
 .subtitle-line {
   display: block;
-  font-size: 12px;
+  font-size: var(--subtitle-font-size);
   color: #ffff00;
   text-shadow: 1px 1px 0px #000;
   opacity: 0.8;
 }
 
 .game-description {
-  margin-bottom: 40px;
+  margin-bottom: clamp(20px, 3vw, 40px);
   line-height: 1.6;
 }
 
 .menu-buttons {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 30px;
+  gap: clamp(12px, 2vw, 20px);
+  margin-bottom: clamp(20px, 2.5vw, 30px);
 }
 
 .menu-buttons .pixel-button {
@@ -174,7 +174,7 @@ defineEmits<{
 
 .credits {
   border-top: 1px solid #004400;
-  padding-top: 20px;
+  padding-top: clamp(15px, 2vw, 25px);
   opacity: 0.7;
 }
 
@@ -196,8 +196,8 @@ defineEmits<{
 
 .pixel-dot {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: clamp(3px, 0.5vw, 8px);
+  height: clamp(3px, 0.5vw, 8px);
   background: #00ff00;
   opacity: 0.3;
   animation: pixel-blink 2s infinite;
@@ -227,43 +227,22 @@ defineEmits<{
 /* 响应式设计 */
 @media (max-width: 768px) {
   .title-box {
-    padding: 20px;
-  }
-  
-  .title-line {
-    font-size: 16px;
-  }
-  
-  .subtitle-line {
-    font-size: 10px;
+    padding: clamp(16px, 3vw, 24px);
   }
   
   .menu-buttons {
-    gap: 12px;
+    gap: clamp(10px, 1.5vw, 16px);
   }
 }
 
 @media (max-width: 480px) {
   .title-container {
     width: 95%;
-    padding: 10px;
+    padding: clamp(8px, 1.5vw, 16px);
   }
   
   .title-box {
-    padding: 16px;
-  }
-  
-  .title-line {
-    font-size: 14px;
-  }
-  
-  .subtitle-line {
-    font-size: 8px;
-  }
-  
-  .menu-buttons .pixel-button {
-    padding: 12px 16px;
-    font-size: 8px;
+    padding: clamp(12px, 2vw, 20px);
   }
 }
 </style> 

@@ -222,15 +222,15 @@ const goToCurrentScene = () => {
 
 .map-header {
   z-index: 2;
-  padding: 20px 30px;
+  padding: clamp(16px, 2.5vw, 32px) clamp(20px, 3vw, 48px);
   text-align: center;
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
 }
 
 .map-title {
-  font-size: 18px;
-  margin-bottom: 15px;
+  font-size: var(--title-font-size);
+  margin-bottom: clamp(12px, 1.5vw, 24px);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000, 0 0 10px #00ffff;
 }
@@ -238,16 +238,22 @@ const goToCurrentScene = () => {
 .current-status {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: clamp(20px, 3vw, 48px);
   opacity: 0.8;
+}
+
+.current-status .pixel-text {
+  font-size: var(--ui-font-size);
+  color: #cccccc;
+  text-shadow: 1px 1px 0px #000;
 }
 
 .locations-grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 30px;
+  gap: clamp(16px, 2.5vw, 32px);
+  padding: clamp(20px, 3vw, 48px);
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
@@ -255,7 +261,7 @@ const goToCurrentScene = () => {
 
 .location-card {
   background: rgba(0, 20, 0, 0.9);
-  padding: 20px;
+  padding: clamp(16px, 2.5vw, 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -263,7 +269,7 @@ const goToCurrentScene = () => {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  min-height: 160px;
+  min-height: clamp(140px, 20vw, 200px);
 }
 
 .location-card.available:hover {
@@ -278,23 +284,24 @@ const goToCurrentScene = () => {
 }
 
 .location-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
+  font-size: clamp(32px, 5vw, 64px);
+  margin-bottom: clamp(8px, 1.5vw, 16px);
   filter: drop-shadow(2px 2px 0px #000);
 }
 
 .location-name {
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-size: var(--ui-font-size);
+  margin-bottom: clamp(6px, 1vw, 12px);
   color: #00ffff;
   text-shadow: 1px 1px 0px #000;
 }
 
 .location-description {
-  font-size: 10px;
+  font-size: var(--small-font-size);
   color: #cccccc;
-  margin-bottom: 15px;
+  margin-bottom: clamp(12px, 1.5vw, 20px);
   line-height: 1.4;
+  text-shadow: 1px 1px 0px #000;
 }
 
 .location-status {
@@ -303,27 +310,33 @@ const goToCurrentScene = () => {
 
 .current-marker {
   color: #ffff00;
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   font-weight: bold;
   text-shadow: 1px 1px 0px #000;
+  padding: clamp(6px, 1vw, 12px) clamp(12px, 1.5vw, 20px);
+  background: rgba(255, 255, 0, 0.1);
+  border: 2px solid #ffff00;
+  border-radius: 0;
+  animation: pixel-glow 1.5s infinite;
 }
 
 .travel-btn {
-  font-size: 10px;
-  padding: 6px 12px;
+  font-size: var(--button-font-size);
+  padding: clamp(8px, 1.2vw, 16px) clamp(16px, 2vw, 24px);
+  min-width: clamp(80px, 12vw, 120px);
 }
 
 .card-decoration {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: clamp(6px, 1vw, 12px);
+  right: clamp(6px, 1vw, 12px);
   display: flex;
-  gap: 2px;
+  gap: clamp(2px, 0.3vw, 4px);
 }
 
 .pixel-dot {
-  width: 3px;
-  height: 3px;
+  width: clamp(2px, 0.5vw, 6px);
+  height: clamp(2px, 0.5vw, 6px);
   background: #00ff00;
   opacity: 0.6;
   animation: pixel-blink 2s infinite;
@@ -343,12 +356,18 @@ const goToCurrentScene = () => {
 
 .bottom-controls {
   z-index: 2;
-  padding: 20px;
+  padding: clamp(16px, 2.5vw, 32px);
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: clamp(16px, 2.5vw, 32px);
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
+}
+
+.bottom-controls .pixel-button {
+  padding: clamp(12px, 1.8vw, 24px) clamp(20px, 3vw, 40px);
+  font-size: var(--button-font-size);
+  min-width: clamp(140px, 20vw, 200px);
 }
 
 .map-decoration {
@@ -363,8 +382,8 @@ const goToCurrentScene = () => {
 
 .floating-pixel {
   position: absolute;
-  width: 2px;
-  height: 2px;
+  width: clamp(2px, 0.4vw, 6px);
+  height: clamp(2px, 0.4vw, 6px);
   background: #00ff00;
   opacity: 0.3;
   animation: float-around 10s infinite linear;
@@ -400,26 +419,76 @@ const goToCurrentScene = () => {
   25%, 75% { opacity: 1; }
 }
 
+/* 大屏幕优化 */
+@media (min-width: 1920px) {
+  .locations-grid {
+    max-width: 1400px;
+  }
+  
+  .location-card {
+    min-height: clamp(160px, 22vw, 240px);
+  }
+  
+  .location-icon {
+    font-size: clamp(48px, 6vw, 80px);
+  }
+}
+
+@media (min-width: 2560px) {
+  .locations-grid {
+    max-width: 1600px;
+  }
+  
+  .location-card {
+    min-height: clamp(180px, 25vw, 280px);
+  }
+  
+  .location-icon {
+    font-size: clamp(56px, 7vw, 96px);
+  }
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .locations-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 20px;
+    gap: clamp(12px, 2vw, 20px);
+    padding: clamp(16px, 2.5vw, 24px);
   }
   
   .location-card {
-    min-height: 140px;
-    padding: 15px;
+    min-height: clamp(120px, 18vw, 160px);
+    padding: clamp(12px, 2vw, 20px);
   }
   
   .location-icon {
-    font-size: 28px;
+    font-size: clamp(24px, 4vw, 40px);
   }
   
   .bottom-controls {
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(8px, 1.5vw, 16px);
+  }
+  
+  .bottom-controls .pixel-button {
+    width: 100%;
+  }
+  
+  .current-status {
+    flex-direction: column;
+    gap: clamp(8px, 1.5vw, 16px);
+  }
+}
+
+@media (max-width: 480px) {
+  .locations-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(8px, 1.5vw, 16px);
+    padding: clamp(12px, 2vw, 20px);
+  }
+  
+  .location-card {
+    min-height: clamp(100px, 15vw, 140px);
   }
 }
 </style> 

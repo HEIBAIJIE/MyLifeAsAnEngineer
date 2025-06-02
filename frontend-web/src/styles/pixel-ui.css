@@ -3,6 +3,25 @@
 /* 字体导入 */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* 动态字体大小系统 - 基于视口宽度 */
+:root {
+  /* 基础字体大小计算 - 最小16px，最大32px */
+  --base-font-size: clamp(16px, 2vw, 32px);
+  --small-font-size: clamp(12px, 1.5vw, 24px);
+  --large-font-size: clamp(20px, 2.5vw, 40px);
+  --title-font-size: clamp(24px, 3vw, 48px);
+  --subtitle-font-size: clamp(14px, 1.8vw, 28px);
+  
+  /* 按钮字体大小 */
+  --button-font-size: clamp(14px, 1.6vw, 28px);
+  --button-small-font-size: clamp(12px, 1.2vw, 20px);
+  --button-large-font-size: clamp(18px, 2.2vw, 36px);
+  
+  /* 界面元素字体大小 */
+  --ui-font-size: clamp(12px, 1.4vw, 24px);
+  --tiny-font-size: clamp(10px, 1vw, 18px);
+}
+
 /* 全局重置和基础样式 */
 * {
   margin: 0;
@@ -12,6 +31,7 @@
 
 html, body {
   font-family: 'Press Start 2P', monospace;
+  font-size: var(--base-font-size);
   background: #000;
   color: #00ff00;
   overflow: hidden;
@@ -53,13 +73,14 @@ html, body {
   background: rgba(0, 60, 0, 0.8);
   border: 2px solid #006600;
   color: #00ff00;
-  padding: 8px 16px;
-  font-size: 8px;
+  padding: clamp(8px, 1vw, 16px) clamp(16px, 2vw, 32px);
+  font-size: var(--button-font-size);
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  min-width: clamp(120px, 15vw, 240px);
   box-shadow: 
     0 2px 0 #003300,
     inset 0 1px 0 #009900;
@@ -83,13 +104,15 @@ html, body {
 }
 
 .pixel-button.large {
-  padding: 12px 24px;
-  font-size: 10px;
+  padding: clamp(12px, 1.5vw, 24px) clamp(24px, 3vw, 48px);
+  font-size: var(--button-large-font-size);
+  min-width: clamp(200px, 25vw, 400px);
 }
 
 .pixel-button.small {
-  padding: 6px 12px;
-  font-size: 6px;
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.5vw, 24px);
+  font-size: var(--button-small-font-size);
+  min-width: clamp(80px, 10vw, 160px);
 }
 
 .pixel-button:disabled {
@@ -129,26 +152,26 @@ html, body {
 
 /* 像素文本样式 */
 .pixel-text {
-  font-size: 10px;
+  font-size: var(--base-font-size);
   color: #cccccc;
   text-shadow: 1px 1px 0px #000;
   line-height: 1.4;
 }
 
 .pixel-text-large {
-  font-size: 14px;
+  font-size: var(--large-font-size);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000;
 }
 
 .pixel-text-small {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   color: #999999;
   text-shadow: 1px 1px 0px #000;
 }
 
 .pixel-text-subtitle {
-  font-size: 9px;
+  font-size: var(--subtitle-font-size);
   color: #888888;
   text-shadow: 1px 1px 0px #000;
   line-height: 1.6;
@@ -156,7 +179,7 @@ html, body {
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: clamp(8px, 1vw, 16px);
 }
 
 ::-webkit-scrollbar-track {
@@ -179,8 +202,8 @@ html, body {
   background: rgba(0, 0, 0, 0.8);
   border: 2px solid #004400;
   color: #00ff00;
-  padding: 8px;
-  font-size: 8px;
+  padding: clamp(6px, 1vw, 12px);
+  font-size: var(--ui-font-size);
 }
 
 .pixel-input:focus {
@@ -198,20 +221,20 @@ html, body {
 .resource-display {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
+  gap: clamp(4px, 0.8vw, 12px);
+  padding: clamp(4px, 0.6vw, 8px) clamp(8px, 1vw, 12px);
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid #003300;
   border-radius: 0;
 }
 
 .resource-icon {
-  font-size: 12px;
+  font-size: clamp(12px, 1.5vw, 20px);
   filter: drop-shadow(1px 1px 0px #000);
 }
 
 .resource-value {
-  font-size: 8px;
+  font-size: var(--ui-font-size);
   color: #cccccc;
   text-shadow: 1px 1px 0px #000;
 }
@@ -228,7 +251,7 @@ html, body {
 .entity-card {
   background: rgba(0, 20, 0, 0.8);
   border: 2px solid #004400;
-  padding: 12px;
+  padding: clamp(12px, 1.5vw, 20px);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -248,14 +271,14 @@ html, body {
 }
 
 .entity-icon {
-  font-size: 24px;
+  font-size: clamp(20px, 3vw, 40px);
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: clamp(6px, 1vw, 12px);
   filter: drop-shadow(2px 2px 0px #000);
 }
 
 .entity-name {
-  font-size: 9px;
+  font-size: var(--ui-font-size);
   color: #00ffff;
   text-align: center;
   text-shadow: 1px 1px 0px #000;
@@ -265,8 +288,8 @@ html, body {
 .event-item {
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid #003300;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding: clamp(8px, 1.2vw, 16px);
+  margin-bottom: clamp(6px, 0.8vw, 12px);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -283,14 +306,14 @@ html, body {
 }
 
 .event-name {
-  font-size: 9px;
+  font-size: var(--ui-font-size);
   color: #00ffff;
   text-shadow: 1px 1px 0px #000;
-  margin-bottom: 4px;
+  margin-bottom: clamp(4px, 0.5vw, 6px);
 }
 
 .event-cost {
-  font-size: 7px;
+  font-size: var(--small-font-size);
   color: #ff9900;
   text-shadow: 1px 1px 0px #000;
 }
@@ -298,8 +321,8 @@ html, body {
 /* 加载动画 */
 .pixel-loading {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: clamp(12px, 2vw, 24px);
+  height: clamp(12px, 2vw, 24px);
   border: 2px solid #003300;
   border-top: 2px solid #00ff00;
   border-radius: 0;
@@ -318,7 +341,7 @@ html, body {
   right: 20px;
   background: rgba(0, 40, 0, 0.95);
   border: 2px solid #00ff00;
-  padding: 12px 16px;
+  padding: clamp(10px, 1.5vw, 20px) clamp(12px, 2vw, 24px);
   z-index: 10000;
   animation: pixel-slide-in 0.5s ease-out;
 }
@@ -335,46 +358,50 @@ html, body {
 }
 
 .notification-text {
-  font-size: 8px;
+  font-size: var(--ui-font-size);
   color: #00ff00;
   text-shadow: 1px 1px 0px #000;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .pixel-button {
-    padding: 10px 18px;
-    font-size: 9px;
-  }
-  
-  .pixel-text {
-    font-size: 9px;
-  }
-  
-  .pixel-text-large {
-    font-size: 12px;
+  :root {
+    /* 移动设备上稍微减小字体 */
+    --base-font-size: clamp(14px, 2.2vw, 24px);
+    --button-font-size: clamp(12px, 1.8vw, 20px);
+    --title-font-size: clamp(20px, 3.5vw, 32px);
   }
   
   .entity-icon {
-    font-size: 20px;
-  }
-  
-  .entity-name {
-    font-size: 8px;
+    font-size: clamp(18px, 2.5vw, 32px);
   }
 }
 
 @media (max-width: 480px) {
-  .pixel-button {
-    padding: 8px 16px;
-    font-size: 8px;
+  :root {
+    /* 小屏幕设备进一步调整 */
+    --base-font-size: clamp(12px, 2.5vw, 20px);
+    --button-font-size: clamp(10px, 2vw, 16px);
+    --title-font-size: clamp(16px, 4vw, 24px);
   }
-  
-  .pixel-text {
-    font-size: 8px;
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1920px) {
+  :root {
+    /* 4K及以上屏幕 - 增大字体 */
+    --base-font-size: clamp(24px, 1.5vw, 40px);
+    --button-font-size: clamp(20px, 1.2vw, 32px);
+    --title-font-size: clamp(32px, 2vw, 56px);
+    --subtitle-font-size: clamp(18px, 1.3vw, 32px);
   }
-  
-  .pixel-text-large {
-    font-size: 10px;
+}
+
+@media (min-width: 2560px) {
+  :root {
+    /* 超大屏幕 */
+    --base-font-size: clamp(28px, 1.2vw, 48px);
+    --button-font-size: clamp(24px, 1vw, 40px);
+    --title-font-size: clamp(40px, 1.8vw, 64px);
   }
 } 

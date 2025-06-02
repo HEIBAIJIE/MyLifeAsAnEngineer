@@ -160,30 +160,30 @@ const formatChange = (change: number | null | undefined) => {
 }
 
 .dialog-title {
-  font-size: 16px;
+  font-size: var(--subtitle-font-size);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000, 0 0 10px #00ffff;
 }
 
 .dialog-content {
-  margin-bottom: 25px;
+  margin-bottom: clamp(20px, 2vw, 30px);
 }
 
 .event-description {
   background: rgba(0, 40, 0, 0.8);
-  padding: 20px;
-  margin-bottom: 15px;
+  padding: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(12px, 1.5vw, 18px);
 }
 
 .event-title {
-  font-size: 12px;
+  font-size: var(--ui-font-size);
   color: #ffff00;
   text-shadow: 1px 1px 0px #000, 0 0 8px #ffff00;
-  margin-bottom: 15px;
+  margin-bottom: clamp(12px, 1.5vw, 18px);
 }
 
 .game-text {
-  font-size: 10px;
+  font-size: var(--base-font-size);
   color: #cccccc;
   line-height: 1.6;
   text-shadow: 1px 1px 0px #000;
@@ -204,28 +204,28 @@ const formatChange = (change: number | null | undefined) => {
 .scheduled-tasks,
 .time-cost {
   background: rgba(0, 30, 0, 0.8);
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: clamp(12px, 1.5vw, 20px);
+  margin-bottom: clamp(12px, 1.5vw, 18px);
 }
 
 .section-title {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #00ff00;
   text-shadow: 1px 1px 0px #000, 0 0 5px #00ff00;
-  margin-bottom: 10px;
+  margin-bottom: clamp(8px, 1vw, 12px);
 }
 
 .changes-grid {
   display: grid;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 10px);
 }
 
 .resource-change {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 10px;
+  gap: clamp(8px, 1.2vw, 12px);
   align-items: center;
-  padding: 8px;
+  padding: clamp(6px, 1vw, 10px);
   background: rgba(0, 0, 0, 0.4);
   border-left: 3px solid #333;
 }
@@ -243,13 +243,13 @@ const formatChange = (change: number | null | undefined) => {
 }
 
 .resource-name {
-  font-size: 9px;
+  font-size: var(--ui-font-size);
   color: #cccccc;
   text-shadow: 1px 1px 0px #000;
 }
 
 .change-value {
-  font-size: 9px;
+  font-size: var(--ui-font-size);
   font-weight: bold;
   text-shadow: 1px 1px 0px #000;
 }
@@ -263,7 +263,7 @@ const formatChange = (change: number | null | undefined) => {
 }
 
 .new-value {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   color: #888;
   text-shadow: 1px 1px 0px #000;
 }
@@ -271,12 +271,12 @@ const formatChange = (change: number | null | undefined) => {
 .temp-events-list,
 .tasks-list {
   display: grid;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 10px);
 }
 
 .temp-event,
 .scheduled-task {
-  padding: 10px;
+  padding: clamp(8px, 1.2vw, 12px);
   background: rgba(0, 0, 0, 0.4);
   border-left: 3px solid #ffff00;
 }
@@ -284,22 +284,22 @@ const formatChange = (change: number | null | undefined) => {
 .temp-event-name,
 .task-name {
   display: block;
-  font-size: 9px;
+  font-size: var(--ui-font-size);
   color: #ffff00;
   text-shadow: 1px 1px 0px #000;
-  margin-bottom: 4px;
+  margin-bottom: clamp(3px, 0.5vw, 5px);
 }
 
 .temp-event-desc,
 .task-desc {
-  font-size: 8px;
+  font-size: var(--small-font-size);
   color: #cccccc;
   text-shadow: 1px 1px 0px #000;
   line-height: 1.4;
 }
 
 .cost-text {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #ff9900;
   text-shadow: 1px 1px 0px #000;
   display: block;
@@ -312,9 +312,9 @@ const formatChange = (change: number | null | undefined) => {
 }
 
 .pixel-button {
-  padding: 12px 20px;
-  font-size: 10px;
-  min-width: 120px;
+  padding: clamp(10px, 1.5vw, 16px) clamp(16px, 2.5vw, 24px);
+  font-size: var(--button-font-size);
+  min-width: clamp(120px, 20vw, 180px);
 }
 
 .pixel-button.primary {
@@ -332,7 +332,7 @@ const formatChange = (change: number | null | undefined) => {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .dialog-container {
-    padding: 20px;
+    padding: clamp(16px, 3vw, 24px);
     width: 95%;
   }
   
@@ -342,13 +342,13 @@ const formatChange = (change: number | null | undefined) => {
   
   .resource-change {
     grid-template-columns: 1fr auto;
-    gap: 5px;
+    gap: clamp(4px, 0.8vw, 8px);
   }
   
   .new-value {
     grid-column: 1 / -1;
     text-align: right;
-    margin-top: 4px;
+    margin-top: clamp(3px, 0.5vw, 5px);
   }
 }
 </style> 

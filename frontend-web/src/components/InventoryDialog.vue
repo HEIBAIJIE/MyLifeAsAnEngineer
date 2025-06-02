@@ -151,20 +151,20 @@ const getItemIcon = (itemName: string): string => {
 }
 
 .dialog-title {
-  font-size: 16px;
+  font-size: var(--subtitle-font-size);
   color: #00ffff;
   text-shadow: 2px 2px 0px #000, 0 0 10px #00ffff;
 }
 
 .dialog-content {
-  margin-bottom: 25px;
+  margin-bottom: clamp(20px, 2vw, 30px);
 }
 
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: clamp(8px, 1.2vw, 14px);
+  margin-bottom: clamp(16px, 2vw, 24px);
 }
 
 .inventory-slot {
@@ -177,7 +177,7 @@ const getItemIcon = (itemName: string): string => {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-height: 80px;
+  min-height: clamp(60px, 10vw, 100px);
 }
 
 .inventory-slot.has-item {
@@ -197,17 +197,17 @@ const getItemIcon = (itemName: string): string => {
 
 .item-content {
   text-align: center;
-  padding: 5px;
+  padding: clamp(4px, 0.8vw, 8px);
 }
 
 .item-icon {
-  font-size: 24px;
-  margin-bottom: 4px;
+  font-size: clamp(18px, 3vw, 32px);
+  margin-bottom: clamp(3px, 0.5vw, 6px);
   filter: drop-shadow(1px 1px 0px #000);
 }
 
 .item-name {
-  font-size: 7px;
+  font-size: var(--tiny-font-size);
   color: #cccccc;
   text-shadow: 1px 1px 0px #000;
   line-height: 1.2;
@@ -215,10 +215,10 @@ const getItemIcon = (itemName: string): string => {
 }
 
 .item-quantity {
-  font-size: 6px;
+  font-size: var(--tiny-font-size);
   color: #ffff00;
   text-shadow: 1px 1px 0px #000;
-  margin-top: 2px;
+  margin-top: clamp(2px, 0.3vw, 4px);
 }
 
 .empty-slot {
@@ -230,47 +230,47 @@ const getItemIcon = (itemName: string): string => {
 }
 
 .slot-number {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #666;
 }
 
 .empty-inventory {
   text-align: center;
-  padding: 40px 20px;
+  padding: clamp(32px, 5vw, 48px) clamp(16px, 2.5vw, 24px);
   background: rgba(0, 0, 0, 0.3);
   border: 2px dashed #003300;
 }
 
 .empty-text {
-  font-size: 14px;
+  font-size: var(--base-font-size);
   color: #cccccc;
-  margin-bottom: 10px;
+  margin-bottom: clamp(8px, 1vw, 12px);
   text-shadow: 1px 1px 0px #000;
 }
 
 .empty-hint {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #888;
   text-shadow: 1px 1px 0px #000;
 }
 
 .item-details {
   background: rgba(0, 40, 0, 0.9);
-  padding: 15px;
-  margin-top: 20px;
+  padding: clamp(12px, 1.8vw, 20px);
+  margin-top: clamp(16px, 2vw, 24px);
 }
 
 .item-detail-name {
-  font-size: 12px;
+  font-size: var(--ui-font-size);
   color: #00ffff;
   text-shadow: 1px 1px 0px #000, 0 0 8px #00ffff;
-  margin-bottom: 10px;
+  margin-bottom: clamp(8px, 1vw, 12px);
 }
 
 .item-description {
-  font-size: 10px;
+  font-size: var(--ui-font-size);
   color: #cccccc;
-  margin-bottom: 15px;
+  margin-bottom: clamp(12px, 1.5vw, 18px);
   line-height: 1.4;
   text-shadow: 1px 1px 0px #000;
 }
@@ -286,9 +286,9 @@ const getItemIcon = (itemName: string): string => {
 }
 
 .pixel-button {
-  padding: 12px 20px;
-  font-size: 10px;
-  min-width: 100px;
+  padding: clamp(10px, 1.5vw, 16px) clamp(16px, 2.5vw, 24px);
+  font-size: var(--button-font-size);
+  min-width: clamp(100px, 15vw, 140px);
 }
 
 .pixel-button.primary {
@@ -306,25 +306,21 @@ const getItemIcon = (itemName: string): string => {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .dialog-container {
-    padding: 20px;
+    padding: clamp(16px, 3vw, 24px);
     width: 95%;
   }
   
   .inventory-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    gap: clamp(6px, 1vw, 10px);
   }
   
   .inventory-slot {
-    min-height: 70px;
+    min-height: clamp(50px, 8vw, 80px);
   }
   
   .item-icon {
-    font-size: 20px;
-  }
-  
-  .item-name {
-    font-size: 6px;
+    font-size: clamp(16px, 2.5vw, 24px);
   }
 }
 
