@@ -169,26 +169,26 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 168,慢跑锻炼,Jogging exercise,4,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,138
 169,快走健身,Brisk walking,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,139
 170,清理随身垃圾,Clean up personal trash,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,140
-171,友善交流,Friendly conversation,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,171
-172,询问信息,Ask for information,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,172
-173,简单问候,Simple greeting,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,173
-174,了解公园信息,Learn about park info,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,174
-175,记录美好时光,Record beautiful moments,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,175
-176,查看运动数据,Check exercise data,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,176
-177,点餐,Order meal,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,177
-178,询问推荐菜品,Ask for recommendations,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,178
-179,了解餐厅特色,Learn restaurant specialties,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,179
-180,要求打包,Request takeaway,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,180
-181,品尝美食,Taste delicious food,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,181
-182,享受用餐时光,Enjoy dining time,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,182
-183,控制用餐节奏,Control eating pace,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,183
-184,记录美食体验,Record food experience,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,184
-185,查看菜单详情,Check menu details,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,185
-186,观察用餐礼仪,Observe dining etiquette,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,186
-187,了解餐厅评价,Learn restaurant reviews,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,187
-188,常规体检,Regular medical checkup,4,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,188
-189,咨询健康问题,Consult health issues,3,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,189
-190,定期健康管理,Regular health management,5,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,190
+171,友善交流,Friendly conversation,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,141
+172,询问信息,Ask for information,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,142
+173,简单问候,Simple greeting,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,143
+174,了解公园信息,Learn about park info,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,144
+175,记录美好时光,Record beautiful moments,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,145
+176,查看运动数据,Check exercise data,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,146
+177,点餐,Order meal,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,147
+178,询问推荐菜品,Ask for recommendations,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,148
+179,了解餐厅特色,Learn restaurant specialties,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,149
+180,要求打包,Request takeaway,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,150
+181,品尝美食,Taste delicious food,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,151
+182,享受用餐时光,Enjoy dining time,3,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,152
+183,控制用餐节奏,Control eating pace,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,153
+184,记录美食体验,Record food experience,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,154
+185,查看菜单详情,Check menu details,1,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,155
+186,观察用餐礼仪,Observe dining etiquette,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,156
+187,了解餐厅评价,Learn restaurant reviews,2,5,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,157
+188,常规体检,Regular medical checkup,4,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,158
+189,咨询健康问题,Consult health issues,3,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,159
+190,定期健康管理,Regular health management,5,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,160
 191,获取健康建议,Get health advice,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,191
 192,查询健康信息,Query health information,2,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,192
 193,预约后续检查,Schedule follow-up,1,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,193
