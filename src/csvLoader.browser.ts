@@ -190,14 +190,12 @@ export class CSVLoader {
       'game_texts141~160.csv',
       'game_texts161~180.csv',
       'game_texts181~200.csv',
-      'game_texts193~212.csv',
       'game_texts201~220.csv',
       'game_texts221~240.csv',
-      'game_texts230~250.csv',
-      'game_texts251~256.csv',
+      'game_texts241~260.csv',
+      'game_texts301~320.csv',
       'game_texts501~520.csv',
-      'game_texts521~540.csv',
-      'game_texts1001~1030.csv'
+      'game_texts521~540.csv'
     ];
 
     for (const file of gameTextFiles) {
