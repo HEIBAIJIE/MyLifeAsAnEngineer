@@ -129,26 +129,26 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 128,对比商品价格,Compare product prices,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,98
 129,查看购物清单,Check shopping list,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,99
 130,在线支付,Online payment,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,100
-131,计算购买预算,Calculate budget,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,131
-132,选择性价比商品,Choose cost-effective products,3,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,132
-133,评估购买必要性,Evaluate purchase necessity,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,133
-134,学习新技术,Learn new technology,4,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,134
-135,写个人项目,Work on personal project,5,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,135
-136,看技术视频,Watch tech videos,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,136
-137,处理个人事务,Handle personal affairs,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,137
-138,娱乐放松,Entertainment and relaxation,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,138
-139,查找工作机会,Search for job opportunities,4,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,139
-140,与朋友联系,Contact friends,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,140
-141,查看工作消息,Check work messages,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,141
-142,订购生活用品,Order daily items,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,142
-143,浏览新闻资讯,Browse news,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,143
-144,思考人生规划,Think about life planning,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,144
-145,回顾工作表现,Review work performance,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,145
-146,放松身心,Relax body and mind,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,146
-147,阅读技术书籍,Read technical books,4,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,147
-148,阅读其他书籍,Read other books,3,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,148
-149,整理书籍,Organize books,2,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,149
-150,深度学习,Deep learning,6,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,150
+131,计算购买预算,Calculate budget,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,101
+132,选择性价比商品,Choose cost-effective products,3,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,102
+133,评估购买必要性,Evaluate purchase necessity,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,103
+134,学习新技术,Learn new technology,4,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,104
+135,写个人项目,Work on personal project,5,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,105
+136,看技术视频,Watch tech videos,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,106
+137,处理个人事务,Handle personal affairs,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,107
+138,娱乐放松,Entertainment and relaxation,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,108
+139,查找工作机会,Search for job opportunities,4,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,109
+140,与朋友联系,Contact friends,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,110
+141,查看工作消息,Check work messages,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,111
+142,订购生活用品,Order daily items,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,112
+143,浏览新闻资讯,Browse news,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,113
+144,思考人生规划,Think about life planning,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,114
+145,回顾工作表现,Review work performance,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,115
+146,放松身心,Relax body and mind,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,116
+147,阅读技术书籍,Read technical books,4,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,117
+148,阅读其他书籍,Read other books,3,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,118
+149,整理书籍,Organize books,2,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,119
+150,深度学习,Deep learning,6,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,120
 151,正常睡眠,Normal sleep,8,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,151
 152,快速小憩,Quick nap,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,152
 153,深度睡眠,Deep sleep,10,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,153
