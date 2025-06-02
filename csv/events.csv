@@ -72,17 +72,17 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 71,请教项目问题（同事2）,Ask about project issues (Colleague 2),3,1,,,,resource[64]>=0,,,,,2,calc[floor(-10*(120-resource[17])/100)],,calc[floor(resource[65]/15)],,calc[floor(resource[65]/10)],,,,,2,,,,,,,,,41,,71
 72,绩效沟通（同事2）,Performance communication (Colleague 2),4,1,,,,resource[64]>=0,,,,,5,3,calc[floor(-15*(120-resource[17])/100)],,,,,,,8,,,,,5,,,,,42,,72
 73,请教技术问题（同事2）,Ask technical questions (Colleague 2),2,1,,,,resource[64]>=0,,,,,2,calc[floor(-8*(120-resource[17])/100)],,calc[floor(resource[65]/20)],,,,,,,2,,,,,,,,,43,,73
-74,技术交流（同事2）,Technical exchange (Colleague 2),3,1,,,,resource[64]>=0,,,,,3,,calc[floor(-12*(120-resource[16])/100)],,4,,,,,,,5,,4,,,3,,,,,44
-75,技术指导（同事2）,Technical guidance (Colleague 2),4,1,,,,resource[64]>=0,,,,,5,,calc[floor(-15*(120-resource[16])/100)],,,,,,,,,8,,10,,,5,5,3,,,45
-76,私下宴请（同事2）,Private dinner (Colleague 2),3,1,,,,resource[64]>=0,,,,,8,calc[floor(-8*(120-resource[17])/100)],8,,,,-180,,,,,,12,,,,,5,,,,76,46
+74,技术交流（同事2）,Technical exchange (Colleague 2),3,1,,,,resource[64]>=0,,,,,3,,calc[floor(-12*(120-resource[16])/100)],,4,,,,,,,5,,4,,,3,,,,,315
+75,技术指导（同事2）,Technical guidance (Colleague 2),4,1,,,,resource[64]>=0,,,,,5,,calc[floor(-15*(120-resource[16])/100)],,,,,,,,,8,,10,,,5,5,3,,,301
+76,私下宴请（同事2）,Private dinner (Colleague 2),3,1,,,,resource[64]>=0,,,,,8,calc[floor(-8*(120-resource[17])/100)],8,,,,-180,,,,,,12,,,,,5,,,,302
 77,私下闲聊（同事3）,Private chat (Colleague 3),2,1,,,,resource[66]>=0,,,,,3,calc[floor(-5*(120-resource[17])/100)],3,,,,,,,,3,,,,,,,,47,,,77
-78,交换公司秘闻（同事3）,Exchange company gossip (Colleague 3),3,1,,,,resource[66]>=0,,,,,5,calc[floor(-8*(120-resource[17])/100)],5,,,,,,,,5,,,,,,3,,,,,48
-79,请教项目问题（同事3）,Ask about project issues (Colleague 3),3,1,,,,resource[66]>=0,,,,,2,calc[floor(-10*(120-resource[17])/100)],,calc[floor(resource[67]/15)],,calc[floor(resource[67]/10)],,,,,,,,2,,,,,,,,49
-80,绩效沟通（同事3）,Performance communication (Colleague 3),4,1,,,,resource[66]>=0,,,,,5,3,calc[floor(-15*(120-resource[17])/100)],,,,,,,,,,8,,,,,,5,,,80,,50
-81,请教技术问题（同事3）,Ask technical questions (Colleague 3),2,1,,,,resource[66]>=0,,,,,2,calc[floor(-8*(120-resource[17])/100)],,calc[floor(resource[67]/20)],,,,,,,,,,2,,,,,,,,51
-82,技术交流（同事3）,Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,3,,calc[floor(-12*(120-resource[16])/100)],,2,,,,,,,,,5,,8,,,3,,,82,,52
-83,技术指导（同事3）,Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,5,,calc[floor(-15*(120-resource[16])/100)],,,,,,,,,,,8,,15,,,5,5,3,83,,53
-84,私下宴请（同事3）,Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,8,calc[floor(-8*(120-resource[17])/100)],8,,,,-180,,,,,,,,,12,,,,,,5,,,,,54
+78,交换公司秘闻（同事3）,Exchange company gossip (Colleague 3),3,1,,,,resource[66]>=0,,,,,5,calc[floor(-8*(120-resource[17])/100)],5,,,,,,,,5,,,,,,3,,,,,303
+79,请教项目问题（同事3）,Ask about project issues (Colleague 3),3,1,,,,resource[66]>=0,,,,,2,calc[floor(-10*(120-resource[17])/100)],,calc[floor(resource[67]/15)],,calc[floor(resource[67]/10)],,,,,,,,2,,,,,,,,304
+80,绩效沟通（同事3）,Performance communication (Colleague 3),4,1,,,,resource[66]>=0,,,,,5,3,calc[floor(-15*(120-resource[17])/100)],,,,,,,,,,8,,,,,,5,,,305,,311
+81,请教技术问题（同事3）,Ask technical questions (Colleague 3),2,1,,,,resource[66]>=0,,,,,2,calc[floor(-8*(120-resource[17])/100)],,calc[floor(resource[67]/20)],,,,,,,,,,2,,,,,,,,306
+82,技术交流（同事3）,Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,3,,calc[floor(-12*(120-resource[16])/100)],,2,,,,,,,,,5,,8,,,3,,,312,,316
+83,技术指导（同事3）,Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,5,,calc[floor(-15*(120-resource[16])/100)],,,,,,,,,,,8,,15,,,5,5,3,307,,313
+84,私下宴请（同事3）,Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,8,calc[floor(-8*(120-resource[17])/100)],8,,,,-180,,,,,,,,,12,,,,,,5,,,,,308
 85,编写代码,Write code,4,1,,,,resource[20]>=5,6,,,,,,2,,,calc[floor(5*(1+resource[20]/25))],,,,,,,,,,,,55,,,,85
 86,发呆,Daydreaming,2,1,,,,,,-2,,,3,,,,,,,,,,,,,,,,,56,,,,86
 87,摸鱼看内网论坛,Browse company forum,3,1,,,,,,,,,,-3,5,,,,,,,,,,,,1,,,,,57,,87
@@ -93,7 +93,7 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 92,学习业界实践,Learn industry practices,4,1,,,,resource[20]>=12,,,,,2,,-12,calc[floor(4*(1+resource[16]/25))],,,,,,,,,,,,2,,,,,62,92
 93,学习项目知识,Learn project knowledge,3,1,,,,resource[20]>=10,,,,,,,,-10,calc[floor(3*(1+resource[16]/30))],,,3,,,,,,,,,,,,63,,93
 94,与客户沟通,Communicate with clients,3,1,,,,resource[20]>=8,,,,,2,calc[floor(-8*(120-resource[17])/100)],,,,calc[floor(6*(1+resource[17]/40))],,,,,,3,,,,,64,,,,,94
-95,发布技术博客,Publish tech blog,5,1,,,,resource[20]>=15,,,,,3,,-15,2,5,,,,,,,,,,,,,8,,,,95,65
+95,发布技术博客,Publish tech blog,5,1,,,,resource[20]>=15,,,,,3,,-15,2,5,,,,,,,,,,,,,8,,,,309,314
 96,项目排期与任务跟踪,Project scheduling and task tracking,4,1,,,,resource[20]>=12,,,,,4,,-12,,,calc[floor(8*(1+resource[16]/30))],,,,,,,,,,,,66,,,,96
 97,构思解决方案,Brainstorm solutions,5,1,,,,resource[20]>=18,,,,,6,,-18,4,,calc[floor(8*(1+resource[16]/25))],,,,,,,,,,,,67,,,,97
 98,技术攻关,Technical breakthrough,10,1,,,,resource[20]>=30,15,,,,,,-30,8,,calc[floor(15*(1+resource[20]/10+resource[16]/20))],,,,,,,,,,10,,,,,68,98
