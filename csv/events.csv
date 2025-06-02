@@ -149,26 +149,26 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 148,阅读其他书籍,Read other books,3,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,118
 149,整理书籍,Organize books,2,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,119
 150,深度学习,Deep learning,6,3,,,,resource[24]>0,,,,,,,,,,,,,,,,,,,,,,,,,,120
-151,正常睡眠,Normal sleep,8,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,151
-152,快速小憩,Quick nap,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,152
-153,深度睡眠,Deep sleep,10,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,153
-154,倒头就睡,Sleep immediately,6,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,154
-155,查看存储食物,Check stored food,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,155
-156,取用食物,Take food,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,156
-157,准备简餐,Prepare simple meal,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,157
-158,整理冰箱,Organize refrigerator,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,158
-159,整理物品,Organize items,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,159
-160,查找工具,Find tools,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,160
-161,存放物品,Store items,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,161
-162,散步锻炼,Walking exercise,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,162
-163,静坐思考,Meditate and think,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,163
-164,呼吸新鲜空气,Breathe fresh air,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,164
-165,坐下休息,Sit and rest,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,165
-166,观察周围环境,Observe surroundings,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,166
-167,享受安静时光,Enjoy quiet time,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,167
-168,慢跑锻炼,Jogging exercise,4,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,168
-169,快走健身,Brisk walking,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,169
-170,清理随身垃圾,Clean up personal trash,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,170
+151,正常睡眠,Normal sleep,8,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,121
+152,快速小憩,Quick nap,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,122
+153,深度睡眠,Deep sleep,10,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,123
+154,倒头就睡,Sleep immediately,6,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,124
+155,查看存储食物,Check stored food,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,125
+156,取用食物,Take food,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,126
+157,准备简餐,Prepare simple meal,3,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,127
+158,整理冰箱,Organize refrigerator,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,128
+159,整理物品,Organize items,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,129
+160,查找工具,Find tools,2,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,130
+161,存放物品,Store items,1,3,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,131
+162,散步锻炼,Walking exercise,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,132
+163,静坐思考,Meditate and think,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,133
+164,呼吸新鲜空气,Breathe fresh air,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,134
+165,坐下休息,Sit and rest,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,135
+166,观察周围环境,Observe surroundings,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,136
+167,享受安静时光,Enjoy quiet time,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,137
+168,慢跑锻炼,Jogging exercise,4,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,138
+169,快走健身,Brisk walking,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,139
+170,清理随身垃圾,Clean up personal trash,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,140
 171,友善交流,Friendly conversation,3,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,171
 172,询问信息,Ask for information,2,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,172
 173,简单问候,Simple greeting,1,4,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,173
