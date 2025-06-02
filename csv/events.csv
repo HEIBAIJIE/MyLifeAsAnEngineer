@@ -30,25 +30,25 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 29,前往公园,Go to Park,1,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,set[61]=4,none
 30,前往餐馆,Go to Restaurant,1,6,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,set[61]=5,none
 31,询问今日工作（职级1）,Ask about today's work (Level 1),1,1,1,,,resource[22]==1,,,,,,,,,,,,,,,,,,,,,,,,,,1
-32,询问今日工作（职级2）,Ask about today's work (Level 2),1,1,2,,,resource[22]==2,,,,,,,,,,,,,,,,,,,,,,,,,,32
-33,询问今日工作（职级3）,Ask about today's work (Level 3),1,1,3,,,resource[22]==3,,,,,,,,,,,,,,,,,,,,,,,,,,33
-34,询问今日工作（职级4）,Ask about today's work (Level 4),1,1,4,,,resource[22]==4,,,,,,,,,,,,,,,,,,,,,,,,,,34
-35,对齐项目方向（职级5）,Align project direction (Level 5),3,1,5,,,resource[22]==5,,,,,,,,,,,,,,,,,,,,,,,,,,35
-36,对齐项目方向（职级6）,Align project direction (Level 6),3,1,6,,,resource[22]==6,,,,,,,,,,,,,,,,,,,,,,,,,,36
-37,对齐项目方向（职级7）,Align project direction (Level 7),3,1,7,,,resource[22]==7,,,,,,,,,,,,,,,,,,,,,,,,,,37
-38,对齐团队方向（职级8）,Align team direction (Level 8),4,1,8,,,resource[22]==8,,,,,,,,,,,,,,,,,,,,,,,,,,38
-39,对齐团队方向（职级9）,Align team direction (Level 9),4,1,9,,,resource[22]==9,,,,,,,,,,,,,,,,,,,,,,,,,,39
-40,对齐部门战略（职级10）,Align department strategy (Level 10),5,1,10,,,resource[22]==10,,,,,,,,,,,,,,,,,,,,,,,,,,40
-41,请求指导工作（职级1）,Request work guidance (Level 1),2,1,1,,,resource[22]==1,,,,,,,,,,,,,,,,,,,,,,,,,,41
-42,请求指导工作（职级2）,Request work guidance (Level 2),2,1,2,,,resource[22]==2,,,,,,,,,,,,,,,,,,,,,,,,,,42
-43,求助技术难点（职级3）,Seek help with technical challenges (Level 3),3,1,3,,,resource[22]==3,,,,,,,,,,,,,,,,,,,,,,,,,,43
-44,求助技术难点（职级4）,Seek help with technical challenges (Level 4),3,1,4,,,resource[22]==4,,,,,,,,,,,,,,,,,,,,,,,,,,44
-45,求助技术难点（职级5）,Seek help with technical challenges (Level 5),3,1,5,,,resource[22]==5,,,,,,,,,,,,,,,,,,,,,,,,,,45
-46,请求外部资源（职级6）,Request external resources (Level 6),4,1,6,,,resource[22]==6,,,,,,,,,,,,,,,,,,,,,,,,,,46
-47,请求外部资源（职级7）,Request external resources (Level 7),4,1,7,,,resource[22]==7,,,,,,,,,,,,,,,,,,,,,,,,,,47
-48,请求激励资源（职级8）,Request motivational resources (Level 8),3,1,8,,,resource[22]==8,,,,,,,,,,,,,,,,,,,,,,,,,,48
-49,请求激励资源（职级9）,Request motivational resources (Level 9),3,1,9,,,resource[22]==9,,,,,,,,,,,,,,,,,,,,,,,,,,49
-50,请求战略倾斜（职级10）,Request strategic support (Level 10),5,1,10,,,resource[22]==10,,,,,,,,,,,,,,,,,,,,,,,,,,50
+32,询问今日工作（职级2）,Ask about today's work (Level 2),1,1,2,,,resource[22]==2,,,,,,,,,,,,,,,,,,,,,,,,,,2
+33,询问今日工作（职级3）,Ask about today's work (Level 3),1,1,3,,,resource[22]==3,,,,,,,,,,,,,,,,,,,,,,,,,,3
+34,询问今日工作（职级4）,Ask about today's work (Level 4),1,1,4,,,resource[22]==4,,,,,,,,,,,,,,,,,,,,,,,,,,4
+35,对齐项目方向（职级5）,Align project direction (Level 5),3,1,5,,,resource[22]==5,,,,,,,,,,,,,,,,,,,,,,,,,,5
+36,对齐项目方向（职级6）,Align project direction (Level 6),3,1,6,,,resource[22]==6,,,,,,,,,,,,,,,,,,,,,,,,,,6
+37,对齐项目方向（职级7）,Align project direction (Level 7),3,1,7,,,resource[22]==7,,,,,,,,,,,,,,,,,,,,,,,,,,7
+38,对齐团队方向（职级8）,Align team direction (Level 8),4,1,8,,,resource[22]==8,,,,,,,,,,,,,,,,,,,,,,,,,,8
+39,对齐团队方向（职级9）,Align team direction (Level 9),4,1,9,,,resource[22]==9,,,,,,,,,,,,,,,,,,,,,,,,,,9
+40,对齐部门战略（职级10）,Align department strategy (Level 10),5,1,10,,,resource[22]==10,,,,,,,,,,,,,,,,,,,,,,,,,,10
+41,请求指导工作（职级1）,Request work guidance (Level 1),2,1,1,,,resource[22]==1,,,,,,,,,,,,,,,,,,,,,,,,,,11
+42,请求指导工作（职级2）,Request work guidance (Level 2),2,1,2,,,resource[22]==2,,,,,,,,,,,,,,,,,,,,,,,,,,12
+43,求助技术难点（职级3）,Seek help with technical challenges (Level 3),3,1,3,,,resource[22]==3,,,,,,,,,,,,,,,,,,,,,,,,,,13
+44,求助技术难点（职级4）,Seek help with technical challenges (Level 4),3,1,4,,,resource[22]==4,,,,,,,,,,,,,,,,,,,,,,,,,,14
+45,求助技术难点（职级5）,Seek help with technical challenges (Level 5),3,1,5,,,resource[22]==5,,,,,,,,,,,,,,,,,,,,,,,,,,15
+46,请求外部资源（职级6）,Request external resources (Level 6),4,1,6,,,resource[22]==6,,,,,,,,,,,,,,,,,,,,,,,,,,16
+47,请求外部资源（职级7）,Request external resources (Level 7),4,1,7,,,resource[22]==7,,,,,,,,,,,,,,,,,,,,,,,,,,17
+48,请求激励资源（职级8）,Request motivational resources (Level 8),3,1,8,,,resource[22]==8,,,,,,,,,,,,,,,,,,,,,,,,,,18
+49,请求激励资源（职级9）,Request motivational resources (Level 9),3,1,9,,,resource[22]==9,,,,,,,,,,,,,,,,,,,,,,,,,,19
+50,请求战略倾斜（职级10）,Request strategic support (Level 10),5,1,10,,,resource[22]==10,,,,,,,,,,,,,,,,,,,,,,,,,,20
 51,汇报工作,Report work progress,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,51
 52,表扬同事1（职级6~7）,Praise colleague 1 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,52
 53,表扬同事2（职级6~7）,Praise colleague 2 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,53
