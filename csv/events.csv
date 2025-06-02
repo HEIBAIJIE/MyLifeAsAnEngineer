@@ -109,26 +109,26 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 108,巡视工作环境,Inspect work environment,2,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,78
 109,寻找空会议室,Find empty meeting room,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,79
 110,上厕所,Use restroom,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,80
-111,休息片刻,Take a short break,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,111
-112,整理仪容,Tidy appearance,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,112
-113,自我反思,Self-reflection,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,113
-114,整理工作思路,Organize work thoughts,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,114
-115,制定工作计划,Make work plan,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,115
-116,组织技术分享,Organize tech sharing,4,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,116
-117,独自思考问题,Think alone,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,117
-118,召开项目会议,Hold project meeting,3,1,,,,resource[22]>=5,,,,,,,,,,,,,,,,,,,,,,,,,,118
-119,准备会议资料,Prepare meeting materials,3,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,119
-120,吃工作餐,Eat company lunch,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,120
-121,和同事共进午餐,Lunch with colleagues,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,121
-122,独自用餐,Eat alone,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,122
-123,了解食堂菜品,Learn about cafeteria menu,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,123
-124,询问商品信息,Ask about product information,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,124
-125,购买生活用品,Buy daily necessities,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,125
-126,购买工作用品,Buy work supplies,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,126
-127,了解促销活动,Learn about promotions,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,127
-128,对比商品价格,Compare product prices,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,128
-129,查看购物清单,Check shopping list,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,129
-130,在线支付,Online payment,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,130
+111,休息片刻,Take a short break,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,81
+112,整理仪容,Tidy appearance,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,82
+113,自我反思,Self-reflection,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,83
+114,整理工作思路,Organize work thoughts,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,84
+115,制定工作计划,Make work plan,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,85
+116,组织技术分享,Organize tech sharing,4,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,86
+117,独自思考问题,Think alone,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,87
+118,召开项目会议,Hold project meeting,3,1,,,,resource[22]>=5,,,,,,,,,,,,,,,,,,,,,,,,,,88
+119,准备会议资料,Prepare meeting materials,3,1,,,,resource[22]>=3,,,,,,,,,,,,,,,,,,,,,,,,,,89
+120,吃工作餐,Eat company lunch,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,90
+121,和同事共进午餐,Lunch with colleagues,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,91
+122,独自用餐,Eat alone,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,92
+123,了解食堂菜品,Learn about cafeteria menu,1,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,93
+124,询问商品信息,Ask about product information,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,94
+125,购买生活用品,Buy daily necessities,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,95
+126,购买工作用品,Buy work supplies,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,96
+127,了解促销活动,Learn about promotions,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,97
+128,对比商品价格,Compare product prices,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,98
+129,查看购物清单,Check shopping list,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,99
+130,在线支付,Online payment,1,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,100
 131,计算购买预算,Calculate budget,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,131
 132,选择性价比商品,Choose cost-effective products,3,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,132
 133,评估购买必要性,Evaluate purchase necessity,2,2,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,133
