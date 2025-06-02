@@ -59,7 +59,7 @@ export interface EventResult {
 export interface ResourceChange {
   resource_id: number
   resource_name: string
-  change: number
+  change: number | null
   new_value: number
 }
 

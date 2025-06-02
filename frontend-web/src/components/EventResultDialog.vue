@@ -18,16 +18,16 @@
           <h4 class="section-title">📊 属性变化</h4>
           <div class="changes-grid">
             <div 
-              v-for="change in eventResult.resource_changes" 
-              :key="change.resource_id"
+              v-for="resourceChange in eventResult.resource_changes" 
+              :key="resourceChange.resource_id"
               class="resource-change"
-              :class="getChangeClass(change.change)"
+              :class="getChangeClass(resourceChange.change)"
             >
-              <span class="resource-name">{{ change.resource_name }}</span>
+              <span class="resource-name">{{ resourceChange.resource_name }}</span>
               <span class="change-value">
-                {{ formatChange(change.change) }}
+                {{ formatChange(resourceChange.change) }}
               </span>
-              <span class="new-value">→ {{ change.new_value }}</span>
+              <span class="new-value">→ {{ resourceChange.new_value }}</span>
             </div>
           </div>
         </div>
@@ -116,13 +116,15 @@ const handleContinue = () => {
   emit('close')
 }
 
-const getChangeClass = (change: number) => {
+const getChangeClass = (change: number | null | undefined) => {
+  if (change == null) return 'neutral'  // 处理 null 或 undefined
   if (change > 0) return 'positive'
   if (change < 0) return 'negative'
   return 'neutral'
 }
 
-const formatChange = (change: number) => {
+const formatChange = (change: number | null | undefined) => {
+  if (change == null) return '0'  // 处理 null 或 undefined
   if (change > 0) return `+${change}`
   return change.toString()
 }
