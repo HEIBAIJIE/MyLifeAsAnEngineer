@@ -1,0 +1,174 @@
+name: Build and Deploy TCOG Frontend
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: tcog-frontend
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd frontend-web && npm ci
+        
+    - name: Run tests
+      run: npm test
+      
+    - name: Build project
+      run: npm run build:web
+
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,prefix={{branch}}-
+          
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+        
+    - name: Configure kubectl
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG_STAGING }}" | base64 -d > ~/.kube/config
+        
+    - name: Deploy to staging
+      run: |
+        # 更新镜像标签
+        export IMAGE_TAG="${{ github.sha }}"
+        export NAMESPACE="tcog-staging"
+        
+        # 替换配置文件中的变量
+        envsubst < k8s/deployment.yaml | kubectl apply -f -
+        envsubst < k8s/ingress.yaml | kubectl apply -f -
+        envsubst < k8s/hpa.yaml | kubectl apply -f -
+        
+        # 等待部署完成
+        kubectl rollout status deployment/tcog-frontend -n tcog-staging --timeout=300s
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment: production
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+        
+    - name: Configure kubectl
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG_PRODUCTION }}" | base64 -d > ~/.kube/config
+        
+    - name: Deploy to production
+      run: |
+        # 从tag中提取版本号
+        export IMAGE_TAG="${GITHUB_REF#refs/tags/}"
+        export NAMESPACE="tcog-production"
+        
+        # 替换配置文件中的变量
+        envsubst < k8s/deployment.yaml | kubectl apply -f -
+        envsubst < k8s/ingress.yaml | kubectl apply -f -
+        envsubst < k8s/hpa.yaml | kubectl apply -f -
+        
+        # 等待部署完成
+        kubectl rollout status deployment/tcog-frontend -n tcog-production --timeout=300s
+        
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## Changes
+          - Auto-generated release for ${{ github.ref }}
+          
+          ## Docker Image
+          - `${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}`
+          
+          ## Deployment
+          - Deployed to production environment
+        draft: false
+        prerelease: false 
