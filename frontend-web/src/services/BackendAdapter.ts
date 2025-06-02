@@ -53,7 +53,7 @@ export class BackendAdapter {
       }
 
       const script = document.createElement('script')
-      script.src = '/dist/dist/game-engine.js'
+      script.src = '/dist/game-engine.js'
       script.onload = () => {
         console.log('Game engine script loaded successfully')
         resolve()
