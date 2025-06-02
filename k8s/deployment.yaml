@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tcog-frontend
+  namespace: tcog
   labels:
     app: tcog-frontend
     component: frontend
@@ -98,6 +99,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tcog-frontend
+  namespace: tcog
   labels:
     app: tcog-frontend
     component: frontend
@@ -115,6 +117,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tcog-frontend-config
+  namespace: tcog
   labels:
     app: tcog-frontend
 data:

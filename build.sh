@@ -117,7 +117,9 @@ build_container_image() {
 
 # 部署到Kubernetes（使用本地镜像）
 deploy_to_k8s() {
-    log_info "部署到Kubernetes（使用本地镜像）..."
+    local namespace=${1:-"tcog"}
+    
+    log_info "部署到Kubernetes（使用本地镜像）到命名空间: ${namespace}..."
     
     if ! command -v kubectl &> /dev/null; then
         log_error "kubectl 未安装或不在PATH中"
@@ -130,22 +132,26 @@ deploy_to_k8s() {
         exit 1
     fi
     
+    # 创建命名空间（如果不存在）
+    log_info "确保命名空间存在: ${namespace}"
+    kubectl create namespace "$namespace" --dry-run=client -o yaml | kubectl apply -f -
+    
     # 应用K8S配置
-    log_info "应用Kubernetes配置..."
+    log_info "应用Kubernetes配置到命名空间: ${namespace}..."
     kubectl apply -f k8s/deployment.yaml
     kubectl apply -f k8s/ingress.yaml
     kubectl apply -f k8s/hpa.yaml
     
     # 等待部署完成
     log_info "等待部署完成..."
-    kubectl rollout status deployment/tcog-frontend --timeout=300s
+    kubectl rollout status deployment/tcog-frontend -n "$namespace" --timeout=300s
     
     log_success "Kubernetes部署完成"
     
     # 显示服务信息
     log_info "服务信息:"
-    kubectl get svc tcog-frontend
-    kubectl get ingress tcog-frontend-ingress
+    kubectl get svc tcog-frontend -n "$namespace"
+    kubectl get ingress tcog-frontend-ingress -n "$namespace"
 }
 
 # 清理资源
@@ -176,17 +182,19 @@ show_help() {
     echo "  -c, --clean             清理构建资源"
     echo "  -t, --tag TAG           指定镜像标签（默认: latest）"
     echo "  -n, --name NAME         指定镜像名称（默认: tcog-frontend）"
+    echo "  --namespace NS          指定Kubernetes命名空间（默认: tcog）"
     echo ""
     echo "注意:"
     echo "  - 使用containerd和nerdctl替代Docker"
     echo "  - 镜像构建在k8s.io命名空间以确保Kubernetes兼容性"
     echo "  - 本地构建模式：镜像不推送到远程仓库，直接在本地使用"
     echo "  - 适用于构建和部署在同一台机器的场景"
+    echo "  - 默认部署到tcog命名空间"
     echo ""
     echo "示例:"
-    echo "  $0 -a                   # 完整构建和部署流程"
+    echo "  $0 -a                   # 完整构建和部署流程到tcog命名空间"
     echo "  $0 -d -t v1.0.0         # 只构建镜像，指定标签"
-    echo "  $0 -k                   # 只部署到K8s"
+    echo "  $0 -k --namespace prod  # 只部署到prod命名空间"
     echo ""
 }
 
@@ -199,6 +207,7 @@ main() {
     local clean_only=false
     local image_tag="latest"
     local image_name="tcog-frontend"
+    local namespace="tcog"
     
     # 解析命令行参数
     while [[ $# -gt 0 ]]; do
@@ -235,6 +244,10 @@ main() {
                 image_name="$2"
                 shift 2
                 ;;
+            --namespace)
+                namespace="$2"
+                shift 2
+                ;;
             *)
                 log_error "未知选项: $1"
                 show_help
@@ -256,7 +269,7 @@ main() {
         log_info "执行完整构建和部署流程..."
         build_project
         build_container_image "$image_name" "$image_tag"
-        deploy_to_k8s
+        deploy_to_k8s "$namespace"
         log_success "完整流程执行完成"
     elif [ "$build_only" = true ]; then
         build_project
@@ -264,13 +277,13 @@ main() {
         build_project
         build_container_image "$image_name" "$image_tag"
     elif [ "$k8s_only" = true ]; then
-        deploy_to_k8s
+        deploy_to_k8s "$namespace"
     else
         # 默认执行完整流程
         log_info "执行默认完整构建和部署流程..."
         build_project
         build_container_image "$image_name" "$image_tag"
-        deploy_to_k8s
+        deploy_to_k8s "$namespace"
         log_success "默认流程执行完成"
     fi
 }

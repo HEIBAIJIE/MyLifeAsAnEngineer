@@ -7,7 +7,7 @@ set -e
 # 默认配置
 IMAGE_NAME="tcog-frontend"
 IMAGE_TAG="latest"
-NAMESPACE="default"
+NAMESPACE="tcog"
 
 # 颜色输出
 RED='\033[0;31m'
@@ -40,7 +40,7 @@ TCOG Frontend 快速部署脚本 (本地镜像模式)
 
 选项:
     -h, --help                显示帮助信息
-    -n, --namespace NAME      指定Kubernetes命名空间 (默认: default)
+    -n, --namespace NAME      指定Kubernetes命名空间 (默认: tcog)
     -t, --tag TAG            指定镜像标签 (默认: latest)
     --image-name NAME        指定镜像名称 (默认: tcog-frontend)
     --build                  从源码构建镜像
@@ -127,19 +127,19 @@ update_image_tag() {
 deploy_app() {
     log_info "部署应用到Kubernetes（使用本地镜像）..."
     
-    # 应用配置文件，替换命名空间和镜像配置
+    # 应用配置文件，替换镜像配置
     local temp_dir=$(mktemp -d)
     
-    # 处理deployment.yaml
-    sed "s/namespace: default/namespace: $NAMESPACE/g" k8s/deployment.yaml > "$temp_dir/deployment.yaml"
+    # 处理deployment.yaml - 只更新镜像相关配置
+    cp k8s/deployment.yaml "$temp_dir/deployment.yaml"
     
     # 更新镜像地址为本地镜像，并设置 imagePullPolicy 为 Never
-    sed -i "s|image: tcog-frontend:latest|image: k8s.io/$IMAGE_NAME:$IMAGE_TAG|g" "$temp_dir/deployment.yaml"
-    sed -i "s|imagePullPolicy: Always|imagePullPolicy: Never|g" "$temp_dir/deployment.yaml"
+    sed -i "s|image: k8s.io/tcog-frontend:latest|image: k8s.io/$IMAGE_NAME:$IMAGE_TAG|g" "$temp_dir/deployment.yaml"
+    sed -i "s|imagePullPolicy: Never|imagePullPolicy: Never|g" "$temp_dir/deployment.yaml"
     
-    # 处理其他配置文件
-    sed "s/namespace: default/namespace: $NAMESPACE/g" k8s/ingress.yaml > "$temp_dir/ingress.yaml"
-    sed "s/namespace: default/namespace: $NAMESPACE/g" k8s/hpa.yaml > "$temp_dir/hpa.yaml"
+    # 直接使用其他配置文件（它们已经有正确的命名空间）
+    cp k8s/ingress.yaml "$temp_dir/ingress.yaml"
+    cp k8s/hpa.yaml "$temp_dir/hpa.yaml"
     
     # 应用配置
     kubectl apply -f "$temp_dir/deployment.yaml"

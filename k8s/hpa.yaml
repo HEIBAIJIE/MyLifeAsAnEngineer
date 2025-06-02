@@ -2,6 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: tcog-frontend-hpa
+  namespace: tcog
   labels:
     app: tcog-frontend
 spec:
