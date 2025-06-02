@@ -107,7 +107,10 @@ export class BackendAdapter {
       language: this.currentLanguage
     })
     
+    console.log('Backend getGameState response:', response)
+    
     if (response.type === 'query_result' && response.data) {
+      console.log('Game state resources:', response.data.resources)
       return response.data as GameState
     }
     throw new Error(response.error || 'Failed to get game state')
@@ -223,8 +226,16 @@ export class BackendAdapter {
 
   // 重置游戏
   async resetGame(): Promise<void> {
+    console.log('BackendAdapter: Resetting game...')
     if (this.gameEngine && this.gameEngine.resetGame) {
       this.gameEngine.resetGame()
+      console.log('BackendAdapter: Game reset method called')
+      
+      // 等待一小段时间确保重置操作完成
+      await new Promise(resolve => setTimeout(resolve, 50))
+      console.log('BackendAdapter: Game reset completed')
+    } else {
+      console.warn('BackendAdapter: Game engine or resetGame method not available')
     }
   }
 

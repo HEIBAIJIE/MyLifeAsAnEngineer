@@ -263,36 +263,39 @@ const sceneBackgroundStyle = computed(() => {
 // 基础属性
 const basicStats = computed(() => {
   const resources = props.gameState?.resources || {}
+  console.log('Basic stats resources data:', resources)
   return [
-    { key: 'money', icon: '💰', name: '金钱', value: resources[1] || 0, max: null },
-    { key: 'health', icon: '❤️', name: '健康', value: resources[2] || 0, max: 100 },
-    { key: 'fatigue', icon: '😴', name: '疲劳', value: resources[3] || 0, max: 100 },
-    { key: 'hunger', icon: '🍽️', name: '饥饿', value: resources[4] || 0, max: 100 },
-    { key: 'focus', icon: '🎯', name: '专注', value: resources[7] || 0, max: 100 },
-    { key: 'mood', icon: '😊', name: '心情', value: resources[8] || 0, max: 100 }
+    { key: 'money', icon: '💰', name: '金钱', value: resources[2] || 0, max: null },
+    { key: 'health', icon: '❤️', name: '健康', value: resources[13] || 0, max: 100 },
+    { key: 'fatigue', icon: '😴', name: '疲劳', value: resources[14] || 0, max: 100 },
+    { key: 'hunger', icon: '🍽️', name: '饥饿', value: resources[15] || 0, max: 100 },
+    { key: 'focus', icon: '🎯', name: '专注', value: resources[18] || 0, max: 100 },
+    { key: 'mood', icon: '😊', name: '心情', value: resources[19] || 0, max: 100 }
   ]
 })
 
 // 职业属性
 const careerStats = computed(() => {
   const resources = props.gameState?.resources || {}
+  console.log('Career stats resources data:', resources)
   return [
-    { key: 'skill', icon: '🔧', name: '技能', value: resources[9] || 0, max: 100 },
-    { key: 'level', icon: '👔', name: '职级', value: resources[10] || 0, max: 10 },
+    { key: 'skill', icon: '🔧', name: '技能', value: resources[20] || 0, max: 100 },
+    { key: 'level', icon: '👔', name: '职级', value: resources[22] || 0, max: 10 },
     { key: 'project', icon: '📊', name: '项目', value: resources[23] || 0, max: 100 },
-    { key: 'boss', icon: '😠', name: '老板', value: resources[24] || 0, max: 100 }
+    { key: 'boss', icon: '😠', name: '老板', value: resources[21] || 0, max: 100 }
   ]
 })
 
 // 哲学属性
 const philosophyStats = computed(() => {
   const resources = props.gameState?.resources || {}
+  console.log('Philosophy stats resources data:', resources)
   return [
-    { key: 'rational', icon: '🧠', name: '理性', value: resources[5] || 0, max: 100 },
-    { key: 'emotional', icon: '💖', name: '感性', value: resources[6] || 0, max: 100 },
-    { key: 'social', icon: '🤝', name: '社交', value: resources[25] || 0, max: 100 },
-    { key: 'reputation', icon: '🏆', name: '声誉', value: resources[26] || 0, max: 100 },
-    { key: 'insight', icon: '🤔', name: '感悟', value: resources[27] || 0, max: 100 }
+    { key: 'rational', icon: '🧠', name: '理性', value: resources[16] || 0, max: 100 },
+    { key: 'emotional', icon: '💖', name: '感性', value: resources[17] || 0, max: 100 },
+    { key: 'social', icon: '🤝', name: '社交', value: resources[70] || 0, max: 100 },
+    { key: 'reputation', icon: '🏆', name: '声誉', value: resources[71] || 0, max: 100 },
+    { key: 'insight', icon: '🤔', name: '感悟', value: resources[72] || 0, max: 100 }
   ]
 })
 

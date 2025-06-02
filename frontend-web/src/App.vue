@@ -130,8 +130,23 @@ const handleNewGame = async () => {
       console.log('Backend initialized successfully')
     }
     
+    console.log('Resetting game...')
     await backend.resetGame()
+    
+    // 等待一小段时间确保重置完成
+    await new Promise(resolve => setTimeout(resolve, 100))
+    
+    console.log('Updating game state after reset...')
     await updateGameState()
+    
+    // 检查是否成功获取到有效的游戏状态
+    if (!gameState.value || !gameState.value.resources || Object.keys(gameState.value.resources).length === 0) {
+      console.warn('Game state seems empty, retrying...')
+      await new Promise(resolve => setTimeout(resolve, 200))
+      await updateGameState()
+    }
+    
+    console.log('Final game state before showing scene:', gameState.value)
     currentView.value = 'scene'
   } catch (error) {
     console.error('Failed to start new game:', error)
@@ -277,7 +292,10 @@ const updateGameState = async () => {
     }
     
     // 获取游戏状态
+    console.log('Fetching game state...')
     gameState.value = await backend.getGameState()
+    console.log('Frontend received game state:', gameState.value)
+    console.log('Frontend game state resources:', gameState.value?.resources)
     
     // 获取当前位置
     currentLocation.value = await backend.getCurrentLocation()
