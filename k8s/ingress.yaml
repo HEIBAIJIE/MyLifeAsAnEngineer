@@ -26,21 +26,6 @@ metadata:
     
     # 启用gzip压缩
     nginx.ingress.kubernetes.io/enable-gzip: "true"
-    
-    # 缓存配置
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-      }
-      location /csv/ {
-        expires 1h;
-        add_header Cache-Control "public";
-      }
-      location /dist/ {
-        expires 1h;
-        add_header Cache-Control "public";
-      }
 
 spec:
   # 指定 Ingress Class
