@@ -6,8 +6,8 @@
   "scripts": {
     "start": "ts-node start-game.ts",
     "build": "tsc",
-    "build:browser": "webpack --mode=production",
-    "build:browser:dev": "webpack --mode=development",
+    "build:browser": "webpack --mode=production && cp frontend-web/dist/game-engine.js frontend-web/public/dist/game-engine.js",
+    "build:browser:dev": "webpack --mode=development && cp frontend-web/dist/game-engine.js frontend-web/public/dist/game-engine.js",
     "build:browser:watch": "webpack --mode=development --watch",
     "dev": "npm run dev:build-and-serve",
     "dev:parallel": "concurrently \"npm run dev:backend\" \"npm run dev:frontend:delayed\" --names \"Backend,Frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",

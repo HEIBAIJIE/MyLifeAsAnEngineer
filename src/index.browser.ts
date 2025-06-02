@@ -21,6 +21,27 @@ class BrowserGameEngine extends GameEngine {
       console.log('Available resources:', resourceManager.getAllResourceValues());
       console.log('Available entities:', dataManager.getAllEntities().size);
       console.log('Available events:', dataManager.getAllEvents().size);
+      
+      // 详细调试信息：显示事件ID范围
+      const allEvents = dataManager.getAllEvents();
+      const eventIds = Array.from(allEvents.keys()).sort((a, b) => a - b);
+      console.log('Event IDs loaded:', eventIds);
+      console.log('Events 1-10:', eventIds.filter(id => id >= 1 && id <= 10));
+      console.log('Events 11-30:', eventIds.filter(id => id >= 11 && id <= 30));
+      
+      // 检查特定的事件ID 7
+      const event7 = dataManager.getEvent(7);
+      console.log('Event 7 details:', event7);
+      
+      // 检查所有旅行事件（1-30）
+      for (let i = 1; i <= 30; i++) {
+        const event = dataManager.getEvent(i);
+        if (event) {
+          console.log(`Event ${i}: ${event.event_name_cn} (location_requirement: ${event.location_requirement})`);
+        } else {
+          console.log(`Event ${i}: NOT FOUND`);
+        }
+      }
     } catch (error) {
       console.error('Failed to initialize Browser GameEngine:', error);
       throw error;

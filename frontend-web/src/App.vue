@@ -183,12 +183,23 @@ const handleExitGame = () => {
 
 const handleTravelTo = async (locationId: number) => {
   try {
-    // 这里需要根据实际的后端接口来实现位置切换
-    // 暂时先更新游戏状态
-    await updateGameState()
-    currentView.value = 'scene'
+    // 初始化后端适配器
+    if (!backend.initialized) {
+      await backend.initialize()
+    }
+    
+    // 使用后端适配器进行位置切换
+    const result = await backend.travelToLocation(locationId)
+    if (result.success) {
+      // 切换成功，更新游戏状态并切换到场景页面
+      await updateGameState()
+      currentView.value = 'scene'
+    } else {
+      alert('移动失败：' + result.error)
+    }
   } catch (error) {
     console.error('Travel error:', error)
+    alert('移动失败')
   }
 }
 
@@ -260,9 +271,35 @@ const closeEventResult = () => {
 
 const updateGameState = async () => {
   try {
+    // 确保后端已初始化
+    if (!backend.initialized) {
+      await backend.initialize()
+    }
+    
+    // 获取游戏状态
     gameState.value = await backend.getGameState()
+    
+    // 获取当前位置
     currentLocation.value = await backend.getCurrentLocation()
+    
+    // 获取可用实体
     availableEntities.value = await backend.getAvailableEntities()
+    
+    // 如果游戏状态中没有时间信息，尝试单独获取
+    if (!gameState.value.time_info || !gameState.value.time_info.time_display) {
+      try {
+        const timeInfo = await backend.getTimeInfo()
+        if (timeInfo && gameState.value) {
+          gameState.value.time_info = timeInfo
+        }
+      } catch (timeError) {
+        console.warn('Failed to get time info separately:', timeError)
+      }
+    }
+    
+    console.log('Game state updated:', gameState.value)
+    console.log('Current location:', currentLocation.value)
+    console.log('Time info:', gameState.value?.time_info)
   } catch (error) {
     console.error('Failed to update game state:', error)
   }

@@ -8,10 +8,14 @@ export interface GameState {
 
 // 时间信息
 export interface TimeInfo {
+  current_time: number
   time: number
   time_display: string
+  hour: number
+  day: number
   day_of_week: number
   is_weekend: boolean
+  is_workday: boolean
   is_night: boolean
 }
 

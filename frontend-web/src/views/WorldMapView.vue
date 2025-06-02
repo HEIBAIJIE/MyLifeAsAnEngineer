@@ -143,7 +143,30 @@ const currentLocationName = computed(() => {
 })
 
 const timeDisplay = computed(() => {
-  return props.gameState?.time_info?.time_display || '时间未知'
+  if (!props.gameState?.time_info) {
+    return '时间未知'
+  }
+  
+  const timeInfo = props.gameState.time_info
+  
+  // 如果后端已经提供了格式化的时间显示，直接使用
+  if (timeInfo.time_display) {
+    return timeInfo.time_display
+  }
+  
+  // 否则基于小时数进行格式化
+  if (typeof timeInfo.hour !== 'undefined') {
+    const hour = timeInfo.hour
+    return `${hour.toString().padStart(2, '0')}:00`
+  }
+  
+  // 如果有current_time，计算小时数
+  if (typeof timeInfo.current_time !== 'undefined') {
+    const hour = Math.floor((timeInfo.current_time % 48) / 2)
+    return `${hour.toString().padStart(2, '0')}:00`
+  }
+  
+  return '时间未知'
 })
 
 // 方法

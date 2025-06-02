@@ -41,9 +41,16 @@ export class GameDataManager {
     const loader = new CSVLoader();
     const data = loader.loadAllData();
     
+    console.log('Loading game data...');
+    console.log('Events from CSV loader:', data.events.length);
+    console.log('First 10 events:', data.events.slice(0, 10));
+    
     // Convert arrays to maps for efficient lookup
     data.resources.forEach((r: Resource) => this.resources.set(r.resource_id, r));
-    data.events.forEach((e: Event) => this.events.set(e.event_id, e));
+    data.events.forEach((e: Event) => {
+      console.log(`Loading event ${e.event_id}: ${e.event_name_cn}`);
+      this.events.set(e.event_id, e);
+    });
     data.items.forEach((i: Item) => this.items.set(i.item_id, i));
     data.entities.forEach((e: Entity) => this.entities.set(e.entity_id, e));
     data.temporaryEvents.forEach((t: TemporaryEvent) => this.temporaryEvents.set(t.temp_event_id, t));
@@ -51,6 +58,18 @@ export class GameDataManager {
     data.locations.forEach((l: Location) => this.locations.set(l.location_id, l));
     data.endings.forEach((e: Ending) => this.endings.set(e.ending_id, e));
     this.gameTexts = data.gameTexts;
+    
+    console.log('Game data loaded:', {
+      resources: this.resources.size,
+      events: this.events.size,
+      items: this.items.size,
+      entities: this.entities.size,
+      temporaryEvents: this.temporaryEvents.size,
+      scheduledTasks: this.scheduledTasks.size,
+      locations: this.locations.size,
+      endings: this.endings.size,
+      gameTexts: this.gameTexts.size
+    });
   }
 
   // Getter methods

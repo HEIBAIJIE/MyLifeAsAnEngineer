@@ -240,4 +240,140 @@ export class BackendAdapter {
   get initialized(): boolean {
     return this.isInitialized
   }
+
+  // 位置切换 - 通过执行对应的移动事件
+  async travelToLocation(locationId: number): Promise<{ success: boolean; error?: string }> {
+    try {
+      // 首先获取当前位置
+      const gameState = await this.getGameState()
+      const currentLocationId = gameState.resources[61] || 3
+      
+      console.log('Travel debug info:', {
+        currentLocationId,
+        targetLocationId: locationId,
+        gameStateResources: gameState.resources
+      })
+      
+      // 如果已经在目标位置，不需要移动
+      if (currentLocationId === locationId) {
+        return { success: true }
+      }
+
+      // 根据events.csv中的实际映射确定移动事件ID
+      // 创建位置到事件ID的映射表
+      const travelEventMap: { [key: string]: number } = {
+        // 从公司(1)出发
+        '1_2': 2,   // 前往商店
+        '1_3': 3,   // 前往家
+        '1_4': 4,   // 前往公园
+        '1_5': 5,   // 前往餐馆
+        '1_6': 6,   // 前往医院
+        
+        // 从商店(2)出发
+        '2_1': 1,   // 前往公司
+        '2_3': 9,   // 前往家
+        '2_4': 10,  // 前往公园
+        '2_5': 11,  // 前往餐馆
+        '2_6': 12,  // 前往医院
+        
+        // 从家(3)出发
+        '3_1': 7,   // 前往公司
+        '3_2': 8,   // 前往商店
+        '3_4': 16,  // 前往公园
+        '3_5': 17,  // 前往餐馆
+        '3_6': 18,  // 前往医院
+        
+        // 从公园(4)出发
+        '4_1': 13,  // 前往公司
+        '4_2': 14,  // 前往商店
+        '4_3': 15,  // 前往家
+        '4_5': 23,  // 前往餐馆 (location_requirement=4)
+        '4_6': 24,  // 前往医院
+        
+        // 从餐馆(5)出发
+        '5_1': 19,  // 前往公司
+        '5_2': 20,  // 前往商店
+        '5_3': 21,  // 前往家
+        '5_4': 22,  // 前往公园 (location_requirement=5)
+        '5_6': 30,  // 前往医院 (location_requirement=5)
+        
+        // 从医院(6)出发
+        '6_1': 25,  // 前往公司
+        '6_2': 26,  // 前往商店
+        '6_3': 27,  // 前往家
+        '6_4': 28,  // 前往公园
+        '6_5': 29,  // 前往餐馆
+      }
+      
+      const travelKey = `${currentLocationId}_${locationId}`
+      const eventId = travelEventMap[travelKey]
+      
+      console.log('Travel mapping:', {
+        travelKey,
+        eventId,
+        availableKeys: Object.keys(travelEventMap)
+      })
+      
+      if (!eventId) {
+        console.error(`No travel event found for ${currentLocationId} -> ${locationId}`)
+        return { success: false, error: `无法从位置${currentLocationId}移动到位置${locationId}` }
+      }
+      
+      console.log(`Traveling from location ${currentLocationId} to ${locationId}, using event ${eventId}`)
+      
+      // 调试：检查游戏引擎是否有这个事件
+      if (this.gameEngine) {
+        const dataManager = this.gameEngine.getDataManager()
+        const event = dataManager.getEvent(eventId)
+        console.log('Event lookup result:', event)
+        
+        // 获取所有事件来调试
+        const allEvents = dataManager.getAllEvents()
+        console.log('Total events loaded:', allEvents.size)
+        const eventIds = Array.from(allEvents.keys()) as number[]
+        console.log('Events 1-10:', eventIds.filter(id => id >= 1 && id <= 10).sort())
+      }
+
+      // 执行移动事件
+      const command = {
+        type: 'execute_event',
+        params: { event_id: eventId },
+        language: this.currentLanguage
+      }
+      
+      console.log('Sending travel command:', command)
+      
+      const response = this.sendCommand(command)
+      
+      console.log('Travel response:', response)
+
+      if (response.type === 'event_result') {
+        console.log(`Successfully traveled to location ${locationId}`)
+        return { success: true }
+      } else {
+        console.error('Travel failed:', {
+          responseType: response.type,
+          responseError: response.error,
+          fullResponse: response
+        })
+        return { success: false, error: response.error || '移动事件执行失败' }
+      }
+    } catch (error) {
+      console.error('Travel error:', error)
+      return { success: false, error: (error as Error).message }
+    }
+  }
+
+  // 获取时间信息
+  async getTimeInfo(): Promise<any> {
+    const response = this.sendCommand({
+      type: 'get_time_info',
+      language: this.currentLanguage
+    })
+    
+    if (response.type === 'query_result' && response.data) {
+      return response.data
+    }
+    throw new Error(response.error || 'Failed to get time info')
+  }
 } 
