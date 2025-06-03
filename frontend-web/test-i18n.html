@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多语言测试 - I18n Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lang-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .lang-btn.active {
+            background: #007bff;
+            color: white;
+        }
+        .text-item {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        .key {
+            font-weight: bold;
+            color: #495057;
+        }
+        .value {
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <h1>多语言功能测试 / I18n Function Test</h1>
+    
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="switchLanguage('zh')">中文</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>界面文本 / Interface Texts</h2>
+        <div id="interface-texts"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>游戏元素 / Game Elements</h2>
+        <div id="game-elements"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>对话框文本 / Dialog Texts</h2>
+        <div id="dialog-texts"></div>
+    </div>
+
+    <script type="module">
+        // 模拟导入多语言模块
+        const zhTexts = {
+            // 主界面
+            gameTitle: '我的工程师生活',
+            gameSubtitle: 'My Life As An Engineer',
+            newGame: '开始新游戏',
+            loadGame: '读取存档',
+            exitGame: '退出程序',
+            
+            // 游戏状态
+            location: '位置',
+            time: '时间',
+            characterStatus: '角色状态',
+            availableEntities: '可交互实体',
+            
+            // 资源名称
+            money: '💰 金钱',
+            health: '❤️ 健康',
+            fatigue: '😴 疲劳',
+            hunger: '🍽️ 饥饿',
+            rational: '🧠 理性',
+            emotional: '💖 感性',
+            
+            // 按钮
+            save: '保存',
+            load: '读取',
+            close: '关闭',
+            execute: '执行'
+        };
+
+        const enTexts = {
+            // 主界面
+            gameTitle: 'My Life As An Engineer',
+            gameSubtitle: '我的工程师生活',
+            newGame: 'New Game',
+            loadGame: 'Load Game',
+            exitGame: 'Exit',
+            
+            // 游戏状态
+            location: 'Location',
+            time: 'Time',
+            characterStatus: 'Character Status',
+            availableEntities: 'Available Entities',
+            
+            // 资源名称
+            money: '💰 Money',
+            health: '❤️ Health',
+            fatigue: '😴 Fatigue',
+            hunger: '🍽️ Hunger',
+            rational: '🧠 Rational',
+            emotional: '💖 Emotional',
+            
+            // 按钮
+            save: 'Save',
+            load: 'Load',
+            close: 'Close',
+            execute: 'Execute'
+        };
+
+        let currentLanguage = 'zh';
+
+        function getTexts(language) {
+            return language === 'en' ? enTexts : zhTexts;
+        }
+
+        function switchLanguage(language) {
+            currentLanguage = language;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 更新显示
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const texts = getTexts(currentLanguage);
+            
+            // 界面文本
+            const interfaceSection = document.getElementById('interface-texts');
+            interfaceSection.innerHTML = `
+                <div class="text-item">
+                    <span class="key">gameTitle:</span>
+                    <span class="value">${texts.gameTitle}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">newGame:</span>
+                    <span class="value">${texts.newGame}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">loadGame:</span>
+                    <span class="value">${texts.loadGame}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">exitGame:</span>
+                    <span class="value">${texts.exitGame}</span>
+                </div>
+            `;
+            
+            // 游戏元素
+            const gameSection = document.getElementById('game-elements');
+            gameSection.innerHTML = `
+                <div class="text-item">
+                    <span class="key">location:</span>
+                    <span class="value">${texts.location}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">time:</span>
+                    <span class="value">${texts.time}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">characterStatus:</span>
+                    <span class="value">${texts.characterStatus}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">availableEntities:</span>
+                    <span class="value">${texts.availableEntities}</span>
+                </div>
+            `;
+            
+            // 对话框文本
+            const dialogSection = document.getElementById('dialog-texts');
+            dialogSection.innerHTML = `
+                <div class="text-item">
+                    <span class="key">money:</span>
+                    <span class="value">${texts.money}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">health:</span>
+                    <span class="value">${texts.health}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">fatigue:</span>
+                    <span class="value">${texts.fatigue}</span>
+                </div>
+                <div class="text-item">
+                    <span class="key">execute:</span>
+                    <span class="value">${texts.execute}</span>
+                </div>
+            `;
+        }
+
+        // 初始化显示
+        updateDisplay();
+
+        // 全局函数
+        window.switchLanguage = switchLanguage;
+    </script>
+</body>
+</html> 

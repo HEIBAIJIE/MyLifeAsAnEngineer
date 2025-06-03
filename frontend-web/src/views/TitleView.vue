@@ -13,23 +13,23 @@
       <div class="pixel-border title-box">
         <!-- 终端启动提示 -->
         <div class="terminal-header">
-          <span class="terminal-prompt">[SYSTEM INITIALIZED]</span>
+          <span class="terminal-prompt">{{ t('systemInitialized') }}</span>
           <span class="cursor-blink">█</span>
         </div>
         
         <!-- 游戏标题 -->
         <h1 class="game-title pixel-glow">
-          <span class="title-line chinese-pixel">我的工程师生活</span>
-          <span class="subtitle-line english-pixel">My Life As An Engineer</span>
+          <span class="title-line chinese-pixel">{{ t('gameTitle') }}</span>
+          <span class="subtitle-line english-pixel">{{ t('gameSubtitle') }}</span>
         </h1>
         
         <!-- 游戏描述 - 改为更沉浸的表达 -->
         <div class="game-description">
           <p class="pixel-text-subtitle chinese-pixel">
-            > 接入系统...生命模拟器已启动
+            {{ t('gameDescription1') }}
           </p>
           <p class="pixel-text-subtitle chinese-pixel">
-            > 开始体验工程师的数字化人生
+            {{ t('gameDescription2') }}
           </p>
         </div>
         
@@ -40,7 +40,7 @@
             @click="$emit('new-game')"
           >
             <span class="btn-prefix">&gt;</span> 
-            <span class="chinese-pixel">开始新游戏</span>
+            <span class="chinese-pixel">{{ t('newGame') }}</span>
             <span class="btn-suffix">&lt;</span>
           </button>
           
@@ -49,7 +49,7 @@
             @click="$emit('load-game')"
           >
             <span class="btn-prefix">&gt;</span>
-            <span class="chinese-pixel">读取存档</span>
+            <span class="chinese-pixel">{{ t('loadGame') }}</span>
             <span class="btn-suffix">&lt;</span>
           </button>
           
@@ -58,7 +58,7 @@
             @click="$emit('exit-game')"
           >
             <span class="btn-prefix">&gt;</span>
-            <span class="chinese-pixel">退出程序</span>
+            <span class="chinese-pixel">{{ t('exitGame') }}</span>
             <span class="btn-suffix">&lt;</span>
           </button>
         </div>
@@ -66,16 +66,16 @@
         <!-- 版权信息 - 改为更有科技感的表达 -->
         <div class="credits">
           <p class="pixel-text-small english-pixel">
-            &lt;/&gt; Powered by TypeScript & Vue3 &lt;/&gt;
+            &lt;/&gt; {{ t('poweredBy') }} &lt;/&gt;
           </p>
           <p class="pixel-text-small chinese-pixel">
-            版本 v1.0.0 | 数字化生活模拟系统
+            {{ t('version') }}
           </p>
         </div>
         
         <!-- 终端底部提示 -->
         <div class="terminal-footer">
-          <span class="terminal-prompt">[AWAITING INPUT]</span>
+          <span class="terminal-prompt">{{ t('awaitingInput') }}</span>
           <span class="cursor-blink">█</span>
         </div>
       </div>
@@ -98,6 +98,18 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from '../utils/i18n'
+
+// Props
+interface Props {
+  currentLanguage: string
+}
+
+const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
+
 // 定义事件
 defineEmits<{
   'new-game': []

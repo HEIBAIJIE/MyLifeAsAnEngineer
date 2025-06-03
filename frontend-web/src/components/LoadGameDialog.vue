@@ -2,22 +2,22 @@
   <div class="dialog-overlay">
     <div class="dialog-container pixel-border">
       <div class="dialog-header">
-        <h2 class="dialog-title pixel-glow">💾 读取存档</h2>
+        <h2 class="dialog-title pixel-glow">{{ t('loadTitle') }}</h2>
       </div>
       
       <div class="dialog-content">
-        <p class="dialog-text">请输入存档代码 (BASE64格式):</p>
+        <p class="dialog-text">{{ t('enterSaveData') }}</p>
         
         <textarea 
           v-model="saveDataInput"
           class="save-input pixel-border"
-          placeholder="在此粘贴存档代码..."
+          :placeholder="t('saveDataHint')"
           rows="6"
         ></textarea>
         
         <div class="dialog-tip">
           <span class="pixel-text-small">
-            💡 提示: 存档代码是从游戏保存时生成的BASE64字符串
+            {{ t('saveDataTip') }}
           </span>
         </div>
       </div>
@@ -28,13 +28,13 @@
           @click="handleLoad"
           :disabled="!saveDataInput.trim()"
         >
-          📥 读取
+          📥 {{ t('load') }}
         </button>
         <button 
           class="pixel-button"
           @click="handleCancel"
         >
-          ❌ 取消
+          ❌ {{ t('cancel') }}
         </button>
       </div>
     </div>
@@ -43,6 +43,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from '../utils/i18n'
+
+// Props
+interface Props {
+  currentLanguage: string
+}
+
+const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events
 const emit = defineEmits<{

@@ -4,7 +4,7 @@
       <div class="loading-header">
         <div class="terminal-line">
           <span class="terminal-bracket">[</span>
-          <span class="loading-title pixel-glow chinese-pixel">系统初始化</span>
+          <span class="loading-title pixel-glow chinese-pixel">{{ t('systemLoading') }}</span>
           <span class="terminal-bracket">]</span>
         </div>
         <div class="scan-line"></div>
@@ -66,15 +66,15 @@
           <div class="system-info">
             <div class="info-line">
               <span class="info-label">&gt;</span>
-              <span class="info-text chinese-pixel">正在加载游戏引擎...</span>
+              <span class="info-text chinese-pixel">{{ getSystemInfoText(0) }}</span>
             </div>
             <div class="info-line">
               <span class="info-label">&gt;</span>
-              <span class="info-text chinese-pixel">初始化数据管理器...</span>
+              <span class="info-text chinese-pixel">{{ getSystemInfoText(1) }}</span>
             </div>
             <div class="info-line">
               <span class="info-label">&gt;</span>
-              <span class="info-text chinese-pixel">建立后端连接...</span>
+              <span class="info-text chinese-pixel">{{ getSystemInfoText(2) }}</span>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
       <div class="loading-footer">
         <div class="loading-tip">
           <span class="tip-icon">💡</span>
-          <span class="tip-text chinese-pixel">首次启动需要加载游戏资源，请稍候...</span>
+          <span class="tip-text chinese-pixel">{{ getLoadingTip() }}</span>
         </div>
       </div>
     </div>
@@ -93,19 +93,25 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from '../utils/i18n'
 
 // Props
 interface Props {
   visible: boolean
   progress: number
   currentStep: string
+  currentLanguage: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   visible: false,
   progress: 0,
-  currentStep: '正在初始化...'
+  currentStep: '正在初始化...',
+  currentLanguage: 'zh'
 })
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // 响应式数据
 const matrixChars = ['0', '1', 'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', '数', '据', '加', '载']
@@ -113,37 +119,81 @@ const matrixChars = ['0', '1', 'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 
 // 计算属性
 const currentStatus = computed(() => props.currentStep)
 
-const loadingSteps = computed(() => [
-  {
-    text: '加载游戏引擎脚本',
-    completed: props.progress > 20,
-    current: props.progress >= 0 && props.progress <= 20
-  },
-  {
-    text: '初始化后端适配器',
-    completed: props.progress > 40,
-    current: props.progress > 20 && props.progress <= 40
-  },
-  {
-    text: '连接游戏引擎',
-    completed: props.progress > 60,
-    current: props.progress > 40 && props.progress <= 60
-  },
-  {
-    text: '加载游戏数据',
-    completed: props.progress > 80,
-    current: props.progress > 60 && props.progress <= 80
-  },
-  {
-    text: '准备游戏界面',
-    completed: props.progress >= 100,
-    current: props.progress > 80 && props.progress < 100
-  }
-])
+const loadingSteps = computed(() => {
+  const steps = [
+    {
+      key: 'loadScript',
+      textZh: '加载游戏引擎脚本',
+      textEn: 'Loading game engine script',
+      completed: props.progress > 20,
+      current: props.progress >= 0 && props.progress <= 20
+    },
+    {
+      key: 'initAdapter',
+      textZh: '初始化后端适配器',
+      textEn: 'Initializing backend adapter',
+      completed: props.progress > 40,
+      current: props.progress > 20 && props.progress <= 40
+    },
+    {
+      key: 'connectEngine',
+      textZh: '连接游戏引擎',
+      textEn: 'Connecting to game engine',
+      completed: props.progress > 60,
+      current: props.progress > 40 && props.progress <= 60
+    },
+    {
+      key: 'loadData',
+      textZh: '加载游戏数据',
+      textEn: 'Loading game data',
+      completed: props.progress > 80,
+      current: props.progress > 60 && props.progress <= 80
+    },
+    {
+      key: 'prepareUI',
+      textZh: '准备游戏界面',
+      textEn: 'Preparing game interface',
+      completed: props.progress >= 100,
+      current: props.progress > 80 && props.progress < 100
+    }
+  ]
+  
+  return steps.map(step => ({
+    text: props.currentLanguage === 'en' ? step.textEn : step.textZh,
+    completed: step.completed,
+    current: step.current
+  }))
+})
 
 // 方法
 const getRandomChar = () => {
   return matrixChars[Math.floor(Math.random() * matrixChars.length)]
+}
+
+const getSystemInfoText = (index: number) => {
+  const systemInfoTexts = {
+    zh: [
+      '正在加载游戏引擎...',
+      '初始化数据管理器...',
+      '建立后端连接...'
+    ],
+    en: [
+      'Loading game engine...',
+      'Initializing data manager...',
+      'Establishing backend connection...'
+    ]
+  }
+  
+  return systemInfoTexts[props.currentLanguage as keyof typeof systemInfoTexts][index] || ''
+}
+
+const getLoadingTip = () => {
+  const tips = {
+    zh: '首次启动需要加载游戏资源，请稍候...',
+    en: 'First startup requires loading game resources, please wait...'
+  }
+  
+  return tips[props.currentLanguage as keyof typeof tips] || tips.zh
 }
 </script>
 

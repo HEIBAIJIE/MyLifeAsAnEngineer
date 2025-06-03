@@ -2,7 +2,7 @@
   <div class="dialog-overlay">
     <div class="dialog-container pixel-border">
       <div class="dialog-header">
-        <h2 class="dialog-title pixel-glow">🎒 物品栏</h2>
+        <h2 class="dialog-title pixel-glow">{{ t('inventoryTitle') }}</h2>
       </div>
       
       <div class="dialog-content">
@@ -26,8 +26,8 @@
         </div>
         
         <div v-else class="empty-inventory">
-          <p class="empty-text">🎒 物品栏是空的</p>
-          <p class="empty-hint">通过购买或事件获得物品</p>
+          <p class="empty-text">{{ t('inventoryEmpty') }}</p>
+          <p class="empty-hint">{{ t('inventoryEmptyHint') }}</p>
         </div>
         
         <!-- 物品详情显示 -->
@@ -39,7 +39,7 @@
               class="pixel-button primary"
               @click="useItem(selectedItem)"
             >
-              ✨ 使用物品
+              {{ t('useItem') }}
             </button>
           </div>
         </div>
@@ -50,7 +50,7 @@
           class="pixel-button"
           @click="handleClose"
         >
-          ❌ 关闭
+          ❌ {{ t('close') }}
         </button>
       </div>
     </div>
@@ -59,14 +59,19 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from '../utils/i18n'
 import type { Inventory } from '../types'
 
 // Props
 interface Props {
   inventory: Inventory[]
+  currentLanguage: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events
 const emit = defineEmits<{
@@ -107,7 +112,21 @@ const getItemIcon = (itemName: string): string => {
     '饮料': '🥤',
     '药品': '💉',
     '工具': '🔧',
-    '装备': '⚙️'
+    '装备': '⚙️',
+    // English items
+    'Tech Book': '📚',
+    'Philosophy Book': '📖',
+    'Coffee': '☕',
+    'Vitamin': '💊',
+    'Massage Equipment': '🛋️',
+    'Exercise Equipment': '🏋️',
+    'Daily Supplies': '🛍️',
+    'Work Supplies': '💼',
+    'Food': '🍱',
+    'Drink': '🥤',
+    'Medicine': '💉',
+    'Tool': '🔧',
+    'Equipment': '⚙️'
   }
   
   // 根据物品名称关键词匹配图标

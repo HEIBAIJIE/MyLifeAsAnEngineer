@@ -4,7 +4,7 @@
       <div class="dialog-header">
         <div class="terminal-line">
           <span class="terminal-bracket">[</span>
-          <span class="dialog-title pixel-glow chinese-pixel">执行结果</span>
+          <span class="dialog-title pixel-glow chinese-pixel">{{ t('eventResult') }}</span>
           <span class="terminal-bracket">]</span>
         </div>
         <div class="scan-line"></div>
@@ -15,7 +15,7 @@
         <div class="event-description pixel-border">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
-            <h3 class="event-title chinese-pixel">事件详情</h3>
+            <h3 class="event-title chinese-pixel">{{ t('eventDetails') }}</h3>
             <div class="processing-indicator">
               <span class="processing-dot"></span>
               <span class="processing-dot"></span>
@@ -30,7 +30,7 @@
              class="resource-changes pixel-border">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
-            <h4 class="section-title chinese-pixel">数据变更</h4>
+            <h4 class="section-title chinese-pixel">{{ t('resourceChanges') }}</h4>
             <div class="data-stream-indicator"></div>
           </div>
           <div class="changes-grid">
@@ -57,7 +57,7 @@
              class="temporary-events pixel-border">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
-            <h4 class="section-title chinese-pixel">触发事件</h4>
+            <h4 class="section-title chinese-pixel">{{ t('temporaryEvents') }}</h4>
             <div class="pulse-indicator"></div>
           </div>
           <div class="temp-events-list">
@@ -77,7 +77,7 @@
              class="scheduled-tasks pixel-border">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
-            <h4 class="section-title chinese-pixel">计划任务</h4>
+            <h4 class="section-title chinese-pixel">{{ t('scheduledTasks') }}</h4>
             <div class="task-indicator"></div>
           </div>
           <div class="tasks-list">
@@ -97,7 +97,7 @@
           <div class="cost-display">
             <span class="cost-icon">&gt;</span>
             <span class="cost-text chinese-pixel">
-              时间消耗: {{ (eventResult.time_cost || 0) * 0.5 }} 小时
+              {{ t('timeCost') }}: {{ (eventResult.time_cost || 0) * 0.5 }} {{ t('hours') }}
             </span>
             <div class="time-bar">
               <div class="time-fill"></div>
@@ -112,7 +112,7 @@
           @click="handleContinue"
         >
           <span class="btn-bracket">[</span>
-          <span class="chinese-pixel">继续</span>
+          <span class="chinese-pixel">{{ t('continueBtn') }}</span>
           <span class="btn-bracket">]</span>
         </button>
       </div>
@@ -122,14 +122,19 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from '../utils/i18n'
 import type { EventResult } from '../types'
 
 // Props
 interface Props {
   eventResult: EventResult
+  currentLanguage: string
 }
 
 const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events
 const emit = defineEmits<{

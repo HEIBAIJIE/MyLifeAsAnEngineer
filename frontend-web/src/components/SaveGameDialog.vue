@@ -2,11 +2,11 @@
   <div class="dialog-overlay">
     <div class="dialog-container pixel-border">
       <div class="dialog-header">
-        <h2 class="dialog-title pixel-glow">💾 保存存档</h2>
+        <h2 class="dialog-title pixel-glow">{{ t('saveTitle') }}</h2>
       </div>
       
       <div class="dialog-content">
-        <p class="dialog-text">游戏已成功保存！请复制以下存档代码:</p>
+        <p class="dialog-text">{{ t('saveSuccess') }}</p>
         
         <div class="save-data-container">
           <textarea 
@@ -21,18 +21,18 @@
             class="copy-button pixel-button"
             @click="copyToClipboard"
           >
-            📋 复制代码
+            📋 {{ t('copy') }}{{ t('saveDataLabel') }}
           </button>
         </div>
         
         <div class="dialog-tip">
           <span class="pixel-text-small">
-            💡 提示: 请妥善保存此代码，用于下次读取游戏进度
+            {{ t('saveDataTip') }}
           </span>
         </div>
         
         <div class="copy-status" v-if="copySuccess">
-          <span class="success-text pixel-glow">✅ 已复制到剪贴板！</span>
+          <span class="success-text pixel-glow">{{ t('copySuccess') }}</span>
         </div>
       </div>
       
@@ -41,7 +41,7 @@
           class="pixel-button primary"
           @click="handleClose"
         >
-          ✅ 确定
+          ✅ {{ t('confirm') }}
         </button>
       </div>
     </div>
@@ -50,13 +50,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from '../utils/i18n'
 
 // Props
 interface Props {
   saveData: string
+  currentLanguage: string
 }
 
 const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events
 const emit = defineEmits<{

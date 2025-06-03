@@ -4,21 +4,21 @@
     <div class="scene-header pixel-status-bar">
       <div class="status-left">
         <div class="pixel-status-item">
-          <span class="pixel-status-label">📍 位置:</span>
+          <span class="pixel-status-label">📍 {{ t('location') }}:</span>
           <span class="pixel-status-value">{{ currentLocationName }}</span>
         </div>
         <div class="pixel-status-item">
-          <span class="pixel-status-label">🕐 时间:</span>
+          <span class="pixel-status-label">🕐 {{ t('time') }}:</span>
           <span class="pixel-status-value">{{ currentTimeDisplay }}</span>
         </div>
       </div>
       
       <div class="action-buttons">
-        <button class="pixel-button small" @click="$emit('save-game')">💾</button>
-        <button class="pixel-button small" @click="$emit('load-game')">📁</button>
-        <button class="pixel-button small" @click="$emit('show-inventory')">🎒</button>
-        <button class="pixel-button small" @click="$emit('go-to-worldmap')">🗺️</button>
-        <button class="pixel-button small" @click="$emit('go-to-title')">🏠</button>
+        <button class="pixel-button small" @click="$emit('save-game')" :title="t('save')">💾</button>
+        <button class="pixel-button small" @click="$emit('load-game')" :title="t('load')">📁</button>
+        <button class="pixel-button small" @click="$emit('show-inventory')" :title="t('inventory')">🎒</button>
+        <button class="pixel-button small" @click="$emit('go-to-worldmap')" :title="t('worldMap')">🗺️</button>
+        <button class="pixel-button small" @click="$emit('go-to-title')" :title="t('home')">🏠</button>
       </div>
     </div>
     
@@ -26,11 +26,11 @@
     <div class="scene-content">
       <!-- 左侧：角色状态 -->
       <div class="character-panel pixel-border">
-        <h3 class="panel-title">👤 角色状态</h3>
+        <h3 class="panel-title">👤 {{ t('characterStatus') }}</h3>
         
         <!-- 基础属性 -->
         <div class="stats-section">
-          <h4 class="section-title">基础属性</h4>
+          <h4 class="section-title">{{ t('basicStats') }}</h4>
           <div class="stats-grid">
             <div v-for="stat in basicStats" :key="stat.key" class="stat-item">
               <span class="stat-icon">{{ stat.icon }}</span>
@@ -51,7 +51,7 @@
         
         <!-- 职业属性 -->
         <div class="stats-section">
-          <h4 class="section-title">职业属性</h4>
+          <h4 class="section-title">{{ t('careerStats') }}</h4>
           <div class="stats-grid">
             <div v-for="stat in careerStats" :key="stat.key" class="stat-item">
               <span class="stat-icon">{{ stat.icon }}</span>
@@ -71,7 +71,7 @@
         
         <!-- 哲学属性 -->
         <div class="stats-section">
-          <h4 class="section-title">哲学属性</h4>
+          <h4 class="section-title">{{ t('philosophyStats') }}</h4>
           <div class="stats-grid">
             <div v-for="stat in philosophyStats" :key="stat.key" class="stat-item">
               <span class="stat-icon">{{ stat.icon }}</span>
@@ -94,7 +94,7 @@
       <div class="interaction-panel pixel-border">
         <!-- 实体选择模式 -->
         <div v-if="!selectedEntity" class="entities-section">
-          <h3 class="panel-title">🎯 可交互实体</h3>
+          <h3 class="panel-title">🎯 {{ t('availableEntities') }}</h3>
           
           <div class="entities-grid">
             <div 
@@ -111,14 +111,14 @@
               <div class="entity-info">
                 <div class="entity-name">{{ entity.entity_name }}</div>
                 <div class="entity-events-count pixel-text-small">
-                  {{ entity.available_events_count }} 个可用事件
+                  {{ entity.available_events_count }} {{ getEventsCountText(entity.available_events_count) }}
                 </div>
               </div>
               <div class="interaction-hint" v-if="entity.can_interact">
-                👆 点击交互
+                👆 {{ t('clickToInteract') }}
               </div>
               <div class="no-interaction" v-else>
-                🚫 无法交互
+                🚫 {{ t('cannotInteract') }}
               </div>
             </div>
           </div>
@@ -128,10 +128,10 @@
         <div v-else class="events-section">
           <div class="events-header">
             <button class="pixel-button small" @click="backToEntities">
-              ← 返回实体
+              ← {{ t('returnToEntities') }}
             </button>
             <h3 class="panel-title">
-              与 "{{ selectedEntity.entity_name }}" 交互
+              {{ t('interactWith') }} "{{ selectedEntity.entity_name }}"
             </h3>
           </div>
           
@@ -146,13 +146,13 @@
               }"
             >
               <div class="event-info">
-                <div class="event-name">{{ event.event_name_cn }}</div>
+                <div class="event-name">{{ getEventName(event) }}</div>
                 <div class="event-details">
                   <span class="event-time pixel-text-small">
-                    ⏱️ 耗时: {{ event.time_cost }} 小时
+                    ⏱️ {{ t('timeCost') }}: {{ event.time_cost }} {{ t('hours') }}
                   </span>
                   <span v-if="event.requirements" class="event-requirements pixel-text-small">
-                    📋 要求: {{ event.requirements }}
+                    📋 {{ t('requirements') }}: {{ event.requirements }}
                   </span>
                 </div>
               </div>
@@ -162,16 +162,16 @@
                 class="pixel-button small event-execute-btn"
                 @click="executeEvent(event.event_id)"
               >
-                执行
+                {{ t('execute') }}
               </button>
               <div v-else class="cannot-execute pixel-text-error">
-                无法执行
+                {{ t('cannotExecute') }}
               </div>
             </div>
           </div>
           
           <div v-else class="no-events pixel-text-small">
-            该实体暂无可用事件
+            {{ t('noEvents') }}
           </div>
         </div>
       </div>
@@ -186,6 +186,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from '../utils/i18n'
 import type { GameState, Location, Entity, GameEvent } from '../types'
 import { BackendAdapter } from '../services/BackendAdapter'
 
@@ -194,9 +195,13 @@ interface Props {
   gameState?: GameState | null
   currentLocation?: Location | null
   availableEntities?: Entity[]
+  currentLanguage: string
 }
 
 const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events
 const emit = defineEmits<{
@@ -265,12 +270,12 @@ const basicStats = computed(() => {
   const resources = props.gameState?.resources || {}
   console.log('Basic stats resources data:', resources)
   return [
-    { key: 'money', icon: '💰', name: '金钱', value: resources[2] || 0, max: null },
-    { key: 'health', icon: '❤️', name: '健康', value: resources[13] || 0, max: 100 },
-    { key: 'fatigue', icon: '😴', name: '疲劳', value: resources[14] || 0, max: 100 },
-    { key: 'hunger', icon: '🍽️', name: '饥饿', value: resources[15] || 0, max: 100 },
-    { key: 'focus', icon: '🎯', name: '专注', value: resources[18] || 0, max: 100 },
-    { key: 'mood', icon: '😊', name: '心情', value: resources[19] || 0, max: 100 }
+    { key: 'money', icon: '💰', name: t('money').replace('💰 ', ''), value: resources[2] || 0, max: null },
+    { key: 'health', icon: '❤️', name: t('health').replace('❤️ ', ''), value: resources[13] || 0, max: 100 },
+    { key: 'fatigue', icon: '😴', name: t('fatigue').replace('😴 ', ''), value: resources[14] || 0, max: 100 },
+    { key: 'hunger', icon: '🍽️', name: t('hunger').replace('🍽️ ', ''), value: resources[15] || 0, max: 100 },
+    { key: 'focus', icon: '🎯', name: t('focus').replace('🎯 ', ''), value: resources[18] || 0, max: 100 },
+    { key: 'mood', icon: '😊', name: t('mood').replace('😊 ', ''), value: resources[19] || 0, max: 100 }
   ]
 })
 
@@ -279,10 +284,10 @@ const careerStats = computed(() => {
   const resources = props.gameState?.resources || {}
   console.log('Career stats resources data:', resources)
   return [
-    { key: 'skill', icon: '🔧', name: '技能', value: resources[20] || 0, max: 100 },
-    { key: 'level', icon: '👔', name: '职级', value: resources[22] || 0, max: 10 },
-    { key: 'project', icon: '📊', name: '项目', value: resources[23] || 0, max: 100 },
-    { key: 'boss', icon: '😠', name: '老板', value: resources[21] || 0, max: 100 }
+    { key: 'skill', icon: '🔧', name: t('skill').replace('🔧 ', ''), value: resources[20] || 0, max: 100 },
+    { key: 'level', icon: '👔', name: t('jobLevel').replace('👔 ', ''), value: resources[22] || 0, max: 10 },
+    { key: 'project', icon: '📊', name: t('project').replace('📊 ', ''), value: resources[23] || 0, max: 100 },
+    { key: 'boss', icon: '😠', name: t('boss').replace('😠 ', ''), value: resources[21] || 0, max: 100 }
   ]
 })
 
@@ -291,11 +296,11 @@ const philosophyStats = computed(() => {
   const resources = props.gameState?.resources || {}
   console.log('Philosophy stats resources data:', resources)
   return [
-    { key: 'rational', icon: '🧠', name: '理性', value: resources[16] || 0, max: 100 },
-    { key: 'emotional', icon: '💖', name: '感性', value: resources[17] || 0, max: 100 },
-    { key: 'social', icon: '🤝', name: '社交', value: resources[70] || 0, max: 100 },
-    { key: 'reputation', icon: '🏆', name: '声誉', value: resources[71] || 0, max: 100 },
-    { key: 'insight', icon: '🤔', name: '感悟', value: resources[72] || 0, max: 100 }
+    { key: 'rational', icon: '🧠', name: t('rational').replace('🧠 ', ''), value: resources[16] || 0, max: 100 },
+    { key: 'emotional', icon: '💖', name: t('emotional').replace('💖 ', ''), value: resources[17] || 0, max: 100 },
+    { key: 'social', icon: '🤝', name: t('social').replace('🤝 ', ''), value: resources[70] || 0, max: 100 },
+    { key: 'reputation', icon: '🏆', name: t('reputation').replace('🏆 ', ''), value: resources[71] || 0, max: 100 },
+    { key: 'insight', icon: '🤔', name: t('insight').replace('🤔 ', ''), value: resources[72] || 0, max: 100 }
   ]
 })
 
@@ -309,6 +314,7 @@ const getStatValueClass = (value: number) => {
 
 const getEntityIcon = (entityName: string) => {
   const icons: Record<string, string> = {
+    // 中文实体
     '老板': '👔',
     '同事1': '👨‍💻',
     '同事2': '👩‍💻',
@@ -325,7 +331,25 @@ const getEntityIcon = (entityName: string) => {
     '书架': '📚',
     '床': '🛏️',
     '冰箱': '❄️',
-    '柜子': '📦'
+    '柜子': '📦',
+    // 英文实体
+    'Boss': '👔',
+    'Colleague1': '👨‍💻',
+    'Colleague2': '👩‍💻',
+    'Colleague3': '🧑‍💻',
+    'Computer': '💻',
+    'Work Computer': '💻',
+    'Phone': '📱',
+    'Hallway': '🚶',
+    'Restroom': '🚽',
+    'Self': '🧑‍💼',
+    'Meeting Room': '🏢',
+    'Cafeteria': '🍽️',
+    'Salesperson': '👨‍💼',
+    'Bookshelf': '📚',
+    'Bed': '🛏️',
+    'Refrigerator': '❄️',
+    'Cabinet': '📦'
   }
   return icons[entityName] || '❓'
 }
@@ -353,6 +377,22 @@ const backToEntities = () => {
 
 const executeEvent = (eventId: number) => {
   emit('execute-event', eventId)
+}
+
+const getEventsCountText = (count: number) => {
+  if (props.currentLanguage === 'en') {
+    return count === 1 ? 'event available' : 'events available'
+  } else {
+    return '个可用事件'
+  }
+}
+
+const getEventName = (event: GameEvent) => {
+  if (props.currentLanguage === 'en') {
+    return event.event_name_en || event.event_name_cn || 'Unknown Event'
+  } else {
+    return event.event_name_cn || event.event_name_en || '未知事件'
+  }
 }
 </script>
 

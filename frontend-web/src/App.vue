@@ -1,8 +1,15 @@
 <template>
   <div id="app" class="pixel-app">
+    <!-- 语言选择器 -->
+    <LanguageSelector 
+      :current-language="currentLanguage"
+      @language-change="handleLanguageChange"
+    />
+    
     <!-- 主标题页面 -->
     <TitleView 
       v-if="currentView === 'title'" 
+      :current-language="currentLanguage"
       @new-game="handleNewGame"
       @load-game="handleLoadGame"
       @exit-game="handleExitGame"
@@ -13,6 +20,7 @@
       v-if="currentView === 'worldmap'" 
       :current-location="currentLocation"
       :game-state="gameState"
+      :current-language="currentLanguage"
       @travel-to="handleTravelTo"
       @go-to-scene="goToScene"
       @go-to-title="goToTitle"
@@ -24,6 +32,7 @@
       :game-state="gameState"
       :current-location="currentLocation"
       :available-entities="availableEntities"
+      :current-language="currentLanguage"
       @save-game="handleSaveGame"
       @load-game="showLoadDialog"
       @show-inventory="handleShowInventory"
@@ -36,6 +45,7 @@
     <EndingView 
       v-if="currentView === 'ending'" 
       :ending-data="endingData"
+      :current-language="currentLanguage"
       @restart-game="handleNewGame"
       @go-to-title="goToTitle"
     />
@@ -46,11 +56,13 @@
       :visible="showLoadingDialog"
       :progress="loadingProgress"
       :current-step="loadingStep"
+      :current-language="currentLanguage"
     />
     
     <!-- 全局对话框 -->
     <LoadGameDialog 
       v-if="showLoadGameDialog" 
+      :current-language="currentLanguage"
       @load="confirmLoadGame"
       @cancel="showLoadGameDialog = false"
     />
@@ -58,12 +70,14 @@
     <SaveGameDialog 
       v-if="showSaveGameDialog" 
       :save-data="saveData"
+      :current-language="currentLanguage"
       @close="showSaveGameDialog = false"
     />
     
     <InventoryDialog 
       v-if="showInventoryDialog" 
       :inventory="inventory"
+      :current-language="currentLanguage"
       @use-item="handleUseItem"
       @close="showInventoryDialog = false"
     />
@@ -71,6 +85,7 @@
     <EventResultDialog 
       v-if="showEventResultDialog && eventResult" 
       :event-result="eventResult"
+      :current-language="currentLanguage"
       @close="closeEventResult"
     />
   </div>
@@ -87,6 +102,7 @@ import LoadGameDialog from './components/LoadGameDialog.vue'
 import SaveGameDialog from './components/SaveGameDialog.vue'
 import InventoryDialog from './components/InventoryDialog.vue'
 import EventResultDialog from './components/EventResultDialog.vue'
+import LanguageSelector from './components/LanguageSelector.vue'
 import { BackendAdapter } from './services/BackendAdapter'
 import type { GameState, Location, Entity, EventResult, Inventory, EndingData } from './types'
 
@@ -100,6 +116,9 @@ const currentLocation = ref<Location | null>(null)
 const availableEntities = ref<Entity[]>([])
 const inventory = ref<Inventory[]>([])
 const endingData = ref<EndingData | null>(null)
+
+// 语言状态
+const currentLanguage = ref<string>('zh')
 
 // 加载状态
 const showLoadingDialog = ref(false)
@@ -124,10 +143,28 @@ onMounted(async () => {
     // 创建全局后端适配器实例但不立即初始化
     ;(window as any).backendAdapter = backend
     console.log('Backend adapter instance created')
+    
+    // 从本地存储恢复语言设置
+    const savedLanguage = localStorage.getItem('game-language')
+    if (savedLanguage && ['zh', 'en'].includes(savedLanguage)) {
+      currentLanguage.value = savedLanguage
+    }
   } catch (error) {
     console.error('Failed to create backend adapter instance:', error)
   }
 })
+
+// 语言切换处理
+const handleLanguageChange = (language: string) => {
+  currentLanguage.value = language
+  // 保存到本地存储
+  localStorage.setItem('game-language', language)
+  // 通知后端语言变化
+  if (backend.initialized) {
+    backend.setLanguage(language)
+  }
+  console.log('Language changed to:', language)
+}
 
 // 视图切换
 const goToTitle = () => { currentView.value = 'title' }
@@ -155,6 +192,10 @@ const handleNewGame = async () => {
       await backend.initialize()
       console.log('Backend initialized successfully')
     }
+    
+    // 设置后端语言
+    backend.setLanguage(currentLanguage.value)
+    console.log('Backend language set to:', currentLanguage.value)
     
     // 稍微延迟一下让用户看到100%进度
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -241,7 +282,10 @@ const handleSaveGame = async () => {
 }
 
 const handleExitGame = () => {
-  if (confirm('确定要退出游戏吗？')) {
+  const confirmMessage = currentLanguage.value === 'en' ? 
+    'Are you sure you want to exit the game?' : 
+    '确定要退出游戏吗？'
+  if (confirm(confirmMessage)) {
     window.close()
   }
 }
@@ -345,6 +389,9 @@ const updateGameState = async () => {
     if (!backend.initialized) {
       await backend.initialize()
     }
+    
+    // 确保后端使用正确的语言
+    backend.setLanguage(currentLanguage.value)
     
     // 获取游戏状态
     console.log('Fetching game state...')
