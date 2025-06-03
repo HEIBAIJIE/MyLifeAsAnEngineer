@@ -100,6 +100,7 @@ import InventoryDialog from './components/InventoryDialog.vue'
 import EventResultDialog from './components/EventResultDialog.vue'
 import { BackendAdapter } from './services/BackendAdapter'
 import type { GameState, Location, Entity, EventResult, Inventory, EndingData } from './types'
+import { useI18n } from './utils/i18n'
 
 // 导入样式
 import './styles/pixel-ui.css'
@@ -131,6 +132,45 @@ const pendingEvents = ref<EventResult[]>([])
 
 // 后端适配器
 const backend = new BackendAdapter()
+
+// 多语言支持
+const { t } = useI18n(currentLanguage)
+
+// 获取多语言加载文本
+const getLoadingText = (key: string) => {
+  const texts: Record<string, Record<string, string>> = {
+    'zh': {
+      'loading_script': '正在加载游戏引擎脚本...',
+      'script_loaded': '游戏引擎脚本加载完成',
+      'init_adapter': '正在初始化后端适配器...',
+      'connecting': '正在连接游戏引擎...',
+      'init_engine': '正在初始化游戏引擎...',
+      'loading_data': '正在加载游戏数据...',
+      'reset_game': '正在重置游戏状态...',
+      'reset_complete': '游戏状态重置完成',
+      'preparing_ui': '正在准备游戏界面...',
+      'reload_data': '正在重新加载游戏数据...',
+      'complete': '加载完成',
+      'initializing': '正在初始化...'
+    },
+    'en': {
+      'loading_script': 'Loading game engine script...',
+      'script_loaded': 'Game engine script loaded',
+      'init_adapter': 'Initializing backend adapter...',
+      'connecting': 'Connecting to game engine...',
+      'init_engine': 'Initializing game engine...',
+      'loading_data': 'Loading game data...',
+      'reset_game': 'Resetting game state...',
+      'reset_complete': 'Game state reset complete',
+      'preparing_ui': 'Preparing game interface...',
+      'reload_data': 'Reloading game data...',
+      'complete': 'Loading complete',
+      'initializing': 'Initializing...'
+    }
+  }
+  const langTexts = texts[currentLanguage.value] || texts['zh']
+  return langTexts[key] || key
+}
 
 // 生命周期
 onMounted(async () => {
@@ -172,13 +212,15 @@ const handleNewGame = async () => {
     // 显示加载对话框
     showLoadingDialog.value = true
     loadingProgress.value = 0
-    loadingStep.value = '正在初始化系统...'
+    loadingStep.value = getLoadingText('loading_script')
     
     // 设置进度回调
     backend.setProgressCallback((progress: number, message: string) => {
       loadingProgress.value = progress
-      loadingStep.value = message
-      console.log(`Loading progress: ${progress}% - ${message}`)
+      // 尝试翻译消息，如果找不到对应翻译就使用原消息
+      const translatedMessage = getLoadingText(message) !== message ? getLoadingText(message) : message
+      loadingStep.value = translatedMessage
+      console.log(`Loading progress: ${progress}% - ${translatedMessage}`)
     })
     
     // 初始化后端适配器
@@ -201,21 +243,21 @@ const handleNewGame = async () => {
     // 等待一小段时间确保重置完成
     await new Promise(resolve => setTimeout(resolve, 200))
     
-    loadingStep.value = '正在准备游戏界面...'
+    loadingStep.value = getLoadingText('preparing_ui')
     console.log('Updating game state after reset...')
     await updateGameState()
     
     // 检查是否成功获取到有效的游戏状态
     if (!gameState.value || !gameState.value.resources || Object.keys(gameState.value.resources).length === 0) {
       console.warn('Game state seems empty, retrying...')
-      loadingStep.value = '正在重新加载游戏数据...'
+      loadingStep.value = getLoadingText('reload_data')
       await new Promise(resolve => setTimeout(resolve, 300))
       await updateGameState()
     }
     
     // 最终完成
     loadingProgress.value = 100
-    loadingStep.value = '加载完成'
+    loadingStep.value = getLoadingText('complete')
     
     console.log('Final game state before showing scene:', gameState.value)
     

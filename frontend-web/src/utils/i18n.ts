@@ -146,8 +146,8 @@ export const zhTexts: I18nTexts = {
   exitGame: '退出程序',
   systemInitialized: '[系统已初始化]',
   awaitingInput: '[等待输入]',
-  gameDescription1: '> 接入系统...生命模拟器已启动',
-  gameDescription2: '> 开始体验工程师的数字化人生',
+  gameDescription1: '> 探索工程师的职业与人生',
+  gameDescription2: '> 在理性与感性中寻找平衡',
   poweredBy: 'Powered by TypeScript & Vue3',
   version: '版本 v1.0.0 | 数字化生活模拟系统',
 
@@ -282,8 +282,8 @@ export const enTexts: I18nTexts = {
   exitGame: 'Exit',
   systemInitialized: '[SYSTEM INITIALIZED]',
   awaitingInput: '[AWAITING INPUT]',
-  gameDescription1: '> Connecting to system... Life simulator activated',
-  gameDescription2: '> Begin experiencing the digital life of an engineer',
+  gameDescription1: '> Explore the career and life of engineers',
+  gameDescription2: '> Find balance between rational and emotional',
   poweredBy: 'Powered by TypeScript & Vue3',
   version: 'Version v1.0.0 | Digital Life Simulation System',
 

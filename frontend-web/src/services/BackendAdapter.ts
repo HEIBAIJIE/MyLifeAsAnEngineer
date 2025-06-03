@@ -35,40 +35,40 @@ export class BackendAdapter {
     
     try {
       console.log('Loading real backend engine...')
-      this.reportProgress(0, '正在加载游戏引擎脚本...')
+      this.reportProgress(0, 'loading_script')
       
       // 加载编译后的游戏引擎
       await this.loadGameEngineScript()
-      this.reportProgress(25, '游戏引擎脚本加载完成')
+      this.reportProgress(25, 'script_loaded')
       
       // 等待一小段时间让进度显示
       await new Promise(resolve => setTimeout(resolve, 300))
-      this.reportProgress(40, '正在初始化后端适配器...')
+      this.reportProgress(40, 'init_adapter')
       
       // 获取游戏引擎实例
       if ((window as any).GameEngineBackend) {
         this.gameEngineBackend = (window as any).GameEngineBackend
         this.gameEngine = this.gameEngineBackend.gameEngine
         
-        this.reportProgress(60, '正在连接游戏引擎...')
+        this.reportProgress(60, 'connecting')
         await new Promise(resolve => setTimeout(resolve, 200))
         
         // 初始化游戏引擎
-        this.reportProgress(75, '正在初始化游戏引擎...')
+        this.reportProgress(75, 'init_engine')
         await this.gameEngine.initialize()
         
-        this.reportProgress(90, '正在加载游戏数据...')
+        this.reportProgress(90, 'loading_data')
         await new Promise(resolve => setTimeout(resolve, 200))
         
         this.isInitialized = true
-        this.reportProgress(100, '初始化完成')
+        this.reportProgress(100, 'complete')
         console.log('Real backend engine initialized successfully')
       } else {
         throw new Error('GameEngineBackend not found in global scope')
       }
     } catch (error) {
       console.error('Failed to initialize backend:', error)
-      this.reportProgress(0, '初始化失败: ' + (error as Error).message)
+      this.reportProgress(0, 'error: ' + (error as Error).message)
       throw error
     }
   }
@@ -257,7 +257,7 @@ export class BackendAdapter {
   // 重置游戏
   async resetGame(): Promise<void> {
     console.log('BackendAdapter: Resetting game...')
-    this.reportProgress(85, '正在重置游戏状态...')
+    this.reportProgress(85, 'reset_game')
     
     if (this.gameEngine && this.gameEngine.resetGame) {
       this.gameEngine.resetGame()
@@ -265,7 +265,7 @@ export class BackendAdapter {
       
       // 等待一小段时间确保重置操作完成
       await new Promise(resolve => setTimeout(resolve, 100))
-      this.reportProgress(95, '游戏状态重置完成')
+      this.reportProgress(95, 'reset_complete')
       console.log('BackendAdapter: Game reset completed')
     } else {
       console.warn('BackendAdapter: Game engine or resetGame method not available')

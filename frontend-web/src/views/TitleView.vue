@@ -20,7 +20,6 @@
         <!-- 游戏标题 -->
         <h1 class="game-title pixel-glow">
           <span class="title-line chinese-pixel">{{ t('gameTitle') }}</span>
-          <span class="subtitle-line english-pixel">{{ t('gameSubtitle') }}</span>
         </h1>
         
         <!-- 游戏描述 - 改为更沉浸的表达 -->

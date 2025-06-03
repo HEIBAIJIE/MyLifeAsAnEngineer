@@ -138,7 +138,7 @@
             >
               <div class="entity-icon">{{ getEntityIcon(entity.entity_name) }}</div>
               <div class="entity-info">
-                <div class="entity-name">{{ entity.entity_name }}</div>
+                <div class="entity-name">{{ getTranslatedEntityName(entity.entity_name) }}</div>
                 <div class="entity-events-count pixel-text-small">
                   {{ entity.available_events_count }} {{ getEventsCountText(entity.available_events_count) }}
                 </div>
@@ -160,7 +160,7 @@
               ← {{ t('returnToEntities') }}
             </button>
             <h3 class="panel-title">
-              {{ t('interactWith') }} "{{ selectedEntity.entity_name }}"
+              {{ t('interactWith') }} "{{ getTranslatedEntityName(selectedEntity.entity_name) }}"
             </h3>
           </div>
           
@@ -214,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, toRef } from 'vue'
 import { useI18n } from '../utils/i18n'
 import type { GameState, Location, Entity, GameEvent } from '../types'
 import { BackendAdapter } from '../services/BackendAdapter'
@@ -229,8 +229,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// 多语言支持
-const { t } = useI18n(props.currentLanguage)
+// 多语言支持 - 使用响应式引用
+const { t } = useI18n(toRef(props, 'currentLanguage'))
 
 // Events
 const emit = defineEmits<{
@@ -252,7 +252,28 @@ const backend = (window as any).backendAdapter as BackendAdapter
 
 // 计算属性
 const currentLocationName = computed(() => {
-  return props.currentLocation?.location_name || '未知位置'
+  // 首先尝试使用从后端获取的位置名称
+  if (props.currentLocation?.location_name) {
+    return props.currentLocation.location_name
+  }
+  
+  // 如果没有，使用多语言映射
+  const locationId = props.currentLocation?.location_id
+  const locationNames: Record<number, { zh: string, en: string }> = {
+    1: { zh: '公司', en: 'Company' },
+    2: { zh: '商店', en: 'Store' },
+    3: { zh: '家', en: 'Home' },
+    4: { zh: '公园', en: 'Park' },
+    5: { zh: '餐馆', en: 'Restaurant' },
+    6: { zh: '医院', en: 'Hospital' }
+  }
+  
+  if (locationId && locationNames[locationId]) {
+    const lang = props.currentLanguage === 'en' ? 'en' : 'zh'
+    return locationNames[locationId][lang]
+  }
+  
+  return props.currentLanguage === 'en' ? 'Unknown Location' : '未知位置'
 })
 
 const currentTimeDisplay = computed(() => {
@@ -429,6 +450,55 @@ const switchLanguage = (language: string) => {
   if (language !== props.currentLanguage) {
     emit('language-change', language)
   }
+}
+
+const getTranslatedEntityName = (entityName: string) => {
+  const entityTranslations: Record<string, { zh: string, en: string }> = {
+    // 中文到英文的映射
+    '老板': { zh: '老板', en: 'Boss' },
+    '同事1': { zh: '同事1', en: 'Colleague1' },
+    '同事2': { zh: '同事2', en: 'Colleague2' },
+    '同事3': { zh: '同事3', en: 'Colleague3' },
+    '电脑': { zh: '电脑', en: 'Computer' },
+    '工作电脑': { zh: '工作电脑', en: 'Work Computer' },
+    '手机': { zh: '手机', en: 'Phone' },
+    '走廊': { zh: '走廊', en: 'Hallway' },
+    '厕所': { zh: '厕所', en: 'Restroom' },
+    '自己': { zh: '自己', en: 'Self' },
+    '会议室': { zh: '会议室', en: 'Meeting Room' },
+    '食堂': { zh: '食堂', en: 'Cafeteria' },
+    '售货员': { zh: '售货员', en: 'Salesperson' },
+    '书架': { zh: '书架', en: 'Bookshelf' },
+    '床': { zh: '床', en: 'Bed' },
+    '冰箱': { zh: '冰箱', en: 'Refrigerator' },
+    '柜子': { zh: '柜子', en: 'Cabinet' },
+    // 英文到中文的映射
+    'Boss': { zh: '老板', en: 'Boss' },
+    'Colleague1': { zh: '同事1', en: 'Colleague1' },
+    'Colleague2': { zh: '同事2', en: 'Colleague2' },
+    'Colleague3': { zh: '同事3', en: 'Colleague3' },
+    'Computer': { zh: '电脑', en: 'Computer' },
+    'Work Computer': { zh: '工作电脑', en: 'Work Computer' },
+    'Phone': { zh: '手机', en: 'Phone' },
+    'Hallway': { zh: '走廊', en: 'Hallway' },
+    'Restroom': { zh: '厕所', en: 'Restroom' },
+    'Self': { zh: '自己', en: 'Self' },
+    'Meeting Room': { zh: '会议室', en: 'Meeting Room' },
+    'Cafeteria': { zh: '食堂', en: 'Cafeteria' },
+    'Salesperson': { zh: '售货员', en: 'Salesperson' },
+    'Bookshelf': { zh: '书架', en: 'Bookshelf' },
+    'Bed': { zh: '床', en: 'Bed' },
+    'Refrigerator': { zh: '冰箱', en: 'Refrigerator' },
+    'Cabinet': { zh: '柜子', en: 'Cabinet' }
+  }
+  
+  const translation = entityTranslations[entityName]
+  if (translation) {
+    const lang = props.currentLanguage === 'en' ? 'en' : 'zh'
+    return translation[lang]
+  }
+  
+  return entityName
 }
 </script>
 
