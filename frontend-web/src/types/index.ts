@@ -30,6 +30,9 @@ export interface Location {
 export interface Entity {
   entity_id: number
   entity_name: string
+  entity_name_en?: string
+  description?: string
+  description_en?: string
   can_interact: boolean
   available_events_count: number
 }

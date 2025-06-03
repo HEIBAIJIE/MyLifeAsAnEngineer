@@ -132,7 +132,9 @@ export class CSVLoader {
         entity_type: entityType,
         location: rawEntity.location_id,
         available_events: [],
-        interaction_requirements: rawEntity.interaction_conditions || 'always'
+        interaction_requirements: rawEntity.interaction_conditions || 'always',
+        description: rawEntity.description,
+        description_en: rawEntity.description_en
       };
 
       // Parse available_events string (comma-separated in quotes)

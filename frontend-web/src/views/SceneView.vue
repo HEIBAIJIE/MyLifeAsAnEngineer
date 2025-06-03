@@ -123,7 +123,7 @@
       <div class="interaction-panel pixel-border">
         <!-- 实体选择模式 -->
         <div v-if="!selectedEntity" class="entities-section">
-          <h3 class="panel-title">🎯 {{ t('availableEntities') }}</h3>
+          <h3 class="panel-title">{{ t('availableEntities') }}</h3>
           
           <div class="entities-grid">
             <div 
@@ -139,8 +139,8 @@
               <div class="entity-icon">{{ getEntityIcon(entity.entity_name) }}</div>
               <div class="entity-info">
                 <div class="entity-name">{{ getTranslatedEntityName(entity.entity_name) }}</div>
-                <div class="entity-events-count pixel-text-small">
-                  {{ entity.available_events_count }} {{ getEventsCountText(entity.available_events_count) }}
+                <div class="entity-description pixel-text-small">
+                  {{ getEntityDescription(entity) }}
                 </div>
               </div>
               <div class="interaction-hint" v-if="entity.can_interact">
@@ -164,21 +164,17 @@
             </h3>
           </div>
           
-          <div class="events-grid" v-if="entityEvents && entityEvents.length > 0">
+          <div class="events-grid" v-if="filteredEntityEvents && filteredEntityEvents.length > 0">
             <div 
-              v-for="event in entityEvents" 
+              v-for="event in filteredEntityEvents" 
               :key="event.event_id"
-              class="event-card pixel-card"
-              :class="{ 
-                'disabled': !event.can_execute,
-                'executable': event.can_execute 
-              }"
+              class="event-card pixel-card executable"
             >
               <div class="event-info">
                 <div class="event-name">{{ getEventName(event) }}</div>
                 <div class="event-details">
                   <span class="event-time pixel-text-small">
-                    ⏱️ {{ t('timeCost') }}: {{ event.time_cost }} {{ t('hours') }}
+                    ⏱️ {{ t('timeCost') }}: {{ event.time_cost * 0.5 }} {{ t('hours') }}
                   </span>
                   <span v-if="event.requirements" class="event-requirements pixel-text-small">
                     📋 {{ t('requirements') }}: {{ event.requirements }}
@@ -187,15 +183,11 @@
               </div>
               
               <button 
-                v-if="event.can_execute"
                 class="pixel-button small event-execute-btn"
                 @click="executeEvent(event.event_id)"
               >
                 {{ t('execute') }}
               </button>
-              <div v-else class="cannot-execute pixel-text-error">
-                {{ t('cannotExecute') }}
-              </div>
             </div>
           </div>
           
@@ -521,6 +513,20 @@ const getTranslatedEntityName = (entityName: string) => {
   
   return entityName
 }
+
+const getEntityDescription = (entity: Entity) => {
+  // 使用实体的description字段，根据当前语言选择合适的描述
+  if (props.currentLanguage === 'en') {
+    return entity.description_en || entity.description || 'No description available'
+  } else {
+    return entity.description || entity.description_en || '暂无描述'
+  }
+}
+
+// 过滤出可以执行的事件
+const filteredEntityEvents = computed(() => {
+  return entityEvents.value.filter(event => event.can_execute)
+})
 </script>
 
 <style scoped>
@@ -697,7 +703,7 @@ const getTranslatedEntityName = (entityName: string) => {
   margin-bottom: clamp(3px, 0.5vw, 6px);
 }
 
-.entity-events-count {
+.entity-description {
   color: #aaffaa;
   font-size: var(--small-font-size);
 }
@@ -768,11 +774,6 @@ const getTranslatedEntityName = (entityName: string) => {
 }
 
 .event-execute-btn {
-  margin-left: clamp(8px, 1.2vw, 16px);
-}
-
-.cannot-execute {
-  font-size: var(--small-font-size);
   margin-left: clamp(8px, 1.2vw, 16px);
 }
 

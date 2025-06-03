@@ -26,6 +26,8 @@ export interface AvailableEntity {
   entity_type: string;
   can_interact: boolean;
   available_events_count: number;
+  description?: string;
+  description_en?: string;
 }
 
 export interface EntityEvent {

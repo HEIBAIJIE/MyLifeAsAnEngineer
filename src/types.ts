@@ -80,6 +80,8 @@ export interface Entity {
   location: number;
   available_events: number[];
   interaction_requirements: string;
+  description?: string;
+  description_en?: string;
 }
 
 // Temporary event types

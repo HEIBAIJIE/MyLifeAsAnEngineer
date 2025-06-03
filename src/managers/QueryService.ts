@@ -258,6 +258,8 @@ export class QueryService {
       entity_type: string;
       can_interact: boolean;
       available_events_count: number;
+      description?: string;
+      description_en?: string;
     }> = [];
     
     this.dataManager.getAllEntities().forEach((entity, id) => {
@@ -282,7 +284,9 @@ export class QueryService {
           entity_name_en: entity.entity_name_en,
           entity_type: entity.entity_type,
           can_interact: canInteract,
-          available_events_count: availableEventsCount
+          available_events_count: availableEventsCount,
+          description: entity.description,
+          description_en: entity.description_en
         });
       }
     });
