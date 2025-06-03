@@ -14,11 +14,40 @@
       </div>
       
       <div class="action-buttons">
-        <button class="pixel-button small" @click="$emit('save-game')" :title="t('save')">💾</button>
-        <button class="pixel-button small" @click="$emit('load-game')" :title="t('load')">📁</button>
-        <button class="pixel-button small" @click="$emit('show-inventory')" :title="t('inventory')">🎒</button>
-        <button class="pixel-button small" @click="$emit('go-to-worldmap')" :title="t('worldMap')">🗺️</button>
-        <button class="pixel-button small" @click="$emit('go-to-title')" :title="t('home')">🏠</button>
+        <button class="pixel-button small" @click="$emit('save-game')" :title="t('save')">
+          💾 <span class="btn-text">{{ t('save') }}</span>
+        </button>
+        <button class="pixel-button small" @click="$emit('load-game')" :title="t('load')">
+          📁 <span class="btn-text">{{ t('load') }}</span>
+        </button>
+        <button class="pixel-button small" @click="$emit('show-inventory')" :title="t('inventory')">
+          🎒 <span class="btn-text">{{ t('inventory') }}</span>
+        </button>
+        <button class="pixel-button small" @click="$emit('go-to-worldmap')" :title="t('worldMap')">
+          🗺️ <span class="btn-text">{{ t('worldMap') }}</span>
+        </button>
+        <button class="pixel-button small" @click="$emit('go-to-title')" :title="t('home')">
+          🏠 <span class="btn-text">{{ t('home') }}</span>
+        </button>
+        <!-- 语言选择器 -->
+        <div class="language-selector-inline">
+          <button 
+            class="pixel-button small lang-btn"
+            :class="{ active: currentLanguage === 'zh' }"
+            @click="switchLanguage('zh')"
+            :title="currentLanguage === 'zh' ? 'Switch to English' : '切换为中文'"
+          >
+            中
+          </button>
+          <button 
+            class="pixel-button small lang-btn"
+            :class="{ active: currentLanguage === 'en' }"
+            @click="switchLanguage('en')"
+            :title="currentLanguage === 'zh' ? 'Switch to English' : '切换为中文'"
+          >
+            EN
+          </button>
+        </div>
       </div>
     </div>
     
@@ -211,6 +240,7 @@ const emit = defineEmits<{
   'go-to-worldmap': []
   'go-to-title': []
   'execute-event': [eventId: number]
+  'language-change': [language: string]
 }>()
 
 // 响应式数据
@@ -392,6 +422,12 @@ const getEventName = (event: GameEvent) => {
     return event.event_name_en || event.event_name_cn || 'Unknown Event'
   } else {
     return event.event_name_cn || event.event_name_en || '未知事件'
+  }
+}
+
+const switchLanguage = (language: string) => {
+  if (language !== props.currentLanguage) {
+    emit('language-change', language)
   }
 }
 </script>
@@ -744,6 +780,61 @@ const getEventName = (event: GameEvent) => {
   
   .entity-icon {
     font-size: clamp(20px, 3vw, 32px);
+  }
+}
+
+/* 内联语言选择器样式 */
+.language-selector-inline {
+  display: flex;
+  gap: clamp(2px, 0.4vw, 4px);
+}
+
+.language-selector-inline .lang-btn {
+  min-width: clamp(28px, 4vw, 36px);
+  padding: clamp(4px, 0.8vw, 8px) clamp(6px, 1vw, 10px);
+  font-size: var(--small-font-size);
+}
+
+.language-selector-inline .lang-btn.active {
+  background: rgba(0, 120, 0, 0.8);
+  border-color: var(--terminal-green);
+  color: var(--terminal-green);
+  box-shadow: 
+    0 0 var(--glow-size) var(--terminal-green),
+    inset 0 0 calc(var(--glow-size) / 2) rgba(0, 255, 0, 0.2);
+}
+
+/* 按钮文字样式 */
+.btn-text {
+  font-size: var(--tiny-font-size);
+  margin-left: clamp(2px, 0.4vw, 4px);
+}
+
+/* 响应式按钮文字 */
+@media (max-width: 768px) {
+  .btn-text {
+    display: none; /* 在小屏幕上隐藏文字，只显示图标 */
+  }
+  
+  .language-selector-inline {
+    gap: clamp(1px, 0.2vw, 2px);
+  }
+  
+  .language-selector-inline .lang-btn {
+    min-width: clamp(24px, 3.5vw, 32px);
+    padding: clamp(3px, 0.6vw, 6px) clamp(4px, 0.8vw, 8px);
+  }
+}
+
+@media (max-width: 480px) {
+  .action-buttons {
+    justify-content: center;
+  }
+  
+  .language-selector-inline .lang-btn {
+    min-width: clamp(20px, 3vw, 28px);
+    padding: clamp(2px, 0.4vw, 4px) clamp(3px, 0.6vw, 6px);
+    font-size: clamp(6px, 1.2vw, 8px);
   }
 }
 </style> 

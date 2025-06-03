@@ -125,6 +125,13 @@ export interface I18nTexts {
   travelTo: string
   noEvents: string
   requirements: string
+  // 新增地图相关文本
+  gameWorld: string
+  enterScene: string
+  returnToHome: string
+  worldMapTitle: string
+  availableLocation: string
+  currentLocationMarker: string
 }
 
 // 中文文本
@@ -253,7 +260,14 @@ export const zhTexts: I18nTexts = {
   currentLocation: '当前位置',
   travelTo: '前往',
   noEvents: '该实体暂无可用事件',
-  requirements: '要求'
+  requirements: '要求',
+  // 新增地图相关文本
+  gameWorld: '游戏世界',
+  enterScene: '进入场景',
+  returnToHome: '返回主页',
+  worldMapTitle: '世界地图',
+  availableLocation: '可前往',
+  currentLocationMarker: '当前位置'
 }
 
 // 英文文本
@@ -382,7 +396,14 @@ export const enTexts: I18nTexts = {
   currentLocation: 'Current',
   travelTo: 'Go',
   noEvents: 'No events available for this entity',
-  requirements: 'Requirements'
+  requirements: 'Requirements',
+  // 新增地图相关文本
+  gameWorld: 'Game World',
+  enterScene: 'Enter Scene',
+  returnToHome: 'Return to Home',
+  worldMapTitle: 'World Map',
+  availableLocation: 'Available',
+  currentLocationMarker: 'Current Location'
 }
 
 // 获取当前语言的文本

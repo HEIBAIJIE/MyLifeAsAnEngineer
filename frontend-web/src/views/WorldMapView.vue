@@ -5,9 +5,9 @@
     
     <!-- 地图标题 -->
     <div class="map-header">
-      <h1 class="map-title pixel-glow">🗺️ 游戏世界</h1>
+      <h1 class="map-title pixel-glow">🗺️ {{ t('worldMapTitle') }}</h1>
       <div class="current-status">
-        <span class="pixel-text">当前位置: {{ currentLocationName }}</span>
+        <span class="pixel-text">{{ t('currentLocation') }}: {{ currentLocationName }}</span>
         <span class="pixel-text">{{ timeDisplay }}</span>
       </div>
     </div>
@@ -31,21 +31,21 @@
         
         <!-- 位置信息 -->
         <div class="location-info">
-          <h3 class="location-name">{{ location.name }}</h3>
-          <p class="location-description">{{ location.description }}</p>
+          <h3 class="location-name">{{ getLocationName(location) }}</h3>
+          <p class="location-description">{{ getLocationDescription(location) }}</p>
         </div>
         
         <!-- 状态标记 -->
         <div class="location-status">
           <span v-if="location.id === currentLocationId" class="current-marker pixel-glow">
-            当前位置
+            {{ t('currentLocationMarker') }}
           </span>
           <button 
             v-else 
             class="travel-btn pixel-button"
             @click.stop="travelTo(location.id)"
           >
-            前往
+            {{ t('travelTo') }}
           </button>
         </div>
         
@@ -59,10 +59,10 @@
     <!-- 底部控制栏 -->
     <div class="bottom-controls">
       <button class="pixel-button large" @click="goToCurrentScene">
-        🏃 进入场景
+        🏃 {{ t('enterScene') }}
       </button>
       <button class="pixel-button large" @click="$emit('go-to-title')">
-        🏠 返回主页
+        🏠 {{ t('returnToHome') }}
       </button>
     </div>
 
@@ -75,15 +75,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from '../utils/i18n'
 import type { Location, GameState } from '../types'
 
 // Props
 interface Props {
   currentLocation?: Location | null
   gameState?: GameState | null
+  currentLanguage: string
 }
 
 const props = defineProps<Props>()
+
+// 多语言支持
+const { t } = useI18n(props.currentLanguage)
 
 // Events  
 const emit = defineEmits<{
@@ -92,42 +97,42 @@ const emit = defineEmits<{
   'go-to-title': []
 }>()
 
-// 硬编码的地图位置信息
+// 硬编码的地图位置信息 - 现在支持双语
 const locations = [
   {
     id: 1,
-    name: '公司',
-    description: '工作和奋斗的地方',
+    nameKey: 'company' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'companyDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🏢'
   },
   {
     id: 2, 
-    name: '商店',
-    description: '购买各种物品',
+    nameKey: 'store' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'storeDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🏪'
   },
   {
     id: 3,
-    name: '家',
-    description: '温馨的休息场所', 
+    nameKey: 'homeLocation' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'homeDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🏠'
   },
   {
     id: 4,
-    name: '公园',
-    description: '锻炼身体和思考',
+    nameKey: 'park' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'parkDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🌳'
   },
   {
     id: 5,
-    name: '餐馆', 
-    description: '享用美食的地方',
+    nameKey: 'restaurant' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'restaurantDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🍽️'
   },
   {
     id: 6,
-    name: '医院',
-    description: '治疗和恢复健康',
+    nameKey: 'hospital' as keyof typeof import('../utils/i18n').zhTexts,
+    descKey: 'hospitalDesc' as keyof typeof import('../utils/i18n').zhTexts,
     icon: '🏥'
   }
 ]
@@ -139,12 +144,12 @@ const currentLocationId = computed(() => {
 
 const currentLocationName = computed(() => {
   const location = locations.find(loc => loc.id === currentLocationId.value)
-  return location?.name || '未知位置'
+  return location ? t(location.nameKey) : t('currentLocation')
 })
 
 const timeDisplay = computed(() => {
   if (!props.gameState?.time_info) {
-    return '时间未知'
+    return t('loading')
   }
   
   const timeInfo = props.gameState.time_info
@@ -166,10 +171,18 @@ const timeDisplay = computed(() => {
     return `${hour.toString().padStart(2, '0')}:00`
   }
   
-  return '时间未知'
+  return t('loading')
 })
 
 // 方法
+const getLocationName = (location: any) => {
+  return t(location.nameKey)
+}
+
+const getLocationDescription = (location: any) => {
+  return t(location.descKey)
+}
+
 const travelTo = (locationId: number) => {
   if (locationId !== currentLocationId.value) {
     emit('travel-to', locationId)

@@ -63,6 +63,27 @@
           </button>
         </div>
         
+        <!-- 语言选择器 -->
+        <div class="language-selector-title">
+          <div class="lang-label pixel-text-small">{{ currentLanguage === 'zh' ? 'Language / 语言' : 'Language / 语言' }}</div>
+          <div class="lang-buttons">
+            <button 
+              class="pixel-button small lang-btn"
+              :class="{ active: currentLanguage === 'zh' }"
+              @click="switchLanguage('zh')"
+            >
+              中文
+            </button>
+            <button 
+              class="pixel-button small lang-btn"
+              :class="{ active: currentLanguage === 'en' }"
+              @click="switchLanguage('en')"
+            >
+              English
+            </button>
+          </div>
+        </div>
+        
         <!-- 版权信息 - 改为更有科技感的表达 -->
         <div class="credits">
           <p class="pixel-text-small english-pixel">
@@ -111,11 +132,19 @@ const props = defineProps<Props>()
 const { t } = useI18n(props.currentLanguage)
 
 // 定义事件
-defineEmits<{
+const emit = defineEmits<{
   'new-game': []
   'load-game': []
   'exit-game': []
+  'language-change': [language: string]
 }>()
+
+// 语言切换方法
+const switchLanguage = (language: string) => {
+  if (language !== props.currentLanguage) {
+    emit('language-change', language)
+  }
+}
 
 // 随机代码片段
 const codeSamples = [
@@ -347,6 +376,39 @@ const getRandomChar = () => {
 
 .menu-btn:hover {
   transform: translateY(calc(-1 * var(--pixel-size)));
+}
+
+/* 语言选择器 */
+.language-selector-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: clamp(10px, 1.5vw, 20px) 0;
+}
+
+.lang-label {
+  margin-right: clamp(10px, 1.5vw, 20px);
+}
+
+.lang-buttons {
+  display: flex;
+  gap: clamp(5px, 0.8vw, 10px);
+}
+
+.lang-btn {
+  padding: clamp(5px, 0.8vw, 10px) clamp(10px, 1.5vw, 20px);
+  background: none;
+  border: 1px solid var(--matrix-dark-green);
+  color: var(--matrix-dark-green);
+  font-family: 'Press Start 2P', monospace;
+  font-size: var(--small-font-size);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+  background: var(--matrix-dark-green);
+  color: var(--terminal-green);
 }
 
 /* 版权信息 */

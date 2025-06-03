@@ -1,11 +1,5 @@
 <template>
   <div id="app" class="pixel-app">
-    <!-- 语言选择器 -->
-    <LanguageSelector 
-      :current-language="currentLanguage"
-      @language-change="handleLanguageChange"
-    />
-    
     <!-- 主标题页面 -->
     <TitleView 
       v-if="currentView === 'title'" 
@@ -13,6 +7,7 @@
       @new-game="handleNewGame"
       @load-game="handleLoadGame"
       @exit-game="handleExitGame"
+      @language-change="handleLanguageChange"
     />
     
     <!-- 大地图页面 -->
@@ -39,6 +34,7 @@
       @go-to-worldmap="goToWorldMap"
       @go-to-title="goToTitle"
       @execute-event="handleExecuteEvent"
+      @language-change="handleLanguageChange"
     />
     
     <!-- 结局页面 -->
@@ -102,7 +98,6 @@ import LoadGameDialog from './components/LoadGameDialog.vue'
 import SaveGameDialog from './components/SaveGameDialog.vue'
 import InventoryDialog from './components/InventoryDialog.vue'
 import EventResultDialog from './components/EventResultDialog.vue'
-import LanguageSelector from './components/LanguageSelector.vue'
 import { BackendAdapter } from './services/BackendAdapter'
 import type { GameState, Location, Entity, EventResult, Inventory, EndingData } from './types'
 
