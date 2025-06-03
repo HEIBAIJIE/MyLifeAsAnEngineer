@@ -80,17 +80,28 @@ html, body {
 /* 中文字体像素化处理 */
 .chinese-pixel {
   font-family: 
-    'Source Code Pro',
+    'SimHei',
     'Microsoft YaHei UI',
     '微软雅黑',
+    'Heiti SC',
+    'WenQuanYi Micro Hei',
     monospace;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  font-size: 1em;
+  /* 像素化文字效果 */
   text-shadow: 
     1px 0 0 currentColor,
     0 1px 0 currentColor,
     1px 1px 0 currentColor,
-    2px 2px 0 var(--background-black);
+    2px 2px 0 var(--background-black),
+    0 0 calc(var(--glow-size) / 4) currentColor;
+  /* 增强边缘清晰度 */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+  /* 增加文字轮廓 */
+  -webkit-text-stroke: 0.5px currentColor;
 }
 
 /* 英文字体像素化处理 */

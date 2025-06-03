@@ -254,6 +254,23 @@ const backend = (window as any).backendAdapter as BackendAdapter
 const currentLocationName = computed(() => {
   // 首先尝试使用从后端获取的位置名称
   if (props.currentLocation?.location_name) {
+    // 如果后端返回的是中文名称但当前是英文模式，进行翻译
+    const locationId = props.currentLocation?.location_id
+    if (props.currentLanguage === 'en' && locationId) {
+      const locationNames: Record<number, { zh: string, en: string }> = {
+        1: { zh: '公司', en: 'Company' },
+        2: { zh: '商店', en: 'Store' },
+        3: { zh: '家', en: 'Home' },
+        4: { zh: '公园', en: 'Park' },
+        5: { zh: '餐馆', en: 'Restaurant' },
+        6: { zh: '医院', en: 'Hospital' }
+      }
+      
+      // 如果后端返回的是中文名称且存在对应的英文翻译，使用英文翻译
+      if (locationNames[locationId] && props.currentLocation.location_name === locationNames[locationId].zh) {
+        return locationNames[locationId].en
+      }
+    }
     return props.currentLocation.location_name
   }
   
@@ -288,15 +305,19 @@ const currentTimeDisplay = computed(() => {
     return timeInfo.time_display
   }
   
-  // 否则基于小时数进行格式化
-  if (typeof timeInfo.hour !== 'undefined') {
-    const hour = timeInfo.hour
-    return `${hour.toString().padStart(2, '0')}:00`
+  // 否则基于时间数据进行格式化
+  if (typeof timeInfo.current_time !== 'undefined') {
+    // current_time是半小时为单位，每2个单位为1小时
+    const totalHalfHours = timeInfo.current_time % 48  // 一天48个半小时
+    const hour = Math.floor(totalHalfHours / 2)
+    const isHalfHour = totalHalfHours % 2 === 1
+    const minute = isHalfHour ? 30 : 0
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
   }
   
-  // 如果有current_time，计算小时数
-  if (typeof timeInfo.current_time !== 'undefined') {
-    const hour = Math.floor((timeInfo.current_time % 48) / 2)
+  // 如果有hour字段，使用hour
+  if (typeof timeInfo.hour !== 'undefined') {
+    const hour = timeInfo.hour
     return `${hour.toString().padStart(2, '0')}:00`
   }
   

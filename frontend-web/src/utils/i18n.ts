@@ -10,8 +10,6 @@ export interface I18nTexts {
   exitGame: string
   systemInitialized: string
   awaitingInput: string
-  gameDescription1: string
-  gameDescription2: string
   poweredBy: string
   version: string
 
@@ -146,8 +144,6 @@ export const zhTexts: I18nTexts = {
   exitGame: '退出程序',
   systemInitialized: '[系统已初始化]',
   awaitingInput: '[等待输入]',
-  gameDescription1: '> 探索工程师的职业与人生',
-  gameDescription2: '> 在理性与感性中寻找平衡',
   poweredBy: 'Powered by TypeScript & Vue3',
   version: '版本 v1.0.0 | 数字化生活模拟系统',
 
@@ -282,8 +278,6 @@ export const enTexts: I18nTexts = {
   exitGame: 'Exit',
   systemInitialized: '[SYSTEM INITIALIZED]',
   awaitingInput: '[AWAITING INPUT]',
-  gameDescription1: '> Explore the career and life of engineers',
-  gameDescription2: '> Find balance between rational and emotional',
   poweredBy: 'Powered by TypeScript & Vue3',
   version: 'Version v1.0.0 | Digital Life Simulation System',
 

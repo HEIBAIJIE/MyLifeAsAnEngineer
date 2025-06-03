@@ -548,10 +548,26 @@ class Game {
         if (!this.gameState || !this.currentLocation) return;
 
         const timeInfo = this.gameState.time_info;
+        
+        // 格式化时间显示，支持半点
+        let timeDisplay = '时间未知';
+        if (timeInfo.time_display) {
+            timeDisplay = timeInfo.time_display;
+        } else if (typeof timeInfo.current_time !== 'undefined') {
+            // current_time是半小时为单位，每2个单位为1小时
+            const totalHalfHours = timeInfo.current_time % 48;  // 一天48个半小时
+            const hour = Math.floor(totalHalfHours / 2);
+            const isHalfHour = totalHalfHours % 2 === 1;
+            const minute = isHalfHour ? 30 : 0;
+            timeDisplay = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        } else if (typeof timeInfo.hour !== 'undefined') {
+            timeDisplay = `${timeInfo.hour.toString().padStart(2, '0')}:00`;
+        }
+        
         statusBar.innerHTML = `
             <div class="status-item">
                 <span class="status-label">${this.currentLanguage === 'zh' ? '时间' : 'Time'}:</span>
-                <span class="status-value">${timeInfo.time_display}</span>
+                <span class="status-value">${timeDisplay}</span>
             </div>
             <div class="status-item">
                 <span class="status-label">${this.currentLanguage === 'zh' ? '位置' : 'Location'}:</span>

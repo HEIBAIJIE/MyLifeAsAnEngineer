@@ -159,15 +159,19 @@ const timeDisplay = computed(() => {
     return timeInfo.time_display
   }
   
-  // 否则基于小时数进行格式化
-  if (typeof timeInfo.hour !== 'undefined') {
-    const hour = timeInfo.hour
-    return `${hour.toString().padStart(2, '0')}:00`
+  // 否则基于时间数据进行格式化
+  if (typeof timeInfo.current_time !== 'undefined') {
+    // current_time是半小时为单位，每2个单位为1小时
+    const totalHalfHours = timeInfo.current_time % 48  // 一天48个半小时
+    const hour = Math.floor(totalHalfHours / 2)
+    const isHalfHour = totalHalfHours % 2 === 1
+    const minute = isHalfHour ? 30 : 0
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
   }
   
-  // 如果有current_time，计算小时数
-  if (typeof timeInfo.current_time !== 'undefined') {
-    const hour = Math.floor((timeInfo.current_time % 48) / 2)
+  // 如果有hour字段，使用hour
+  if (typeof timeInfo.hour !== 'undefined') {
+    const hour = timeInfo.hour
     return `${hour.toString().padStart(2, '0')}:00`
   }
   

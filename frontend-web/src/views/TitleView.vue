@@ -22,16 +22,6 @@
           <span class="title-line chinese-pixel">{{ t('gameTitle') }}</span>
         </h1>
         
-        <!-- 游戏描述 - 改为更沉浸的表达 -->
-        <div class="game-description">
-          <p class="pixel-text-subtitle chinese-pixel">
-            {{ t('gameDescription1') }}
-          </p>
-          <p class="pixel-text-subtitle chinese-pixel">
-            {{ t('gameDescription2') }}
-          </p>
-        </div>
-        
         <!-- 菜单按钮 -->
         <div class="menu-buttons">
           <button 
@@ -323,18 +313,6 @@ const getRandomChar = () => {
   text-shadow: 
     1px 1px 0px var(--background-black),
     0 0 var(--glow-size) currentColor;
-  opacity: 0.9;
-}
-
-/* 游戏描述 */
-.game-description {
-  margin: clamp(20px, 3vw, 35px) 0;
-  line-height: 1.8;
-}
-
-.game-description p {
-  margin: clamp(6px, 1vw, 12px) 0;
-  color: var(--terminal-green);
   opacity: 0.9;
 }
 
