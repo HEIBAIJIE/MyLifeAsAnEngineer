@@ -208,7 +208,7 @@ const getEndingIconClass = () => {
   return 'special'
 }
 
-const getParticleStyle = (index: number) => {
+const getParticleStyle = (_index: number) => {
   const size = Math.random() * 4 + 2
   const duration = Math.random() * 3 + 2
   const delay = Math.random() * 2

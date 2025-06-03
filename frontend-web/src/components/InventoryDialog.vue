@@ -66,7 +66,7 @@ interface Props {
   inventory: Inventory[]
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 // Events
 const emit = defineEmits<{

@@ -40,6 +40,14 @@
       @go-to-title="goToTitle"
     />
     
+    <!-- 加载对话框 -->
+    <LoadingDialog 
+      v-if="showLoadingDialog" 
+      :visible="showLoadingDialog"
+      :progress="loadingProgress"
+      :current-step="loadingStep"
+    />
+    
     <!-- 全局对话框 -->
     <LoadGameDialog 
       v-if="showLoadGameDialog" 
@@ -61,7 +69,7 @@
     />
     
     <EventResultDialog 
-      v-if="showEventResultDialog" 
+      v-if="showEventResultDialog && eventResult" 
       :event-result="eventResult"
       @close="closeEventResult"
     />
@@ -74,6 +82,7 @@ import TitleView from './views/TitleView.vue'
 import WorldMapView from './views/WorldMapView.vue'
 import SceneView from './views/SceneView.vue'
 import EndingView from './views/EndingView.vue'
+import LoadingDialog from './components/LoadingDialog.vue'
 import LoadGameDialog from './components/LoadGameDialog.vue'
 import SaveGameDialog from './components/SaveGameDialog.vue'
 import InventoryDialog from './components/InventoryDialog.vue'
@@ -91,6 +100,11 @@ const currentLocation = ref<Location | null>(null)
 const availableEntities = ref<Entity[]>([])
 const inventory = ref<Inventory[]>([])
 const endingData = ref<EndingData | null>(null)
+
+// 加载状态
+const showLoadingDialog = ref(false)
+const loadingProgress = ref(0)
+const loadingStep = ref('正在初始化...')
 
 // 对话框状态
 const showLoadGameDialog = ref(false)
@@ -119,38 +133,74 @@ onMounted(async () => {
 const goToTitle = () => { currentView.value = 'title' }
 const goToWorldMap = () => { currentView.value = 'worldmap' }
 const goToScene = () => { currentView.value = 'scene' }
-const goToEnding = () => { currentView.value = 'ending' }
 
 // 游戏操作
 const handleNewGame = async () => {
   try {
+    // 显示加载对话框
+    showLoadingDialog.value = true
+    loadingProgress.value = 0
+    loadingStep.value = '正在初始化系统...'
+    
+    // 设置进度回调
+    backend.setProgressCallback((progress: number, message: string) => {
+      loadingProgress.value = progress
+      loadingStep.value = message
+      console.log(`Loading progress: ${progress}% - ${message}`)
+    })
+    
     // 初始化后端适配器
     if (!backend.initialized) {
+      console.log('Initializing backend...')
       await backend.initialize()
       console.log('Backend initialized successfully')
     }
+    
+    // 稍微延迟一下让用户看到100%进度
+    await new Promise(resolve => setTimeout(resolve, 500))
     
     console.log('Resetting game...')
     await backend.resetGame()
     
     // 等待一小段时间确保重置完成
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise(resolve => setTimeout(resolve, 200))
     
+    loadingStep.value = '正在准备游戏界面...'
     console.log('Updating game state after reset...')
     await updateGameState()
     
     // 检查是否成功获取到有效的游戏状态
     if (!gameState.value || !gameState.value.resources || Object.keys(gameState.value.resources).length === 0) {
       console.warn('Game state seems empty, retrying...')
-      await new Promise(resolve => setTimeout(resolve, 200))
+      loadingStep.value = '正在重新加载游戏数据...'
+      await new Promise(resolve => setTimeout(resolve, 300))
       await updateGameState()
     }
     
+    // 最终完成
+    loadingProgress.value = 100
+    loadingStep.value = '加载完成'
+    
     console.log('Final game state before showing scene:', gameState.value)
+    
+    // 等待一小段时间让用户看到完成状态
+    await new Promise(resolve => setTimeout(resolve, 500))
+    
+    // 隐藏加载对话框并显示游戏场景
+    showLoadingDialog.value = false
     currentView.value = 'scene'
+    
+    // 清理进度回调
+    backend.setProgressCallback(null)
+    
   } catch (error) {
     console.error('Failed to start new game:', error)
-    alert('启动游戏失败')
+    // 隐藏加载对话框
+    showLoadingDialog.value = false
+    // 清理进度回调
+    backend.setProgressCallback(null)
+    const errorMessage = error instanceof Error ? error.message : '未知错误'
+    alert('启动游戏失败：' + errorMessage)
   }
 }
 
@@ -167,7 +217,7 @@ const confirmLoadGame = async (saveDataStr: string) => {
       currentView.value = 'scene'
       alert('读档成功！')
     } else {
-      alert('读档失败：' + response.error)
+      alert('读档失败：' + (response.error || '未知错误'))
     }
   } catch (error) {
     console.error('Load game error:', error)
@@ -179,10 +229,10 @@ const handleSaveGame = async () => {
   try {
     const response = await backend.saveGame()
     if (response.success) {
-      saveData.value = response.saveData
+      saveData.value = response.saveData || ''
       showSaveGameDialog.value = true
     } else {
-      alert('保存失败：' + response.error)
+      alert('保存失败：' + (response.error || '未知错误'))
     }
   } catch (error) {
     console.error('Save game error:', error)
@@ -210,7 +260,7 @@ const handleTravelTo = async (locationId: number) => {
       await updateGameState()
       currentView.value = 'scene'
     } else {
-      alert('移动失败：' + result.error)
+      alert('移动失败：' + (result.error || '未知错误'))
     }
   } catch (error) {
     console.error('Travel error:', error)
@@ -235,7 +285,7 @@ const handleUseItem = async (itemSlot: number) => {
       await updateGameState()
       inventory.value = await backend.getInventory()
     } else {
-      alert('使用物品失败：' + result.error)
+      alert('使用物品失败：' + (result.error || '未知错误'))
     }
   } catch (error) {
     console.error('Use item error:', error)
@@ -251,11 +301,11 @@ const handleExecuteEvent = async (eventId: number) => {
       
       // 检查游戏是否结束
       if (gameState.value?.game_over) {
-        endingData.value = gameState.value.ending_data
+        endingData.value = gameState.value.ending_data || null
         currentView.value = 'ending'
       }
     } else {
-      alert('执行事件失败：' + result.error)
+      alert('执行事件失败：' + (result.error || '未知错误'))
     }
   } catch (error) {
     console.error('Execute event error:', error)
@@ -263,14 +313,19 @@ const handleExecuteEvent = async (eventId: number) => {
 }
 
 const showEventResult = (result: EventResult) => {
-  pendingEvents.value.push(result)
-  processNextEvent()
+  if (result) {
+    pendingEvents.value.push(result)
+    processNextEvent()
+  }
 }
 
 const processNextEvent = () => {
   if (pendingEvents.value.length > 0) {
-    eventResult.value = pendingEvents.value.shift()!
-    showEventResultDialog.value = true
+    const nextEvent = pendingEvents.value.shift()
+    if (nextEvent) {
+      eventResult.value = nextEvent
+      showEventResultDialog.value = true
+    }
   }
 }
 

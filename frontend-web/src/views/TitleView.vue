@@ -98,8 +98,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 // 定义事件
 defineEmits<{
   'new-game': []

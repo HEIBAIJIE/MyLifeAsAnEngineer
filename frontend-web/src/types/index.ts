@@ -47,12 +47,13 @@ export interface GameEvent {
 // 事件执行结果
 export interface EventResult {
   success: boolean
-  event_id: number
-  game_text: string
-  time_cost: number
-  resource_changes: ResourceChange[]
-  temporary_events: TemporaryEvent[]
-  scheduled_tasks: ScheduledTask[]
+  event_id?: number
+  game_text?: string
+  time_cost?: number
+  resource_changes?: ResourceChange[]
+  temporary_events?: TemporaryEvent[]
+  scheduled_tasks?: ScheduledTask[]
+  error?: string
 }
 
 // 资源变化

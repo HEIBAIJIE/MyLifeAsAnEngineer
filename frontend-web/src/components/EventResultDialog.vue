@@ -93,11 +93,11 @@
         </div>
 
         <!-- 时间消耗 -->
-        <div v-if="eventResult.time_cost > 0" class="time-cost pixel-border">
+        <div v-if="eventResult.time_cost && eventResult.time_cost > 0" class="time-cost pixel-border">
           <div class="cost-display">
             <span class="cost-icon">&gt;</span>
             <span class="cost-text chinese-pixel">
-              时间消耗: {{ eventResult.time_cost * 0.5 }} 小时
+              时间消耗: {{ (eventResult.time_cost || 0) * 0.5 }} 小时
             </span>
             <div class="time-bar">
               <div class="time-fill"></div>
