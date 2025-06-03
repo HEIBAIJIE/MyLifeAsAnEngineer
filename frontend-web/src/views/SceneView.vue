@@ -26,7 +26,7 @@
         <button class="pixel-button small" @click="$emit('go-to-worldmap')" :title="t('worldMap')">
           🗺️ <span class="btn-text">{{ t('worldMap') }}</span>
         </button>
-        <button class="pixel-button small" @click="$emit('go-to-title')" :title="t('home')">
+        <button class="pixel-button small" @click="goToTitle" :title="t('home')">
           🏠 <span class="btn-text">{{ t('home') }}</span>
         </button>
         <!-- 语言选择器 -->
@@ -202,6 +202,27 @@
     <div class="scene-decoration">
       <div class="decoration-element" v-for="i in 5" :key="i"></div>
     </div>
+    
+    <!-- 退出确认对话框 -->
+    <div v-if="showExitConfirm" class="exit-confirm-overlay">
+      <div class="exit-confirm-dialog pixel-border">
+        <div class="confirm-header">
+          <h3 class="confirm-title pixel-glow">{{ t('confirmExit') }}</h3>
+        </div>
+        <div class="confirm-content">
+          <p class="confirm-message">{{ t('exitMessage') }}</p>
+          <p class="save-tip">{{ t('autoSaveTip') }}</p>
+        </div>
+        <div class="confirm-actions">
+          <button class="pixel-button" @click="handleExitCancel">
+            {{ t('cancel') }}
+          </button>
+          <button class="pixel-button primary" @click="handleExitConfirm">
+            {{ t('confirmAndSave') }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -288,33 +309,64 @@ const currentLocationName = computed(() => {
 
 const currentTimeDisplay = computed(() => {
   if (!props.gameState?.time_info) {
-    return '时间未知'
+    return props.currentLanguage === 'en' ? 'Time Unknown' : '时间未知'
   }
   
   const timeInfo = props.gameState.time_info
   
   // 如果后端已经提供了格式化的时间显示，直接使用
-  if (timeInfo.time_display) {
+  if (timeInfo.time_display && timeInfo.time_display.includes('月') || timeInfo.time_display?.includes('AM') || timeInfo.time_display?.includes('PM')) {
     return timeInfo.time_display
   }
   
-  // 否则基于时间数据进行格式化
+  // 计算详细的日期时间信息
+  let currentTime = 0
   if (typeof timeInfo.current_time !== 'undefined') {
-    // current_time是半小时为单位，每2个单位为1小时
-    const totalHalfHours = timeInfo.current_time % 48  // 一天48个半小时
-    const hour = Math.floor(totalHalfHours / 2)
-    const isHalfHour = totalHalfHours % 2 === 1
-    const minute = isHalfHour ? 30 : 0
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+    currentTime = timeInfo.current_time
+  } else if (typeof timeInfo.hour !== 'undefined') {
+    currentTime = timeInfo.hour * 2 // 转换为半小时单位
   }
   
-  // 如果有hour字段，使用hour
-  if (typeof timeInfo.hour !== 'undefined') {
-    const hour = timeInfo.hour
-    return `${hour.toString().padStart(2, '0')}:00`
-  }
+  // 计算天数（从某个起始点开始）
+  const totalHalfHours = currentTime
+  const dayIndex = Math.floor(totalHalfHours / 48) // 一天48个半小时
+  const todayHalfHours = totalHalfHours % 48
+  const hour = Math.floor(todayHalfHours / 2)
+  const isHalfHour = todayHalfHours % 2 === 1
+  const minute = isHalfHour ? 30 : 0
   
-  return '时间未知'
+  if (props.currentLanguage === 'en') {
+    // 英文格式：September 15 Monday, 9:30 AM
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                   'July', 'August', 'September', 'October', 'November', 'December']
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    
+    // 假设从9月开始，dayIndex 0 对应周一
+    const month = months[8 + Math.floor(dayIndex / 30) % 12] // 从9月开始
+    const day = (dayIndex % 30) + 1 // 1-30日
+    const weekday = weekdays[(dayIndex + 1) % 7] // 假设第0天是周一
+    
+    // 12小时制
+    const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
+    const ampm = hour < 12 ? 'AM' : 'PM'
+    const timeStr = `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`
+    
+    return `${month} ${day} ${weekday}, ${timeStr}`
+  } else {
+    // 中文格式：9月15日 星期一，上午9:30
+    const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+    
+    const month = months[(8 + Math.floor(dayIndex / 30)) % 12] // 从9月开始
+    const day = (dayIndex % 30) + 1
+    const weekday = weekdays[(dayIndex + 1) % 7]
+    
+    const ampm = hour < 12 ? '上午' : '下午'
+    const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
+    const timeStr = `${ampm}${hour12}:${minute.toString().padStart(2, '0')}`
+    
+    return `${month}月${day}日 ${weekday}，${timeStr}`
+  }
 })
 
 const sceneBackgroundStyle = computed(() => {
@@ -523,6 +575,42 @@ const getEntityDescription = (entity: Entity) => {
 const filteredEntityEvents = computed(() => {
   return entityEvents.value.filter(event => event.can_execute)
 })
+
+// 添加确认对话框状态
+const showExitConfirm = ref(false)
+
+// 添加退出确认方法
+const confirmExit = () => {
+  showExitConfirm.value = true
+}
+
+const handleExitConfirm = async () => {
+  try {
+    // 自动保存游戏状态到剪切板
+    const gameStateJson = JSON.stringify(props.gameState, null, 2)
+    await navigator.clipboard.writeText(gameStateJson)
+    
+    // 显示保存成功提示
+    console.log('Game state saved to clipboard')
+    
+    // 发送回到主界面事件
+    emit('go-to-title')
+  } catch (error) {
+    console.error('Failed to save to clipboard:', error)
+    // 即使保存失败，也允许退出
+    emit('go-to-title')
+  }
+  showExitConfirm.value = false
+}
+
+const handleExitCancel = () => {
+  showExitConfirm.value = false
+}
+
+// 修改回到主界面的方法
+const goToTitle = () => {
+  confirmExit()
+}
 </script>
 
 <style scoped>
@@ -869,6 +957,16 @@ const filteredEntityEvents = computed(() => {
   .entity-icon {
     font-size: clamp(20px, 3vw, 32px);
   }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+  
+  .language-selector-inline .lang-btn {
+    min-width: clamp(20px, 3vw, 28px);
+    padding: clamp(2px, 0.4vw, 4px) clamp(3px, 0.6vw, 6px);
+    font-size: clamp(6px, 1.2vw, 8px);
+  }
 }
 
 /* 内联语言选择器样式 */
@@ -914,15 +1012,67 @@ const filteredEntityEvents = computed(() => {
   }
 }
 
-@media (max-width: 480px) {
-  .action-buttons {
-    justify-content: center;
-  }
-  
-  .language-selector-inline .lang-btn {
-    min-width: clamp(20px, 3vw, 28px);
-    padding: clamp(2px, 0.4vw, 4px) clamp(3px, 0.6vw, 6px);
-    font-size: clamp(6px, 1.2vw, 8px);
-  }
+/* 退出确认对话框样式 */
+.exit-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.exit-confirm-dialog {
+  background: rgba(0, 20, 0, 0.95);
+  padding: clamp(20px, 3vw, 40px);
+  max-width: clamp(300px, 40vw, 450px);
+  width: 90%;
+  text-align: center;
+}
+
+.confirm-header {
+  margin-bottom: clamp(16px, 2.5vw, 24px);
+}
+
+.confirm-title {
+  color: var(--neon-yellow);
+  font-size: var(--subtitle-font-size);
+  text-shadow: 
+    2px 2px 0px var(--background-black),
+    0 0 var(--glow-size) currentColor;
+}
+
+.confirm-content {
+  margin-bottom: clamp(20px, 3vw, 30px);
+}
+
+.confirm-message {
+  color: var(--matrix-light-green);
+  font-size: var(--ui-font-size);
+  margin-bottom: clamp(8px, 1.2vw, 16px);
+  line-height: 1.5;
+}
+
+.save-tip {
+  color: var(--neon-cyan);
+  font-size: var(--small-font-size);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: clamp(12px, 2vw, 20px);
+  justify-content: center;
+}
+
+.confirm-actions .pixel-button {
+  padding: clamp(10px, 1.5vw, 16px) clamp(16px, 2.5vw, 24px);
+  min-width: clamp(80px, 12vw, 120px);
 }
 </style> 

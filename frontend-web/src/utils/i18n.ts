@@ -132,6 +132,12 @@ export interface I18nTexts {
   worldMapTitle: string
   availableLocation: string
   currentLocationMarker: string
+  
+  // 退出确认相关
+  confirmExit: string
+  exitMessage: string
+  autoSaveTip: string
+  confirmAndSave: string
 }
 
 // 中文文本
@@ -265,7 +271,13 @@ export const zhTexts: I18nTexts = {
   returnToHome: '返回主页',
   worldMapTitle: '世界地图',
   availableLocation: '可前往',
-  currentLocationMarker: '当前位置'
+  currentLocationMarker: '当前位置',
+  
+  // 退出确认相关
+  confirmExit: '确认退出',
+  exitMessage: '确定要退出吗？',
+  autoSaveTip: '💡 提示: 自动保存将在退出时进行',
+  confirmAndSave: '确认并保存'
 }
 
 // 英文文本
@@ -399,7 +411,13 @@ export const enTexts: I18nTexts = {
   returnToHome: 'Return to Home',
   worldMapTitle: 'World Map',
   availableLocation: 'Available',
-  currentLocationMarker: 'Current Location'
+  currentLocationMarker: 'Current Location',
+  
+  // 退出确认相关
+  confirmExit: 'Confirm Exit',
+  exitMessage: 'Are you sure you want to exit?',
+  autoSaveTip: '💡 Tip: Auto save will be performed when exiting',
+  confirmAndSave: 'Confirm and Save'
 }
 
 // 获取当前语言的文本

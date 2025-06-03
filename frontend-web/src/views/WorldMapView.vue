@@ -61,7 +61,7 @@
       <button class="pixel-button large" @click="goToCurrentScene">
         🏃 {{ t('enterScene') }}
       </button>
-      <button class="pixel-button large" @click="$emit('go-to-title')">
+      <button class="pixel-button large" @click="goToTitle">
         🏠 {{ t('returnToHome') }}
       </button>
     </div>
@@ -70,11 +70,32 @@
     <div class="map-decoration">
       <div class="floating-pixel" v-for="i in 12" :key="i"></div>
     </div>
+
+    <!-- 退出确认对话框 -->
+    <div v-if="showExitConfirm" class="exit-confirm-overlay">
+      <div class="exit-confirm-dialog pixel-border">
+        <div class="confirm-header">
+          <h3 class="confirm-title pixel-glow">{{ t('confirmExit') }}</h3>
+        </div>
+        <div class="confirm-content">
+          <p class="confirm-message">{{ t('exitMessage') }}</p>
+          <p class="save-tip">{{ t('autoSaveTip') }}</p>
+        </div>
+        <div class="confirm-actions">
+          <button class="pixel-button" @click="handleExitCancel">
+            {{ t('cancel') }}
+          </button>
+          <button class="pixel-button primary" @click="handleExitConfirm">
+            {{ t('confirmAndSave') }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from '../utils/i18n'
 import type { Location, GameState } from '../types'
 
@@ -141,6 +162,42 @@ const locations = [
 const currentLocationId = computed(() => {
   return props.currentLocation?.location_id || 3
 })
+
+// 添加确认对话框状态
+const showExitConfirm = ref(false)
+
+// 添加退出确认方法
+const confirmExit = () => {
+  showExitConfirm.value = true
+}
+
+const handleExitConfirm = async () => {
+  try {
+    // 自动保存游戏状态到剪切板
+    const gameStateJson = JSON.stringify(props.gameState, null, 2)
+    await navigator.clipboard.writeText(gameStateJson)
+    
+    // 显示保存成功提示
+    console.log('Game state saved to clipboard')
+    
+    // 发送回到主界面事件
+    emit('go-to-title')
+  } catch (error) {
+    console.error('Failed to save to clipboard:', error)
+    // 即使保存失败，也允许退出
+    emit('go-to-title')
+  }
+  showExitConfirm.value = false
+}
+
+const handleExitCancel = () => {
+  showExitConfirm.value = false
+}
+
+// 修改回到主界面的方法
+const goToTitle = () => {
+  confirmExit()
+}
 
 const currentLocationName = computed(() => {
   const location = locations.find(loc => loc.id === currentLocationId.value)
@@ -507,5 +564,76 @@ const goToCurrentScene = () => {
   .location-card {
     min-height: clamp(100px, 15vw, 140px);
   }
+}
+
+/* 退出确认对话框样式 */
+.exit-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.exit-confirm-dialog {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 80%;
+  width: 300px;
+  text-align: center;
+}
+
+.confirm-header {
+  margin-bottom: 10px;
+}
+
+.confirm-title {
+  font-size: 1.5rem;
+}
+
+.confirm-content {
+  margin-bottom: 20px;
+}
+
+.confirm-message {
+  margin-bottom: 10px;
+}
+
+.save-tip {
+  font-size: var(--small-font-size);
+  color: #cccccc;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pixel-button {
+  padding: 12px 20px;
+  font-size: var(--button-font-size);
+  min-width: 140px;
+  background: #00ff00;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pixel-button:hover {
+  background: #00cc00;
+}
+
+.pixel-button.primary {
+  background: #ffff00;
 }
 </style> 
