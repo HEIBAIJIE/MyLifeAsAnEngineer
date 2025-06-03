@@ -379,10 +379,7 @@ const getStatValueClass = (value: number) => {
 const getEntityIcon = (entityName: string) => {
   const icons: Record<string, string> = {
     // 中文实体
-    '老板': '👔',
-    '同事1': '👨‍💻',
-    '同事2': '👩‍💻',
-    '同事3': '🧑‍💻',
+    'David': '👨‍💻',
     '电脑': '💻',
     '工作电脑': '💻',
     '手机': '📱',
@@ -397,10 +394,9 @@ const getEntityIcon = (entityName: string) => {
     '冰箱': '❄️',
     '柜子': '📦',
     // 英文实体
-    'Boss': '👔',
-    'Colleague1': '👨‍💻',
-    'Colleague2': '👩‍💻',
-    'Colleague3': '🧑‍💻',
+    'Robert': '👔',
+    'Sarah': '👩‍💻',
+    'Mike': '🧑‍💻',
     'Computer': '💻',
     'Work Computer': '💻',
     'Phone': '📱',
@@ -468,10 +464,7 @@ const switchLanguage = (language: string) => {
 const getTranslatedEntityName = (entityName: string) => {
   const entityTranslations: Record<string, { zh: string, en: string }> = {
     // 中文到英文的映射
-    '老板': { zh: '老板', en: 'Boss' },
-    '同事1': { zh: '同事1', en: 'Colleague1' },
-    '同事2': { zh: '同事2', en: 'Colleague2' },
-    '同事3': { zh: '同事3', en: 'Colleague3' },
+    'David': { zh: 'David', en: 'David' },
     '电脑': { zh: '电脑', en: 'Computer' },
     '工作电脑': { zh: '工作电脑', en: 'Work Computer' },
     '手机': { zh: '手机', en: 'Phone' },
@@ -486,10 +479,9 @@ const getTranslatedEntityName = (entityName: string) => {
     '冰箱': { zh: '冰箱', en: 'Refrigerator' },
     '柜子': { zh: '柜子', en: 'Cabinet' },
     // 英文到中文的映射
-    'Boss': { zh: '老板', en: 'Boss' },
-    'Colleague1': { zh: '同事1', en: 'Colleague1' },
-    'Colleague2': { zh: '同事2', en: 'Colleague2' },
-    'Colleague3': { zh: '同事3', en: 'Colleague3' },
+    'Robert': { zh: 'Robert', en: 'Robert' },
+    'Sarah': { zh: 'Sarah', en: 'Sarah' },
+    'Mike': { zh: 'Mike', en: 'Mike' },
     'Computer': { zh: '电脑', en: 'Computer' },
     'Work Computer': { zh: '工作电脑', en: 'Work Computer' },
     'Phone': { zh: '手机', en: 'Phone' },

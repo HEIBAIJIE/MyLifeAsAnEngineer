@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 简单的HTTP服务器启动脚本
-用于运行《我的工程师生活》网页前端
+用于运行《工程师日记》网页前端
 """
 
 import http.server
@@ -32,7 +32,7 @@ def main():
     
     try:
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            print(f"🎮 《我的工程师生活》网页前端")
+            print(f"🎮 《工程师日记》网页前端")
             print(f"📡 服务器启动在端口 {PORT}")
             print(f"🌐 访问地址: http://localhost:{PORT}")
             print(f"📁 服务目录: {script_dir}")

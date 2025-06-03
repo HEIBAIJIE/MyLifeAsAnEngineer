@@ -137,7 +137,7 @@ export interface I18nTexts {
 // 中文文本
 export const zhTexts: I18nTexts = {
   // 主界面
-  gameTitle: '我的工程师生活',
+  gameTitle: '工程师日记',
   gameSubtitle: 'My Life As An Engineer',
   newGame: '开始新游戏',
   loadGame: '读取存档',
@@ -272,7 +272,7 @@ export const zhTexts: I18nTexts = {
 export const enTexts: I18nTexts = {
   // 主界面
   gameTitle: 'My Life As An Engineer',
-  gameSubtitle: '我的工程师生活',
+  gameSubtitle: '工程师日记',
   newGame: 'New Game',
   loadGame: 'Load Game',
   exitGame: 'Exit',

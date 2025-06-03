@@ -1,5 +1,5 @@
 location_id,location_name,location_name_en,description,description_en,scene_change_events,available_entities
-1,公司,Company,程序员的主战场，代码的诞生地,The programmer's main battlefield where code comes to life,"1,2,3,4,5","老板,同事1,同事2,同事3,电脑,手机,走廊,厕所,自己,会议室,食堂"
+1,公司,Company,程序员的主战场，代码的诞生地,The programmer's main battlefield where code comes to life,"1,2,3,4,5","老板,David,Sarah,Mike,电脑,手机,走廊,厕所,自己,会议室,食堂"
 2,商店,Store,购买生活和工作用品的地方,A place to buy daily necessities and work supplies,"6,7,8,9,10","售货员,手机,自己"
 3,家,Home,休息和恢复的私人空间,A private space for rest and recovery,"11,12,13,14,15","电脑,手机,自己,书架,床,冰箱,柜子"
 4,公园,Park,亲近自然的休闲场所,A leisure place to get close to nature,"16,17,18,19,20","自己,长椅,街道,垃圾桶,路人1,路人2,手机"

@@ -60,12 +60,12 @@ resource_id,resource_name,resource_name_en,resource_type,initial_value,max_value
 59,柜子格子9物品ID,Cabinet Slot 9 Item ID,storage,0,999,0,柜子第9格的物品ID
 60,柜子格子9数量,Cabinet Slot 9 Quantity,storage,0,99,0,柜子第9格的物品数量
 61,当前场景,Current Scene,basic,1,6,1,玩家当前所在的场景ID
-62,同事1好感度,Colleague 1 Favor,social,0,100,0,同事1对玩家的好感度
-63,同事1专业技能,Colleague 1 Skills,social,70,100,0,同事1的专业技能水平
-64,同事2好感度,Colleague 2 Favor,social,0,100,0,同事2对玩家的好感度
-65,同事2专业技能,Colleague 2 Skills,social,40,100,0,同事2的专业技能水平
-66,同事3好感度,Colleague 3 Favor,social,0,100,0,同事3对玩家的好感度
-67,同事3专业技能,Colleague 3 Skills,social,10,100,0,同事3的专业技能水平
+62,David好感度,Colleague 1 Favor,social,0,100,0,David对玩家的好感度
+63,David专业技能,Colleague 1 Skills,social,70,100,0,David的专业技能水平
+64,Sarah好感度,Colleague 2 Favor,social,0,100,0,Sarah对玩家的好感度
+65,Sarah专业技能,Colleague 2 Skills,social,40,100,0,Sarah的专业技能水平
+66,Mike好感度,Colleague 3 Favor,social,0,100,0,Mike对玩家的好感度
+67,Mike专业技能,Colleague 3 Skills,social,10,100,0,Mike的专业技能水平
 68,累计完成项目数量,Total Completed Projects,achievement,0,999,0,累计完成的项目总数
 69,当日项目进度,Daily Project Progress,basic,0,100,0,当天的项目进度贡献
 70,社交影响力,Social Influence,basic,0,100,0,通过社交积累的隐形资源

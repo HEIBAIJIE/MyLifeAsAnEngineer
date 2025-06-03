@@ -112,9 +112,10 @@ export class CSVLoader {
       // Determine entity type based on entity name
       let entityType: 'person' | 'object' | 'facility' = 'object';
       const entityName = rawEntity.entity_name.toLowerCase();
-      if (entityName.includes('老板') || entityName.includes('同事') || entityName.includes('售货员') || 
-          entityName.includes('服务员') || entityName.includes('医生') || entityName.includes('护士') || 
-          entityName.includes('路人')) {
+      if (entityName.includes('robert') || entityName.includes('罗伯特') || entityName.includes('david') || entityName.includes('大卫') || 
+          entityName.includes('sarah') || entityName.includes('莎拉') || entityName.includes('mike') || entityName.includes('迈克') ||
+          entityName.includes('售货员') || entityName.includes('服务员') || entityName.includes('医生') || 
+          entityName.includes('护士') || entityName.includes('路人')) {
         entityType = 'person';
       } else if (entityName.includes('会议室') || entityName.includes('走廊') || entityName.includes('厕所') || 
                  entityName.includes('食堂') || entityName.includes('长椅') || entityName.includes('街道')) {

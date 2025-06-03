@@ -2,7 +2,7 @@
 
 import { GameController } from './src/frontend/controllers/GameController';
 
-console.log('正在启动《我的工程师生活》命令行版本...\n');
+console.log('正在启动《工程师日记》命令行版本...\n');
 
 const game = new GameController();
 game.start().catch((error: Error) => {

@@ -260,7 +260,7 @@ export class GameController {
 
   private async quitGame(): Promise<void> {
     const goodbyeMessage = this.localization.getCurrentLanguage() === 'zh' ? 
-      '👋 感谢游玩《我的工程师生活》！' : '👋 Thank you for playing "My Life As An Engineer"!';
+      '👋 感谢游玩《工程师日记》！' : '👋 Thank you for playing "My Life As An Engineer"!';
     console.log(goodbyeMessage);
     this.rl.close();
     process.exit(0);

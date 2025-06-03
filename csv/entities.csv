@@ -1,8 +1,8 @@
 entity_id,entity_name,entity_name_en,location_id,location_name,location_name_en,available_events,interaction_conditions,description,description_en
-1,老板,Boss,1,公司,Company,"31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,521",resource[22]>=1,公司的决策者和管理者,The decision-maker and manager of the company
-2,同事1,Colleague 1,1,公司,Company,"61,62,63,64,65,66,67,68",resource[62]>=0,技能较强的资深同事,A senior colleague with strong skills
-3,同事2,Colleague 2,1,公司,Company,"69,70,71,72,73,74,75,76",resource[64]>=0,技能中等的普通同事,An average colleague with moderate skills
-4,同事3,Colleague 3,1,公司,Company,"77,78,79,80,81,82,83,84",resource[66]>=0,技能较弱的新人同事,A junior colleague with limited skills
+1,Robert,Robert,1,公司,Company,"31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,521",resource[22]>=1,公司的决策者和管理者,The decision-maker and manager of the company
+2,David,David,1,公司,Company,"61,62,63,64,65,66,67,68",resource[62]>=0,技能较强的资深同事,A senior colleague with strong skills
+3,Sarah,Sarah,1,公司,Company,"69,70,71,72,73,74,75,76",resource[64]>=0,技能中等的普通同事,An average colleague with moderate skills
+4,Mike,Mike,1,公司,Company,"77,78,79,80,81,82,83,84",resource[66]>=0,技能较弱的新人同事,A junior colleague with limited skills
 5,电脑,Computer,1,公司,Company,"85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,522,523,524",resource[20]>=0&resource[22]>=1,程序员的主要工作工具,The programmer's main work tool
 6,手机,Mobile Phone,1,公司,Company,"101,102,103,104,105",always,随身携带的智能设备,A portable smart device
 7,走廊,Corridor,1,公司,Company,"106,107,108,109",always,公司内部的通道,Internal corridors of the company

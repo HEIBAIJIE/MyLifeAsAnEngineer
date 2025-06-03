@@ -34,7 +34,7 @@ resource[resource_id]
 ```
 resource[14]>50                               # 疲劳度大于50
 resource[54]==1&resource[22]==1               # 在公司且职级为1
-resource[55]>40&resource[22]>=1&resource[22]<=8  # 同事1好感度>40且职级1-8
+resource[55]>40&resource[22]>=1&resource[22]<=8  # David好感度>40且职级1-8
 ```
 
 ## 时间条件格式

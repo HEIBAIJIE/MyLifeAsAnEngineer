@@ -92,7 +92,7 @@
       <!-- 感谢文字 -->
       <div class="credits">
         <p class="credit-text pixel-text-small">
-          感谢您体验《我的工程师生活》
+          感谢您体验《工程师日记》
         </p>
         <p class="credit-text pixel-text-small">
           每一次选择都塑造了独特的人生故事

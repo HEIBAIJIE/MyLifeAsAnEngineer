@@ -24,7 +24,7 @@ export class LocalizationService {
       skill: '技能',
       jobLevel: '职级',
       project: '项目',
-      boss: '老板',
+      boss: 'Robert不满',
       socialInfluence: '社交影响力',
       techReputation: '技术声誉',
       philosophyInsight: '哲学感悟',

@@ -50,39 +50,39 @@ event_id,event_name_cn,event_name_en,time_cost,location_requirement,level_requir
 49,请求激励资源（职级9）,Request motivational resources (Level 9),3,1,9,,,resource[22]==9,,,,,,,,,,,,,,,,,,,,,,,,,,19
 50,请求战略倾斜（职级10）,Request strategic support (Level 10),5,1,10,,,resource[22]==10,,,,,,,,,,,,,,,,,,,,,,,,,,20
 51,汇报工作,Report work progress,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,21
-52,表扬同事1（职级6~7）,Praise colleague 1 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,22
-53,表扬同事2（职级6~7）,Praise colleague 2 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,23
-54,表扬同事3（职级6~7）,Praise colleague 3 (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,24
-55,激励同事1（职级7~10）,Motivate colleague 1 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,25
-56,激励同事2（职级7~10）,Motivate colleague 2 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,26
-57,激励同事3（职级7~10）,Motivate colleague 3 (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,27
+52,表扬David（职级6~7）,Praise David (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,22
+53,表扬Sarah（职级6~7）,Praise Sarah (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,23
+54,表扬Mike（职级6~7）,Praise Mike (Level 6-7),2,1,6,,,resource[22]>=6&resource[22]<=7,,,,,,,,,,,,,,,,,,,,,,,,,,24
+55,激励David（职级7~10）,Motivate David (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,25
+56,激励Sarah（职级7~10）,Motivate Sarah (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,26
+57,激励Mike（职级7~10）,Motivate Mike (Level 7-10),3,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,27
 58,立项研讨（职级>=5）,Project initiation discussion (Level >=5),6,1,5,,,resource[22]>=5&resource[69]<20,,,,,,,,,,,,,,,,,,,,,,,,,,28
 59,私下宴请,Private dinner invitation,4,1,7,,,resource[22]>=7&resource[22]<=10,,,,,,,,,,,,,,,,,,,,,,,,,,29
 60,沟通发展路径,Discuss career development path,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,30
-61,私下闲聊（同事1）,Private chat (Colleague 1),2,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,31
-62,交换公司秘闻（同事1）,Exchange company gossip (Colleague 1),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,32
-63,请教项目问题（同事1）,Ask about project issues (Colleague 1),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,33
-64,绩效沟通（同事1）,Performance communication (Colleague 1),4,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,34
-65,请教技术问题（同事1）,Ask technical questions (Colleague 1),2,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,35
-66,技术交流（同事1）,Technical exchange (Colleague 1),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,36
-67,技术指导（同事1）,Technical guidance (Colleague 1),4,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,37
-68,私下宴请（同事1）,Private dinner (Colleague 1),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,38
-69,私下闲聊（同事2）,Private chat (Colleague 2),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,39
-70,交换公司秘闻（同事2）,Exchange company gossip (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,40
-71,请教项目问题（同事2）,Ask about project issues (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,41
-72,绩效沟通（同事2）,Performance communication (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,42
-73,请教技术问题（同事2）,Ask technical questions (Colleague 2),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,43
-74,技术交流（同事2）,Technical exchange (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,44
-75,技术指导（同事2）,Technical guidance (Colleague 2),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,45
-76,私下宴请（同事2）,Private dinner (Colleague 2),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,46
-77,私下闲聊（同事3）,Private chat (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,47
-78,交换公司秘闻（同事3）,Exchange company gossip (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,48
-79,请教项目问题（同事3）,Ask about project issues (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,49
-80,绩效沟通（同事3）,Performance communication (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,50
-81,请教技术问题（同事3）,Ask technical questions (Colleague 3),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,51
-82,技术交流（同事3）,Technical exchange (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,52
-83,技术指导（同事3）,Technical guidance (Colleague 3),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,53
-84,私下宴请（同事3）,Private dinner (Colleague 3),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,54
+61,私下闲聊（David）,Private chat (David),2,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,31
+62,交换公司秘闻（David）,Exchange company gossip (David),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,32
+63,请教项目问题（David）,Ask about project issues (David),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,33
+64,绩效沟通（David）,Performance communication (David),4,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,34
+65,请教技术问题（David）,Ask technical questions (David),2,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,35
+66,技术交流（David）,Technical exchange (David),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,36
+67,技术指导（David）,Technical guidance (David),4,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,37
+68,私下宴请（David）,Private dinner (David),3,1,,,,resource[62]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,38
+69,私下闲聊（Sarah）,Private chat (Sarah),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,39
+70,交换公司秘闻（Sarah）,Exchange company gossip (Sarah),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,40
+71,请教项目问题（Sarah）,Ask about project issues (Sarah),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,41
+72,绩效沟通（Sarah）,Performance communication (Sarah),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,42
+73,请教技术问题（Sarah）,Ask technical questions (Sarah),2,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,43
+74,技术交流（Sarah）,Technical exchange (Sarah),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,44
+75,技术指导（Sarah）,Technical guidance (Sarah),4,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,45
+76,私下宴请（Sarah）,Private dinner (Sarah),3,1,,,,resource[64]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,46
+77,私下闲聊（Mike）,Private chat (Mike),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,47
+78,交换公司秘闻（Mike）,Exchange company gossip (Mike),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,48
+79,请教项目问题（Mike）,Ask about project issues (Mike),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,49
+80,绩效沟通（Mike）,Performance communication (Mike),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,50
+81,请教技术问题（Mike）,Ask technical questions (Mike),2,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,51
+82,技术交流（Mike）,Technical exchange (Mike),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,52
+83,技术指导（Mike）,Technical guidance (Mike),4,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,53
+84,私下宴请（Mike）,Private dinner (Mike),3,1,,,,resource[66]>=0,,,,,,,,,,,,,,,,,,,,,,,,,,54
 85,编写代码,Write code,4,1,,,,resource[20]>=5,,,,,,,,,,,,,,,,,,,,,,,,,,55
 86,发呆,Daydreaming,2,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,56
 87,摸鱼看内网论坛,Browse company forum,3,1,,,,always,,,,,,,,,,,,,,,,,,,,,,,,,,57
