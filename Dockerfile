@@ -36,12 +36,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # 创建web目录
 RUN mkdir -p /usr/share/nginx/html
 
-# 从构建阶段复制构建产物
+# 从构建阶段复制构建产物（包含了game-engine.js）
 COPY --from=builder /app/frontend-web/dist/ /usr/share/nginx/html/
 
-# 复制game-engine.js到public/dist目录
-RUN mkdir -p /usr/share/nginx/html/dist
-COPY --from=builder /app/frontend-web/public/dist/ /usr/share/nginx/html/dist/
+# 注释掉重复的game-engine.js复制，因为Vite已经处理了
+# RUN mkdir -p /usr/share/nginx/html/dist
+# COPY --from=builder /app/frontend-web/public/dist/ /usr/share/nginx/html/dist/
 
 # 设置权限
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
