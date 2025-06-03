@@ -1,8 +1,13 @@
 /* 黑客风像素艺术游戏UI样式 - 矩阵终端风格 */
 
-/* 字体导入 - 支持中文像素化 */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+/* 本地字体定义 */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../../static/font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 /* 动态字体大小系统 - 基于视口宽度 */
 :root {
@@ -52,8 +57,7 @@
 html, body {
   /* 中英文混合字体栈 - 针对中文像素化优化 */
   font-family: 
-    'Press Start 2P', 
-    'Source Code Pro',
+    'CustomFont',
     'Microsoft YaHei UI',
     'PingFang SC',
     '微软雅黑',
@@ -100,7 +104,7 @@ html::before {
 /* 中文字体像素化处理 */
 .chinese-pixel {
   font-family: 
-    'SimHei',
+    'CustomFont',
     'Microsoft YaHei UI',
     '微软雅黑',
     'Heiti SC',
@@ -126,7 +130,7 @@ html::before {
 
 /* 英文字体像素化处理 */
 .english-pixel {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'CustomFont', monospace;
   letter-spacing: 0.05em;
 }
 

@@ -1,5 +1,14 @@
 /* 黑客风格工程师生活模拟游戏 - 主样式文件 */
 
+/* 本地字体定义 */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../../static/font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* CSS Reset */
 * {
   margin: 0;
@@ -51,8 +60,7 @@ html, body {
   height: 100%;
   /* 中英文混合字体栈 - 针对中文像素化优化 */
   font-family: 
-    'Press Start 2P', 
-    'Source Code Pro',
+    'CustomFont',
     'Microsoft YaHei UI',
     'PingFang SC',
     '微软雅黑',
@@ -80,7 +88,7 @@ html, body {
 /* 中文字体像素化处理 */
 .chinese-pixel {
   font-family: 
-    'SimHei',
+    'CustomFont',
     'Microsoft YaHei UI',
     '微软雅黑',
     'Heiti SC',
@@ -106,7 +114,7 @@ html, body {
 
 /* 英文字体像素化处理 */
 .english-pixel {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'CustomFont', monospace;
   letter-spacing: 0.05em;
 }
 

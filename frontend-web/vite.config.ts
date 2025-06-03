@@ -47,8 +47,37 @@ function copyCSVPlugin() {
   }
 }
 
+// 自定义插件：复制静态资源到构建输出目录
+function copyStaticPlugin() {
+  return {
+    name: 'copy-static',
+    writeBundle() {
+      // 复制静态资源
+      const staticDir = join(__dirname, 'static')
+      const targetStaticDir = join(__dirname, 'dist', 'static')
+
+      if (existsSync(staticDir)) {
+        if (!existsSync(targetStaticDir)) {
+          mkdirSync(targetStaticDir, { recursive: true })
+        }
+
+        // 复制icon.png和font.ttf
+        const filesToCopy = ['icon.png', 'font.ttf']
+        filesToCopy.forEach(file => {
+          const srcPath = join(staticDir, file)
+          const destPath = join(targetStaticDir, file)
+          if (existsSync(srcPath)) {
+            copyFileSync(srcPath, destPath)
+            console.log(`Copied static resource: ${srcPath} -> ${destPath}`)
+          }
+        })
+      }
+    }
+  }
+}
+
 export default defineConfig({
-  plugins: [vue(), copyCSVPlugin()],
+  plugins: [vue(), copyCSVPlugin(), copyStaticPlugin()],
   base: './',
   build: {
     outDir: 'dist',
@@ -65,5 +94,8 @@ export default defineConfig({
   server: {
     port: 8000,
     host: true
-  }
+  },
+  // 配置静态资源处理
+  publicDir: 'public',
+  assetsInclude: ['**/*.ttf', '**/*.png']
 }) 
