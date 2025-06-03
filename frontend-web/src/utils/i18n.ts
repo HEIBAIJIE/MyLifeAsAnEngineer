@@ -1,3 +1,5 @@
+import { computed, toRef, ref, watchEffect, Ref } from 'vue'
+
 // 多语言文本管理
 export interface I18nTexts {
   // 主界面
@@ -412,11 +414,26 @@ export function getTexts(language: string): I18nTexts {
 }
 
 // 便捷的文本获取函数
-export function useI18n(language: string) {
-  const texts = getTexts(language)
+export function useI18n(language: string | Ref<string>) {
+  // 处理语言参数，支持字符串或响应式引用
+  const currentLanguage = typeof language === 'string' ? ref(language) : language
+  
+  // 如果传入的是字符串，需要监听外部变化
+  if (typeof language === 'string') {
+    // 对于字符串参数，我们需要通过其他方式处理响应性
+    // 这里我们仍然返回基于当前值的结果
+  }
+  
+  // 创建响应式的文本对象
+  const texts = computed(() => getTexts(currentLanguage.value))
+  
+  // 创建响应式的t函数
+  const t = (key: keyof I18nTexts) => {
+    return texts.value[key]
+  }
   
   return {
-    t: (key: keyof I18nTexts) => texts[key],
+    t,
     texts
   }
 } 

@@ -113,7 +113,7 @@ const inventory = ref<Inventory[]>([])
 const endingData = ref<EndingData | null>(null)
 
 // 语言状态
-const currentLanguage = ref<string>('zh')
+const currentLanguage = ref<string>('en')
 
 // 加载状态
 const showLoadingDialog = ref(false)

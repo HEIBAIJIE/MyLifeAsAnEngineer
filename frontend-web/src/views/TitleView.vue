@@ -119,6 +119,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, toRef } from 'vue'
 import { useI18n } from '../utils/i18n'
 
 // Props
@@ -128,8 +129,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// 多语言支持
-const { t } = useI18n(props.currentLanguage)
+// 多语言支持 - 使用响应式语言引用
+const { t } = useI18n(toRef(props, 'currentLanguage'))
 
 // 定义事件
 const emit = defineEmits<{
