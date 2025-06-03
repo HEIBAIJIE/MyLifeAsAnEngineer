@@ -210,6 +210,7 @@ import { ref, computed, toRef } from 'vue'
 import { useI18n } from '../utils/i18n'
 import type { GameState, Location, Entity, GameEvent } from '../types'
 import { BackendAdapter } from '../services/BackendAdapter'
+import { playButtonClickSound } from '../services/AudioService'
 
 // Props
 interface Props {
@@ -416,6 +417,9 @@ const getEntityIcon = (entityName: string) => {
 
 const selectEntity = async (entity: Entity) => {
   if (!entity.can_interact) return
+  
+  // 播放点击音效
+  playButtonClickSound(0.3)
   
   selectedEntity.value = entity
   

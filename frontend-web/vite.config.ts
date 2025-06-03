@@ -61,12 +61,14 @@ function copyStaticPlugin() {
           mkdirSync(targetStaticDir, { recursive: true })
         }
 
-        // 复制icon.png和font.ttf
-        const filesToCopy = ['icon.png', 'font.ttf']
-        filesToCopy.forEach(file => {
-          const srcPath = join(staticDir, file)
-          const destPath = join(targetStaticDir, file)
-          if (existsSync(srcPath)) {
+        // 复制所有静态文件
+        const items = readdirSync(staticDir)
+        items.forEach(item => {
+          const srcPath = join(staticDir, item)
+          const destPath = join(targetStaticDir, item)
+          const stat = statSync(srcPath)
+          
+          if (stat.isFile()) {
             copyFileSync(srcPath, destPath)
             console.log(`Copied static resource: ${srcPath} -> ${destPath}`)
           }
@@ -97,5 +99,5 @@ export default defineConfig({
   },
   // 配置静态资源处理
   publicDir: 'public',
-  assetsInclude: ['**/*.ttf', '**/*.png']
+  assetsInclude: ['**/*.ttf', '**/*.png', '**/*.mp3']
 }) 

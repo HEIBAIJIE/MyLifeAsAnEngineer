@@ -101,9 +101,20 @@ import EventResultDialog from './components/EventResultDialog.vue'
 import { BackendAdapter } from './services/BackendAdapter'
 import type { GameState, Location, Entity, EventResult, Inventory, EndingData } from './types'
 import { useI18n } from './utils/i18n'
+import { useButtonClickAudio } from './utils/buttonClickAudio'
 
 // 导入样式
 import './styles/pixel-ui.css'
+
+// 启用全局按钮点击音效
+useButtonClickAudio({
+  volume: 0.3,
+  enabled: true,
+  excludeSelectors: [
+    // 可以在这里添加不需要音效的按钮选择器
+    '.silent-button'
+  ]
+})
 
 // 游戏状态
 const currentView = ref<'title' | 'worldmap' | 'scene' | 'ending'>('title')
