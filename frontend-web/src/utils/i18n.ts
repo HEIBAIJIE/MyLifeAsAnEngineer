@@ -88,6 +88,18 @@ export interface I18nTexts {
   scheduledTasks: string
   continueBtn: string
 
+  // 新增存档错误相关文本
+  loadFailure: string
+  saveFailure: string
+  unknownError: string
+  moveFailure: string
+  useItemFailure: string
+  executeEventFailure: string
+  gameStartFailure: string
+
+  // 标点符号
+  colon: string
+
   // 时间和日期
   workday: string
   weekend: string
@@ -228,6 +240,18 @@ export const zhTexts: I18nTexts = {
   scheduledTasks: '计划任务',
   continueBtn: '继续',
 
+  // 新增存档错误相关文本
+  loadFailure: '读取失败',
+  saveFailure: '保存失败',
+  unknownError: '未知错误',
+  moveFailure: '移动失败',
+  useItemFailure: '使用物品失败',
+  executeEventFailure: '执行事件失败',
+  gameStartFailure: '游戏启动失败',
+
+  // 标点符号
+  colon: '：',
+
   // 时间和日期
   workday: '工作日',
   weekend: '周末',
@@ -367,6 +391,18 @@ export const enTexts: I18nTexts = {
   temporaryEvents: 'Triggered Events',
   scheduledTasks: 'Scheduled Tasks',
   continueBtn: 'Continue',
+
+  // 新增存档错误相关文本
+  loadFailure: 'Load Failure',
+  saveFailure: 'Save Failure',
+  unknownError: 'Unknown Error',
+  moveFailure: 'Move Failure',
+  useItemFailure: 'Use Item Failure',
+  executeEventFailure: 'Execute Event Failure',
+  gameStartFailure: 'Game Start Failure',
+
+  // 标点符号
+  colon: ':',
 
   // 时间和日期
   workday: 'Workday',

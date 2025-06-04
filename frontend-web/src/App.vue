@@ -288,8 +288,8 @@ const handleNewGame = async () => {
     showLoadingDialog.value = false
     // 清理进度回调
     backend.setProgressCallback(null)
-    const errorMessage = error instanceof Error ? error.message : '未知错误'
-    alert('启动游戏失败：' + errorMessage)
+    const errorMessage = error instanceof Error ? error.message : t('unknownError')
+    alert(t('gameStartFailure') + t('colon') + errorMessage)
   }
 }
 
@@ -329,15 +329,15 @@ const confirmLoadGame = async (saveDataStr: string) => {
       await updateGameState()
       showLoadGameDialog.value = false
       currentView.value = 'scene'
-      alert('读档成功！')
+      alert(t('loadSuccess'))
     } else {
-      alert('读档失败：' + (response.error || '未知错误'))
+      alert(t('loadFailure') + t('colon') + (response.error || t('unknownError')))
     }
   } catch (error) {
     console.error('Load game error:', error)
     showLoadingDialog.value = false
     backend.setProgressCallback(null)
-    alert('读档失败：' + (error instanceof Error ? error.message : '未知错误'))
+    alert(t('loadFailure') + t('colon') + (error instanceof Error ? error.message : t('unknownError')))
   }
 }
 
@@ -348,19 +348,16 @@ const handleSaveGame = async () => {
       saveData.value = response.saveData || ''
       showSaveGameDialog.value = true
     } else {
-      alert('保存失败：' + (response.error || '未知错误'))
+      alert(t('saveFailure') + t('colon') + (response.error || t('unknownError')))
     }
   } catch (error) {
     console.error('Save game error:', error)
-    alert('保存失败')
+    alert(t('saveFailure'))
   }
 }
 
 const handleExitGame = () => {
-  const confirmMessage = currentLanguage.value === 'en' ? 
-    'Are you sure you want to exit the game?' : 
-    '确定要退出游戏吗？'
-  if (confirm(confirmMessage)) {
+  if (confirm(t('exitMessage'))) {
     window.close()
   }
 }
@@ -379,11 +376,11 @@ const handleTravelTo = async (locationId: number) => {
       await updateGameState()
       currentView.value = 'scene'
     } else {
-      alert('移动失败：' + (result.error || '未知错误'))
+      alert(t('moveFailure') + t('colon') + (result.error || t('unknownError')))
     }
   } catch (error) {
     console.error('Travel error:', error)
-    alert('移动失败')
+    alert(t('moveFailure'))
   }
 }
 
@@ -404,7 +401,7 @@ const handleUseItem = async (itemSlot: number) => {
       await updateGameState()
       inventory.value = await backend.getInventory()
     } else {
-      alert('使用物品失败：' + (result.error || '未知错误'))
+      alert(t('useItemFailure') + t('colon') + (result.error || t('unknownError')))
     }
   } catch (error) {
     console.error('Use item error:', error)
@@ -424,7 +421,7 @@ const handleExecuteEvent = async (eventId: number) => {
         currentView.value = 'ending'
       }
     } else {
-      alert('执行事件失败：' + (result.error || '未知错误'))
+      alert(t('executeEventFailure') + t('colon') + (result.error || t('unknownError')))
     }
   } catch (error) {
     console.error('Execute event error:', error)
