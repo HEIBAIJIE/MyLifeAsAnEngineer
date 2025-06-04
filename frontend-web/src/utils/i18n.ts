@@ -17,6 +17,7 @@ export interface I18nTexts {
   save: string
   load: string
   inventory: string
+  status: string
   worldMap: string
   home: string
   back: string
@@ -169,6 +170,7 @@ export const zhTexts: I18nTexts = {
   save: '保存',
   load: '读取',
   inventory: '背包',
+  status: '状态',
   worldMap: '地图',
   home: '主页',
   back: '返回',
@@ -321,6 +323,7 @@ export const enTexts: I18nTexts = {
   save: 'Save',
   load: 'Load',
   inventory: 'Bag',
+  status: 'Status',
   worldMap: 'Map',
   home: 'Home',
   back: 'Back',

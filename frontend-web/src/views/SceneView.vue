@@ -23,6 +23,9 @@
         <button class="pixel-button small" @click="$emit('show-inventory')" :title="t('inventory')">
           🎒 <span class="btn-text">{{ t('inventory') }}</span>
         </button>
+        <button class="pixel-button small" @click="showResourcesModal = true" :title="t('characterStatus')">
+          📊 <span class="btn-text">{{ t('status') }}</span>
+        </button>
         <button class="pixel-button small" @click="$emit('go-to-worldmap')" :title="t('worldMap')">
           🗺️ <span class="btn-text">{{ t('worldMap') }}</span>
         </button>
@@ -53,74 +56,8 @@
     
     <!-- 主游戏区域 -->
     <div class="scene-content">
-      <!-- 左侧：角色状态 -->
-      <div class="character-panel pixel-border">
-        <h3 class="panel-title">👤 {{ t('characterStatus') }}</h3>
-        
-        <!-- 基础属性 -->
-        <div class="stats-section">
-          <h4 class="section-title">{{ t('basicStats') }}</h4>
-          <div class="stats-grid">
-            <div v-for="stat in basicStats" :key="stat.key" class="stat-item">
-              <span class="stat-icon">{{ stat.icon }}</span>
-              <span class="stat-name">{{ stat.name }}</span>
-              <span class="stat-value" :class="getStatValueClass(stat.value)">
-                {{ stat.value }}
-              </span>
-              <!-- 进度条 -->
-              <div class="pixel-progress" v-if="stat.max">
-                <div 
-                  class="pixel-progress-bar" 
-                  :style="{ width: `${(stat.value / stat.max) * 100}%` }"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 职业属性 -->
-        <div class="stats-section">
-          <h4 class="section-title">{{ t('careerStats') }}</h4>
-          <div class="stats-grid">
-            <div v-for="stat in careerStats" :key="stat.key" class="stat-item">
-              <span class="stat-icon">{{ stat.icon }}</span>
-              <span class="stat-name">{{ stat.name }}</span>
-              <span class="stat-value" :class="getStatValueClass(stat.value)">
-                {{ stat.value }}
-              </span>
-              <div class="pixel-progress" v-if="stat.max">
-                <div 
-                  class="pixel-progress-bar" 
-                  :style="{ width: `${(stat.value / stat.max) * 100}%` }"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 哲学属性 -->
-        <div class="stats-section">
-          <h4 class="section-title">{{ t('philosophyStats') }}</h4>
-          <div class="stats-grid">
-            <div v-for="stat in philosophyStats" :key="stat.key" class="stat-item">
-              <span class="stat-icon">{{ stat.icon }}</span>
-              <span class="stat-name">{{ stat.name }}</span>
-              <span class="stat-value" :class="getStatValueClass(stat.value)">
-                {{ stat.value }}
-              </span>
-              <div class="pixel-progress" v-if="stat.max">
-                <div 
-                  class="pixel-progress-bar" 
-                  :style="{ width: `${(stat.value / stat.max) * 100}%` }"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 右侧：交互区域 -->
-      <div class="interaction-panel pixel-border">
+      <!-- 交互区域 - 现在占满整个宽度 -->
+      <div class="interaction-panel pixel-border full-width">
         <!-- 实体选择模式 -->
         <div v-if="!selectedEntity" class="entities-section">
           <h3 class="panel-title">{{ t('availableEntities') }}</h3>
@@ -203,6 +140,14 @@
       <div class="decoration-element" v-for="i in 5" :key="i"></div>
     </div>
     
+    <!-- 状态弹窗组件 -->
+    <StatusModal 
+      :show="showResourcesModal"
+      :game-state="gameState"
+      :current-language="currentLanguage"
+      @close="showResourcesModal = false"
+    />
+    
     <!-- 退出确认对话框 -->
     <div v-if="showExitConfirm" class="exit-confirm-overlay">
       <div class="exit-confirm-dialog pixel-border">
@@ -232,6 +177,7 @@ import { useI18n } from '../utils/i18n'
 import type { GameState, Location, Entity, GameEvent } from '../types'
 import { BackendAdapter } from '../services/BackendAdapter'
 import { playButtonClickSound } from '../services/AudioService'
+import StatusModal from '../components/StatusModal.vue'
 
 // Props
 interface Props {
@@ -260,6 +206,8 @@ const emit = defineEmits<{
 // 响应式数据
 const selectedEntity = ref<Entity | null>(null)
 const entityEvents = ref<GameEvent[]>([])
+// 添加资源弹窗控制
+const showResourcesModal = ref(false)
 
 // 创建后端适配器实例（从全局获取）
 const backend = (window as any).backendAdapter as BackendAdapter
@@ -382,53 +330,7 @@ const sceneBackgroundStyle = computed(() => {
   return { background: backgrounds[locationId] || backgrounds[3] }
 })
 
-// 基础属性
-const basicStats = computed(() => {
-  const resources = props.gameState?.resources || {}
-  console.log('Basic stats resources data:', resources)
-  return [
-    { key: 'money', icon: '💰', name: t('money').replace('💰 ', ''), value: resources[2] || 0, max: null },
-    { key: 'health', icon: '❤️', name: t('health').replace('❤️ ', ''), value: resources[13] || 0, max: 100 },
-    { key: 'fatigue', icon: '😴', name: t('fatigue').replace('😴 ', ''), value: resources[14] || 0, max: 100 },
-    { key: 'hunger', icon: '🍽️', name: t('hunger').replace('🍽️ ', ''), value: resources[15] || 0, max: 100 },
-    { key: 'focus', icon: '🎯', name: t('focus').replace('🎯 ', ''), value: resources[18] || 0, max: 100 },
-    { key: 'mood', icon: '😊', name: t('mood').replace('😊 ', ''), value: resources[19] || 0, max: 100 }
-  ]
-})
-
-// 职业属性
-const careerStats = computed(() => {
-  const resources = props.gameState?.resources || {}
-  console.log('Career stats resources data:', resources)
-  return [
-    { key: 'skill', icon: '🔧', name: t('skill').replace('🔧 ', ''), value: resources[20] || 0, max: 100 },
-    { key: 'level', icon: '👔', name: t('jobLevel').replace('👔 ', ''), value: resources[22] || 0, max: 10 },
-    { key: 'project', icon: '📊', name: t('project').replace('📊 ', ''), value: resources[23] || 0, max: 100 },
-    { key: 'boss', icon: '😠', name: t('boss').replace('😠 ', ''), value: resources[21] || 0, max: 100 }
-  ]
-})
-
-// 哲学属性
-const philosophyStats = computed(() => {
-  const resources = props.gameState?.resources || {}
-  console.log('Philosophy stats resources data:', resources)
-  return [
-    { key: 'rational', icon: '🧠', name: t('rational').replace('🧠 ', ''), value: resources[16] || 0, max: 100 },
-    { key: 'emotional', icon: '💖', name: t('emotional').replace('💖 ', ''), value: resources[17] || 0, max: 100 },
-    { key: 'social', icon: '🤝', name: t('social').replace('🤝 ', ''), value: resources[70] || 0, max: 100 },
-    { key: 'reputation', icon: '🏆', name: t('reputation').replace('🏆 ', ''), value: resources[71] || 0, max: 100 },
-    { key: 'insight', icon: '🤔', name: t('insight').replace('🤔 ', ''), value: resources[72] || 0, max: 100 }
-  ]
-})
-
 // 方法
-const getStatValueClass = (value: number) => {
-  if (value >= 80) return 'stat-high'
-  if (value >= 50) return 'stat-medium'
-  if (value >= 20) return 'stat-low'
-  return 'stat-critical'
-}
-
 const getEntityIcon = (entityName: string) => {
   const icons: Record<string, string> = {
     // 中文实体
@@ -657,20 +559,16 @@ const goToTitle = () => {
   overflow: hidden;
 }
 
-.character-panel {
-  width: clamp(250px, 25vw, 350px);
+.interaction-panel {
   background: rgba(0, 17, 0, 0.9);
   padding: clamp(12px, 2vw, 20px);
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.interaction-panel {
+.interaction-panel.full-width {
+  width: 100%;
   flex: 1;
-  background: rgba(0, 17, 0, 0.9);
-  padding: clamp(12px, 2vw, 20px);
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .panel-title {
@@ -906,28 +804,22 @@ const goToTitle = () => {
 
 /* 响应式设计 */
 @media (max-width: 1024px) {
-  .character-panel {
-    width: clamp(220px, 22vw, 280px);
-  }
-  
   .entities-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(160px, 22vw, 200px), 1fr));
   }
 }
 
 @media (max-width: 768px) {
   .scene-content {
-    flex-direction: column;
-    gap: clamp(8px, 1.5vw, 16px);
-  }
-  
-  .character-panel {
-    width: 100%;
-    height: clamp(180px, 25vh, 240px);
+    padding: clamp(8px, 1.5vw, 16px);
   }
   
   .interaction-panel {
-    flex: 1;
+    padding: clamp(8px, 1.5vw, 16px);
+  }
+  
+  .entities-grid {
+    grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 20vw, 180px), 1fr));
   }
   
   .status-left {
@@ -946,12 +838,11 @@ const goToTitle = () => {
     padding: clamp(6px, 1vw, 12px);
   }
   
-  .character-panel,
   .interaction-panel {
     padding: clamp(6px, 1vw, 12px);
   }
   
-  .stats-grid {
+  .entities-grid {
     grid-template-columns: 1fr;
   }
   
