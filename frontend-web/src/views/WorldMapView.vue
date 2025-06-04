@@ -358,6 +358,7 @@ const goToCurrentScene = () => {
   text-align: center;
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
+  flex-shrink: 0; /* 确保头部不被压缩 */
 }
 
 .map-title {
@@ -389,6 +390,28 @@ const goToCurrentScene = () => {
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
+  /* 确保在移动端可以滚动 */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0; /* 重要：确保flex子元素可以收缩 */
+}
+
+/* 添加自定义滚动条样式 */
+.locations-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.locations-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.locations-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 0, 0.3);
+  border-radius: 3px;
+}
+
+.locations-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 0, 0.5);
 }
 
 .location-card {
@@ -494,6 +517,7 @@ const goToCurrentScene = () => {
   gap: clamp(16px, 2.5vw, 32px);
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
+  flex-shrink: 0; /* 确保底部控制栏不被压缩 */
 }
 
 .bottom-controls .pixel-button {
@@ -582,10 +606,24 @@ const goToCurrentScene = () => {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+  .worldmap-view {
+    height: 100vh;
+    height: 100dvh; /* 动态视口高度，更适合移动端 */
+  }
+
+  .map-header {
+    padding: clamp(12px, 2vw, 24px) clamp(16px, 2.5vw, 32px);
+  }
+
   .locations-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: clamp(12px, 2vw, 20px);
     padding: clamp(16px, 2.5vw, 24px);
+    /* 确保有足够的底部空间 */
+    padding-bottom: clamp(24px, 4vw, 40px);
+    /* 优化移动端滚动 */
+    overflow-y: auto;
+    max-height: 100%;
   }
   
   .location-card {
@@ -600,10 +638,12 @@ const goToCurrentScene = () => {
   .bottom-controls {
     flex-direction: column;
     gap: clamp(8px, 1.5vw, 16px);
+    padding: clamp(12px, 2vw, 24px);
   }
   
   .bottom-controls .pixel-button {
     width: 100%;
+    min-width: auto;
   }
   
   .current-status {
@@ -613,14 +653,121 @@ const goToCurrentScene = () => {
 }
 
 @media (max-width: 480px) {
+  .worldmap-view {
+    height: 100vh;
+    height: 100dvh; /* 动态视口高度 */
+  }
+
+  .map-header {
+    padding: clamp(8px, 1.5vw, 16px) clamp(12px, 2vw, 20px);
+  }
+
+  .map-title {
+    font-size: clamp(24px, 5vw, 32px);
+    margin-bottom: clamp(8px, 1.5vw, 16px);
+  }
+
   .locations-grid {
     grid-template-columns: 1fr;
     gap: clamp(8px, 1.5vw, 16px);
     padding: clamp(12px, 2vw, 20px);
+    /* 增加底部边距确保所有内容可见 */
+    padding-bottom: clamp(40px, 8vw, 80px);
+    /* 移动端滚动优化 */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .location-card {
     min-height: clamp(100px, 15vw, 140px);
+    padding: clamp(10px, 1.5vw, 16px);
+  }
+
+  .location-icon {
+    font-size: clamp(20px, 3.5vw, 32px);
+    margin-bottom: clamp(4px, 0.8vw, 8px);
+  }
+
+  .location-name {
+    font-size: clamp(14px, 2.8vw, 18px);
+    margin-bottom: clamp(4px, 0.8vw, 8px);
+  }
+
+  .location-description {
+    font-size: clamp(11px, 2.2vw, 14px);
+    margin-bottom: clamp(8px, 1.5vw, 12px);
+  }
+
+  .current-marker {
+    font-size: clamp(12px, 2.4vw, 16px);
+    padding: clamp(4px, 0.8vw, 8px) clamp(8px, 1.5vw, 12px);
+  }
+
+  .travel-btn {
+    font-size: clamp(12px, 2.4vw, 16px);
+    padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2.4vw, 16px);
+    min-width: clamp(60px, 12vw, 100px);
+  }
+
+  .bottom-controls {
+    padding: clamp(8px, 1.5vw, 16px);
+    gap: clamp(6px, 1.2vw, 12px);
+  }
+
+  .bottom-controls .pixel-button {
+    padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2.4vw, 20px);
+    font-size: clamp(12px, 2.4vw, 16px);
+    min-width: auto;
+  }
+
+  .current-status .pixel-text {
+    font-size: clamp(12px, 2.4vw, 16px);
+  }
+}
+
+/* 添加安全区域支持 */
+@supports (padding: max(0px)) {
+  .map-header {
+    padding-left: max(clamp(20px, 3vw, 48px), env(safe-area-inset-left));
+    padding-right: max(clamp(20px, 3vw, 48px), env(safe-area-inset-right));
+    padding-top: max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-top));
+  }
+
+  .locations-grid {
+    padding-left: max(clamp(20px, 3vw, 48px), env(safe-area-inset-left));
+    padding-right: max(clamp(20px, 3vw, 48px), env(safe-area-inset-right));
+  }
+
+  .bottom-controls {
+    padding-left: max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-left));
+    padding-right: max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-right));
+    padding-bottom: max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-bottom));
+  }
+}
+
+/* 优化超小屏幕（iPhone SE等） */
+@media (max-width: 375px) {
+  .locations-grid {
+    gap: clamp(6px, 1.2vw, 12px);
+    padding: clamp(8px, 1.5vw, 16px);
+    padding-bottom: clamp(50px, 10vw, 100px);
+  }
+
+  .location-card {
+    min-height: clamp(90px, 14vw, 120px);
+    padding: clamp(8px, 1.2vw, 12px);
+  }
+
+  .location-icon {
+    font-size: clamp(18px, 3vw, 28px);
+  }
+
+  .location-name {
+    font-size: clamp(12px, 2.5vw, 16px);
+  }
+
+  .location-description {
+    font-size: clamp(10px, 2vw, 12px);
   }
 }
 

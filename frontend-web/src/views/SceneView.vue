@@ -637,6 +637,7 @@ onMounted(() => {
   gap: clamp(12px, 2vw, 20px);
   padding: clamp(12px, 2vw, 20px);
   overflow: hidden;
+  min-height: 0; /* 重要：确保flex子元素可以收缩 */
 }
 
 .interaction-panel {
@@ -644,6 +645,28 @@ onMounted(() => {
   padding: clamp(12px, 2vw, 20px);
   overflow-x: hidden;
   overflow-y: auto;
+  /* 确保在移动端有正确的滚动行为 */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 0, 0.3) transparent;
+}
+
+/* 添加自定义滚动条样式 */
+.interaction-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.interaction-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.interaction-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 0, 0.3);
+  border-radius: 3px;
+}
+
+.interaction-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 0, 0.5);
 }
 
 .interaction-panel.transparent {
@@ -914,16 +937,33 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
+  .scene-view {
+    height: 100vh;
+    height: 100dvh; /* 动态视口高度，更适合移动端 */
+  }
+
+  .scene-header {
+    flex-shrink: 0; /* 确保头部不被压缩 */
+  }
+
   .scene-content {
     padding: clamp(8px, 1.5vw, 16px);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
   
   .interaction-panel {
     padding: clamp(8px, 1.5vw, 16px);
+    /* 确保在移动端可以滚动 */
+    max-height: 100%;
+    overflow-y: auto;
   }
   
   .entities-grid {
     grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 20vw, 180px), 1fr));
+    /* 添加底部边距以确保最后的元素可见 */
+    padding-bottom: clamp(20px, 4vw, 40px);
   }
   
   .status-left {
@@ -938,16 +978,30 @@ onMounted(() => {
 }
 
 @media (max-width: 480px) {
+  .scene-view {
+    height: 100vh;
+    height: 100dvh; /* 动态视口高度 */
+  }
+
   .scene-content {
     padding: clamp(6px, 1vw, 12px);
+    flex: 1;
+    min-height: 0;
   }
   
   .interaction-panel {
     padding: clamp(6px, 1vw, 12px);
+    /* 移动端专用滚动优化 */
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .entities-grid {
     grid-template-columns: 1fr;
+    /* 增加底部边距确保内容可见 */
+    padding-bottom: clamp(30px, 6vw, 60px);
+    gap: clamp(12px, 2.5vw, 20px);
   }
   
   .entity-card {
@@ -967,6 +1021,30 @@ onMounted(() => {
     min-width: clamp(20px, 3vw, 28px);
     padding: clamp(2px, 0.4vw, 4px) clamp(3px, 0.6vw, 6px);
     font-size: clamp(6px, 1.2vw, 8px);
+  }
+
+  /* 事件部分也需要底部边距 */
+  .events-grid {
+    padding-bottom: clamp(30px, 6vw, 60px);
+  }
+
+  .events-section {
+    padding-bottom: clamp(20px, 4vw, 40px);
+  }
+}
+
+/* 添加安全区域支持 */
+@supports (padding: max(0px)) {
+  .scene-header {
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+
+  .scene-content {
+    padding-left: max(clamp(12px, 2vw, 20px), env(safe-area-inset-left));
+    padding-right: max(clamp(12px, 2vw, 20px), env(safe-area-inset-right));
+    padding-bottom: max(clamp(12px, 2vw, 20px), env(safe-area-inset-bottom));
   }
 }
 
