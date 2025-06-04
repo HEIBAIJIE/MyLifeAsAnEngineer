@@ -169,10 +169,10 @@ const animationsPlayed = ref({
   continueButton: false
 })
 
-// 打字机效果相关 - 将速度从50ms提升至25ms，打字速度翻倍
+// 打字机效果相关 - 将速度从50ms提升至10ms，打字速度翻倍
 const typewriterText = ref('')
 const isTyping = ref(false)
-const typewriterSpeed = 25 // 打字速度（毫秒）- 从50ms优化为25ms
+const typewriterSpeed = 10 // 打字速度（毫秒）- 从50ms优化为10ms
 
 // 启动递进动画
 const startProgressiveAnimation = async () => {
