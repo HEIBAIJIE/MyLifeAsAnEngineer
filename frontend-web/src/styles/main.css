@@ -51,7 +51,7 @@
   /* 像素化效果参数 */
   --pixel-size: clamp(2px, 0.3vw, 4px);
   --scan-line-height: clamp(1px, 0.1vw, 2px);
-  --glow-size: clamp(5px, 0.8vw, 10px);
+  --glow-size: clamp(2px, 0.4vw, 5px);
 }
 
 /* 基础样式 */
@@ -99,11 +99,8 @@ html, body {
   font-size: 1em;
   /* 像素化文字效果 */
   text-shadow: 
-    1px 0 0 currentColor,
-    0 1px 0 currentColor,
-    1px 1px 0 currentColor,
-    2px 2px 0 var(--background-black),
-    0 0 calc(var(--glow-size) / 4) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   /* 增强边缘清晰度 */
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
@@ -185,8 +182,8 @@ html, body {
   
   /* 像素化文字效果 */
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   
   /* 3D立体效果 */
   box-shadow: 
@@ -285,8 +282,8 @@ html, body {
   text-align: center;
   font-size: var(--subtitle-font-size);
   text-shadow: 
-    2px 2px 0px var(--background-black),
-    0 0 var(--glow-size) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 /* 像素卡片样式 */
@@ -368,8 +365,8 @@ html, body {
 .pixel-text {
   color: var(--matrix-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 var(--glow-size) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   font-size: var(--base-font-size);
   line-height: 1.6;
 }
@@ -380,8 +377,8 @@ html, body {
   text-align: center;
   margin: clamp(12px, 2vw, 24px) 0;
   text-shadow: 
-    2px 2px 0px var(--background-black),
-    0 0 calc(var(--glow-size) * 1.5) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .pixel-text-subtitle {
@@ -390,8 +387,8 @@ html, body {
   text-align: center;
   margin: clamp(6px, 1vw, 12px) 0;
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   opacity: 0.9;
 }
 
@@ -399,8 +396,8 @@ html, body {
   font-size: var(--small-font-size);
   color: var(--matrix-dark-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .pixel-text-error {
@@ -419,8 +416,8 @@ html, body {
 }
 
 @keyframes success-glow {
-  from { text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor; }
-  to { text-shadow: 0 0 var(--glow-size) currentColor; }
+  from { text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor; }
+  to { text-shadow: 0 0 calc(var(--glow-size) / 6) currentColor; }
 }
 
 .pixel-text-warning {
@@ -458,14 +455,14 @@ html, body {
   color: var(--matrix-dark-green);
   margin-right: clamp(4px, 0.8vw, 12px);
   font-size: var(--ui-font-size);
-  text-shadow: 0 0 calc(var(--glow-size) / 4) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .pixel-status-value {
   color: var(--terminal-green);
   font-weight: bold;
   font-size: var(--ui-font-size);
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 /* 像素进度条 */
@@ -518,16 +515,14 @@ html, body {
   padding: clamp(4px, 0.8vw, 12px);
   text-align: left;
   font-size: var(--ui-font-size);
-  text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 4) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .pixel-table th {
   background: var(--shadow-green);
   color: var(--matrix-green);
   font-weight: bold;
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .pixel-table tr:nth-child(even) {
@@ -588,17 +583,13 @@ html, body {
 @keyframes matrix-glow {
   from {
     text-shadow: 
-      0 0 calc(var(--glow-size) / 2) currentColor,
-      0 0 var(--glow-size) currentColor,
-      0 0 calc(var(--glow-size) * 1.5) currentColor,
-      2px 2px 0px var(--background-black);
+      0 0 calc(var(--glow-size) / 6) currentColor,
+      0.5px 0.5px 0px var(--background-black);
   }
   to {
     text-shadow: 
-      0 0 var(--glow-size) currentColor,
-      0 0 calc(var(--glow-size) * 2) currentColor,
-      0 0 calc(var(--glow-size) * 3) currentColor,
-      2px 2px 0px var(--background-black);
+      0 0 calc(var(--glow-size) / 4) currentColor,
+      0.5px 0.5px 0px var(--background-black);
   }
 }
 
@@ -622,8 +613,8 @@ html, body {
   font-size: var(--subtitle-font-size);
   margin-bottom: clamp(8px, 1vw, 16px);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .resources-grid {
@@ -663,15 +654,15 @@ html, body {
   font-size: var(--ui-font-size);
   color: var(--matrix-light-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 4) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .resource-value {
   font-size: var(--ui-font-size);
   color: var(--terminal-green);
   font-weight: bold;
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .actions-container {
@@ -689,8 +680,8 @@ html, body {
   font-size: var(--subtitle-font-size);
   margin-bottom: clamp(8px, 1vw, 16px);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .entities-grid {
@@ -758,16 +749,16 @@ html, body {
   color: var(--neon-cyan);
   margin-bottom: clamp(4px, 0.5vw, 8px);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .entity-events-count {
   font-size: var(--small-font-size);
   color: var(--matrix-light-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 4) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .interact-hint {
@@ -775,7 +766,7 @@ html, body {
   color: var(--neon-yellow);
   text-align: center;
   margin-top: clamp(4px, 0.5vw, 8px);
-  text-shadow: 0 0 calc(var(--glow-size) / 4) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .no-interact {
@@ -792,7 +783,7 @@ html, body {
     --base-font-size: clamp(14px, 2.2vw, 24px);
     --button-font-size: clamp(12px, 1.8vw, 20px);
     --title-font-size: clamp(20px, 3.5vw, 32px);
-    --glow-size: clamp(3px, 0.6vw, 6px);
+    --glow-size: clamp(1px, 0.3vw, 3px);
   }
   
   .pixel-dialog-content {
@@ -820,7 +811,7 @@ html, body {
     --button-font-size: clamp(10px, 2vw, 16px);
     --title-font-size: clamp(16px, 4vw, 24px);
     --pixel-size: clamp(1px, 0.2vw, 3px);
-    --glow-size: clamp(2px, 0.4vw, 4px);
+    --glow-size: clamp(1px, 0.2vw, 2px);
   }
   
   .pixel-dialog-content {
@@ -840,7 +831,7 @@ html, body {
     --button-font-size: clamp(20px, 1.2vw, 32px);
     --title-font-size: clamp(32px, 2vw, 56px);
     --subtitle-font-size: clamp(18px, 1.3vw, 32px);
-    --glow-size: clamp(8px, 1vw, 15px);
+    --glow-size: clamp(3px, 0.5vw, 7px);
   }
 }
 
@@ -849,6 +840,6 @@ html, body {
     --base-font-size: clamp(28px, 1.2vw, 48px);
     --button-font-size: clamp(24px, 1vw, 40px);
     --title-font-size: clamp(40px, 1.8vw, 64px);
-    --glow-size: clamp(10px, 1.2vw, 20px);
+    --glow-size: clamp(4px, 0.6vw, 10px);
   }
 } 

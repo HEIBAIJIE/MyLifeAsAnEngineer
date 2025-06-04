@@ -44,7 +44,7 @@
   /* 像素化效果参数 */
   --pixel-size: clamp(2px, 0.3vw, 4px);
   --scan-line-height: clamp(1px, 0.1vw, 2px);
-  --glow-size: clamp(5px, 0.8vw, 10px);
+  --glow-size: clamp(2px, 0.4vw, 5px);
 }
 
 /* 全局重置和基础样式 */
@@ -115,11 +115,8 @@ html::before {
   font-size: 1em;
   /* 像素化文字效果 */
   text-shadow: 
-    1px 0 0 currentColor,
-    0 1px 0 currentColor,
-    1px 1px 0 currentColor,
-    2px 2px 0 var(--background-black),
-    0 0 calc(var(--glow-size) / 4) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   /* 增强边缘清晰度 */
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
@@ -139,8 +136,8 @@ html::before {
   font-size: var(--base-font-size);
   color: var(--matrix-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 var(--glow-size) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   line-height: 1.6;
   /* 为中文字符添加特殊处理 */
   font-feature-settings: "liga" 0;
@@ -213,8 +210,8 @@ html::before {
   
   /* 像素化文字效果 */
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
   
   /* 3D立体效果 */
   box-shadow: 
@@ -317,17 +314,13 @@ html::before {
 @keyframes matrix-glow {
   from {
     text-shadow: 
-      0 0 calc(var(--glow-size) / 2) currentColor,
-      0 0 var(--glow-size) currentColor,
-      0 0 calc(var(--glow-size) * 1.5) currentColor,
-      2px 2px 0px var(--background-black);
+      0 0 calc(var(--glow-size) / 6) currentColor,
+      0.5px 0.5px 0px var(--background-black);
   }
   to {
     text-shadow: 
-      0 0 var(--glow-size) currentColor,
-      0 0 calc(var(--glow-size) * 2) currentColor,
-      0 0 calc(var(--glow-size) * 3) currentColor,
-      2px 2px 0px var(--background-black);
+      0 0 calc(var(--glow-size) / 4) currentColor,
+      0.5px 0.5px 0px var(--background-black);
   }
 }
 
@@ -348,24 +341,24 @@ html::before {
   font-size: var(--large-font-size);
   color: var(--neon-cyan);
   text-shadow: 
-    2px 2px 0px var(--background-black),
-    0 0 var(--glow-size) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 6) currentColor;
 }
 
 .pixel-text-small {
   font-size: var(--small-font-size);
   color: var(--matrix-dark-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .pixel-text-subtitle {
   font-size: var(--subtitle-font-size);
   color: var(--terminal-green);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 8) currentColor;
   line-height: 1.8;
   opacity: 0.9;
 }
@@ -423,8 +416,8 @@ html::before {
   resize: none;
   
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 8) currentColor;
     
   box-shadow: 
     inset 0 0 calc(var(--glow-size) / 2) var(--shadow-green),
@@ -492,7 +485,7 @@ html::before {
   font-size: var(--ui-font-size);
   color: var(--matrix-green);
   font-weight: bold;
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .resource-value.low {
@@ -511,8 +504,8 @@ html::before {
 }
 
 @keyframes optimal-glow {
-  from { text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor; }
-  to { text-shadow: 0 0 var(--glow-size) currentColor; }
+  from { text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor; }
+  to { text-shadow: 0 0 calc(var(--glow-size) / 6) currentColor; }
 }
 
 /* 实体卡片样式 */
@@ -568,8 +561,8 @@ html::before {
   text-align: center;
   margin-bottom: clamp(6px, 1vw, 12px);
   filter: 
-    drop-shadow(2px 2px 0px var(--background-black))
-    drop-shadow(0 0 calc(var(--glow-size) / 2) currentColor);
+    drop-shadow(0.5px 0.5px 0px var(--background-black))
+    drop-shadow(0 0 calc(var(--glow-size) / 8) currentColor);
 }
 
 .entity-name {
@@ -578,8 +571,8 @@ html::before {
   text-align: center;
   margin-bottom: clamp(4px, 0.8vw, 8px);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 /* 事件项目样式 */
@@ -608,13 +601,13 @@ html::before {
   font-size: var(--ui-font-size);
   color: var(--terminal-green);
   margin-bottom: clamp(2px, 0.4vw, 4px);
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 .event-cost {
   font-size: var(--small-font-size);
   color: var(--warning-orange);
-  text-shadow: 0 0 calc(var(--glow-size) / 2) currentColor;
+  text-shadow: 0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 /* 加载动画 */
@@ -663,8 +656,8 @@ html::before {
 .notification-text {
   font-size: var(--ui-font-size);
   text-shadow: 
-    1px 1px 0px var(--background-black),
-    0 0 calc(var(--glow-size) / 2) currentColor;
+    0.5px 0.5px 0px var(--background-black),
+    0 0 calc(var(--glow-size) / 8) currentColor;
 }
 
 /* 响应式设计 */
@@ -673,7 +666,7 @@ html::before {
     --base-font-size: clamp(14px, 2.2vw, 24px);
     --button-font-size: clamp(12px, 1.8vw, 20px);
     --title-font-size: clamp(20px, 3.5vw, 32px);
-    --glow-size: clamp(3px, 0.6vw, 6px);
+    --glow-size: clamp(1px, 0.3vw, 3px);
   }
   
   .entity-icon {
@@ -687,7 +680,7 @@ html::before {
     --button-font-size: clamp(10px, 2vw, 16px);
     --title-font-size: clamp(16px, 4vw, 24px);
     --pixel-size: clamp(1px, 0.2vw, 3px);
-    --glow-size: clamp(2px, 0.4vw, 4px);
+    --glow-size: clamp(1px, 0.2vw, 2px);
   }
 }
 
@@ -698,7 +691,7 @@ html::before {
     --button-font-size: clamp(20px, 1.2vw, 32px);
     --title-font-size: clamp(32px, 2vw, 56px);
     --subtitle-font-size: clamp(18px, 1.3vw, 32px);
-    --glow-size: clamp(8px, 1vw, 15px);
+    --glow-size: clamp(3px, 0.5vw, 7px);
   }
 }
 
@@ -707,6 +700,6 @@ html::before {
     --base-font-size: clamp(28px, 1.2vw, 48px);
     --button-font-size: clamp(24px, 1vw, 40px);
     --title-font-size: clamp(40px, 1.8vw, 64px);
-    --glow-size: clamp(10px, 1.2vw, 20px);
+    --glow-size: clamp(4px, 0.6vw, 10px);
   }
 } 
