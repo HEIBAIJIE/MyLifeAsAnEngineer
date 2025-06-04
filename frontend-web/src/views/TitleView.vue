@@ -157,8 +157,13 @@ const matrixChars = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
   'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-  '工', '程', '师', '生', '活', '代', '码', '调', '试', '算',
-  '法', '数', '据', '系', '统', '网', '络', '服', '务', '器'
+  'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+  'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+  'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*',
+  '(', ')', '-', '+', '=', '[', ']', '{', '}', '|',
+  '\\', ':', ';', '"', "'", '<', '>', ',', '.', '?',
+  '/', '~', '`'
 ]
 
 const getRandomCode = () => {
@@ -179,9 +184,9 @@ const getRandomChar = () => {
   align-items: center;
   position: relative;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(0, 255, 0, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.8) 0%, transparent 70%),
+    radial-gradient(circle at 25% 25%, rgba(0, 255, 0, 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 75% 75%, rgba(0, 255, 0, 0.15) 0%, transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.8) 0%, transparent 40%),
     linear-gradient(rgba(10, 10, 10, 0.6), rgba(10, 10, 10, 0.7)),
     url('/static/title.jpg');
   background-size: 

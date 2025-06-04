@@ -268,13 +268,64 @@ const goToCurrentScene = () => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: 
-    radial-gradient(circle at 20% 30%, #001a1a 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, #001100 0%, transparent 50%),
-    radial-gradient(circle at 40% 60%, #000022 0%, transparent 50%),
-    #000;
   position: relative;
   overflow: hidden;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(0, 255, 0, 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 75% 75%, rgba(0, 255, 0, 0.15) 0%, transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.8) 0%, transparent 40%),
+    linear-gradient(rgba(10, 10, 10, 0.6), rgba(10, 10, 10, 0.7)),
+    url('/static/map.jpg');
+  background-size: 
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    cover;
+  background-position: 
+    center,
+    center,
+    center,
+    center,
+    center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* 添加背景图片的模糊效果 */
+.worldmap-view::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/static/map.jpg') center/cover no-repeat;
+  filter: blur(3px) brightness(0.4) contrast(1.2);
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* 添加额外的背景纹理层 */
+.worldmap-view::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 40%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 50px,
+      rgba(0, 255, 0, 0.01) 50px,
+      rgba(0, 255, 0, 0.01) 52px
+    );
+  z-index: 1;
+  pointer-events: none;
 }
 
 .pixel-background {

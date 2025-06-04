@@ -172,7 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, toRef } from 'vue'
+import { ref, computed, toRef, watch, onMounted } from 'vue'
 import { useI18n } from '../utils/i18n'
 import type { GameState, Location, Entity, GameEvent } from '../types'
 import { BackendAdapter } from '../services/BackendAdapter'
@@ -319,15 +319,30 @@ const currentTimeDisplay = computed(() => {
 
 const sceneBackgroundStyle = computed(() => {
   const locationId = props.currentLocation?.location_id || 3
-  const backgrounds: Record<number, string> = {
-    1: 'linear-gradient(135deg, #34495e, #2c3e50)', // 公司
-    2: 'linear-gradient(135deg, #8e44ad, #9b59b6)', // 商店
-    3: 'linear-gradient(135deg, #27ae60, #2ecc71)', // 家
-    4: 'linear-gradient(135deg, #16a085, #1abc9c)', // 公园
-    5: 'linear-gradient(135deg, #e67e22, #f39c12)', // 餐馆
-    6: 'linear-gradient(135deg, #e74c3c, #c0392b)'  // 医院
+  const backgroundImages: Record<number, string> = {
+    1: '/static/company.jpg',    // 公司
+    2: '/static/shop.jpg',       // 商店
+    3: '/static/home.jpg',       // 家
+    4: '/static/park.jpg',       // 公园
+    5: '/static/restaurant.jpg', // 餐馆
+    6: '/static/hospital.jpg'    // 医院
   }
-  return { background: backgrounds[locationId] || backgrounds[3] }
+  
+  const imageUrl = backgroundImages[locationId] || backgroundImages[3]
+  
+  return {
+    backgroundImage: `
+      radial-gradient(circle at 25% 25%, rgba(0, 255, 0, 0.1) 0%, transparent 30%),
+      radial-gradient(circle at 75% 75%, rgba(0, 255, 0, 0.15) 0%, transparent 30%),
+      radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.8) 0%, transparent 40%),
+      linear-gradient(rgba(10, 10, 10, 0.6), rgba(10, 10, 10, 0.7)),
+      url('${imageUrl}')
+    `,
+    backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%, cover',
+    backgroundPosition: 'center, center, center, center, center',
+    backgroundRepeat: 'no-repeat, no-repeat, no-repeat, no-repeat, no-repeat',
+    backgroundAttachment: 'fixed, fixed, fixed, fixed, fixed'
+  }
 })
 
 // 方法
@@ -519,6 +534,37 @@ const handleExitCancel = () => {
 const goToTitle = () => {
   confirmExit()
 }
+
+// 添加背景图片更新方法
+const updateBackgroundImage = () => {
+  const locationId = props.currentLocation?.location_id || 3
+  const backgroundImages: Record<number, string> = {
+    1: '/static/company.jpg',    // 公司
+    2: '/static/shop.jpg',       // 商店
+    3: '/static/home.jpg',       // 家
+    4: '/static/park.jpg',       // 公园
+    5: '/static/restaurant.jpg', // 餐馆
+    6: '/static/hospital.jpg'    // 医院
+  }
+  
+  const imageUrl = backgroundImages[locationId] || backgroundImages[3]
+  
+  // 动态设置CSS变量
+  const sceneElement = document.querySelector('.scene-view') as HTMLElement
+  if (sceneElement) {
+    sceneElement.style.setProperty('--scene-background-image', `url('${imageUrl}')`)
+  }
+}
+
+// 监听位置变化
+watch(() => props.currentLocation?.location_id, () => {
+  updateBackgroundImage()
+}, { immediate: true })
+
+// 组件挂载时设置背景
+onMounted(() => {
+  updateBackgroundImage()
+})
 </script>
 
 <style scoped>
@@ -529,6 +575,45 @@ const goToTitle = () => {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+}
+
+/* 添加背景图片的模糊效果 */
+.scene-view::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--scene-background-image, url('/static/home.jpg'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.3) contrast(1.1);
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* 添加额外的背景纹理层 */
+.scene-view::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 40%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 50px,
+      rgba(0, 255, 0, 0.01) 50px,
+      rgba(0, 255, 0, 0.01) 52px
+    );
+  z-index: 1;
+  pointer-events: none;
 }
 
 .scene-header {
