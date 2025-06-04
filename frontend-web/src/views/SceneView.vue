@@ -56,12 +56,10 @@
     
     <!-- 主游戏区域 -->
     <div class="scene-content">
-      <!-- 交互区域 - 现在占满整个宽度 -->
-      <div class="interaction-panel pixel-border full-width">
+      <!-- 交互区域 - 现在占满整个宽度，去掉背景框 -->
+      <div class="interaction-panel full-width transparent">
         <!-- 实体选择模式 -->
         <div v-if="!selectedEntity" class="entities-section">
-          <h3 class="panel-title">{{ t('availableEntities') }}</h3>
-          
           <div class="entities-grid">
             <div 
               v-for="entity in availableEntities" 
@@ -80,10 +78,7 @@
                   {{ getEntityDescription(entity) }}
                 </div>
               </div>
-              <div class="interaction-hint" v-if="entity.can_interact">
-                👆 {{ t('clickToInteract') }}
-              </div>
-              <div class="no-interaction" v-else>
+              <div class="no-interaction" v-if="!entity.can_interact">
                 🚫 {{ t('cannotInteract') }}
               </div>
             </div>
@@ -651,6 +646,13 @@ onMounted(() => {
   overflow-y: auto;
 }
 
+.interaction-panel.transparent {
+  background: rgba(0, 17, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.05);
+  backdrop-filter: blur(1px);
+}
+
 .interaction-panel.full-width {
   width: 100%;
   flex: 1;
@@ -663,6 +665,10 @@ onMounted(() => {
   text-align: center;
   border-bottom: 1px solid #004400;
   padding-bottom: clamp(6px, 1vw, 10px);
+  background: rgba(0, 0, 0, 0.8);
+  padding: clamp(8px, 1.2vw, 16px);
+  border-radius: 4px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .stats-section {
@@ -746,10 +752,15 @@ onMounted(() => {
   justify-content: space-between;
   transition: transform 0.2s ease;
   box-sizing: border-box;
+  background: rgba(0, 20, 0, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 255, 0, 0.3);
 }
 
 .entity-card.interactive:hover {
   transform: translateY(-2px);
+  background: rgba(0, 40, 0, 0.9);
+  border-color: rgba(0, 255, 0, 0.6);
 }
 
 .entity-card.disabled {
@@ -798,6 +809,10 @@ onMounted(() => {
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
   margin-bottom: clamp(12px, 2vw, 20px);
+  background: rgba(0, 0, 0, 0.7);
+  padding: clamp(8px, 1.2vw, 16px);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
 }
 
 .events-grid {
@@ -810,10 +825,14 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: clamp(10px, 1.5vw, 16px);
+  background: rgba(0, 20, 0, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 255, 0, 0.3);
 }
 
 .event-card.executable:hover {
-  background: rgba(0, 68, 0, 0.7);
+  background: rgba(0, 68, 0, 0.9);
+  border-color: rgba(0, 255, 0, 0.6);
 }
 
 .event-card.disabled {
