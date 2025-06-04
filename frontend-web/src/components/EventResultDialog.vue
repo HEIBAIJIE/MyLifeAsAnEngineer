@@ -12,7 +12,8 @@
       
       <div class="dialog-content">
         <!-- 事件描述 -->
-        <div class="event-description pixel-border" v-if="showEventDescription">
+        <div class="event-description pixel-border" v-if="showEventDescription"
+             :class="{ 'animation-played': animationsPlayed.eventDescription }">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
             <h3 class="event-title chinese-pixel">{{ t('eventDetails') }}</h3>
@@ -28,8 +29,9 @@
         </div>
 
         <!-- 资源变化 -->
-        <div v-if="eventResult.resource_changes && eventResult.resource_changes.length > 0 && showResourceChanges" 
-             class="resource-changes pixel-border">
+        <div v-if="filteredResourceChanges.length > 0 && showResourceChanges" 
+             class="resource-changes pixel-border"
+             :class="{ 'animation-played': animationsPlayed.resourceChanges }">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
             <h4 class="section-title chinese-pixel">{{ t('resourceChanges') }}</h4>
@@ -37,12 +39,12 @@
           </div>
           <div class="changes-grid">
             <div 
-              v-for="resourceChange in eventResult.resource_changes" 
+              v-for="resourceChange in filteredResourceChanges" 
               :key="resourceChange.resource_id"
               class="resource-change pixel-border"
               :class="getChangeClass(resourceChange.change)"
             >
-              <span class="resource-name chinese-pixel">{{ resourceChange.resource_name }}</span>
+              <span class="resource-name chinese-pixel">{{ getResourceName(resourceChange.resource_name) }}</span>
               <div class="change-display">
                 <span class="change-value">
                   {{ formatChange(resourceChange.change) }}
@@ -56,7 +58,8 @@
 
         <!-- 临时事件 -->
         <div v-if="eventResult.temporary_events && eventResult.temporary_events.length > 0 && showTemporaryEvents"
-             class="temporary-events pixel-border">
+             class="temporary-events pixel-border"
+             :class="{ 'animation-played': animationsPlayed.temporaryEvents }">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
             <h4 class="section-title chinese-pixel">{{ t('temporaryEvents') }}</h4>
@@ -76,7 +79,8 @@
 
         <!-- 计划任务 -->
         <div v-if="eventResult.scheduled_tasks && eventResult.scheduled_tasks.length > 0 && showScheduledTasks"
-             class="scheduled-tasks pixel-border">
+             class="scheduled-tasks pixel-border"
+             :class="{ 'animation-played': animationsPlayed.scheduledTasks }">
           <div class="section-header">
             <span class="section-icon">&gt;</span>
             <h4 class="section-title chinese-pixel">{{ t('scheduledTasks') }}</h4>
@@ -95,7 +99,9 @@
         </div>
 
         <!-- 时间消耗 -->
-        <div v-if="eventResult.time_cost && eventResult.time_cost > 0 && showTimeCost" class="time-cost pixel-border">
+        <div v-if="eventResult.time_cost && eventResult.time_cost > 0 && showTimeCost" 
+             class="time-cost pixel-border"
+             :class="{ 'animation-played': animationsPlayed.timeCost }">
           <div class="cost-display">
             <span class="cost-icon">&gt;</span>
             <span class="cost-text chinese-pixel">
@@ -113,6 +119,7 @@
           class="pixel-button primary action-btn"
           @click="handleContinue"
           v-if="showContinueButton"
+          :class="{ 'animation-played': animationsPlayed.continueButton }"
         >
           <span class="btn-bracket">[</span>
           <span class="chinese-pixel">{{ t('continueBtn') }}</span>
@@ -152,41 +159,57 @@ const showScheduledTasks = ref(false)
 const showTimeCost = ref(false)
 const showContinueButton = ref(false)
 
-// 打字机效果相关
+// 动画播放状态追踪（确保每个对话框只播放一次淡入效果）
+const animationsPlayed = ref({
+  eventDescription: false,
+  resourceChanges: false,
+  temporaryEvents: false,
+  scheduledTasks: false,
+  timeCost: false,
+  continueButton: false
+})
+
+// 打字机效果相关 - 将速度从50ms提升至25ms，打字速度翻倍
 const typewriterText = ref('')
 const isTyping = ref(false)
-const typewriterSpeed = 50 // 打字速度（毫秒）
+const typewriterSpeed = 25 // 打字速度（毫秒）- 从50ms优化为25ms
 
 // 启动递进动画
 const startProgressiveAnimation = async () => {
   // 首先显示事件描述并开始打字效果
   showEventDescription.value = true
+  animationsPlayed.value.eventDescription = true
   await nextTick()
   await startTypewriter(formattedGameText.value)
   
   // 间隔显示其他部分（只有内容存在时才显示）
-  if (props.eventResult.resource_changes && props.eventResult.resource_changes.length > 0) {
+  if (filteredResourceChanges.value.length > 0) {
     await delay(300)
     showResourceChanges.value = true
+    animationsPlayed.value.resourceChanges = true
   }
   
   if (props.eventResult.temporary_events && props.eventResult.temporary_events.length > 0) {
     await delay(400)
     showTemporaryEvents.value = true
+    animationsPlayed.value.temporaryEvents = true
   }
   
   if (props.eventResult.scheduled_tasks && props.eventResult.scheduled_tasks.length > 0) {
     await delay(400)
     showScheduledTasks.value = true
+    animationsPlayed.value.scheduledTasks = true
   }
   
   if (props.eventResult.time_cost && props.eventResult.time_cost > 0) {
     await delay(400)
     showTimeCost.value = true
+    animationsPlayed.value.timeCost = true
   }
   
   await delay(500)
   showContinueButton.value = true
+  animationsPlayed.value.continueButton = true
 }
 
 // 打字机效果
@@ -235,6 +258,26 @@ const displayGameText = computed(() => {
   return formattedGameText.value
 })
 
+// 资源名称翻译映射（解决英语模式下显示中文的问题）
+const resourceNameMap: Record<string, keyof typeof import('../utils/i18n').zhTexts> = {
+  '时间': 'time',  // resource_id: 1 - 虽然会被过滤，但保持完整性
+  '💰 金钱': 'money',
+  '❤️ 健康': 'health', 
+  '😴 疲劳': 'fatigue',
+  '🍽️ 饥饿': 'hunger',
+  '🧠 理性': 'rational',
+  '💖 感性': 'emotional',
+  '🎯 专注': 'focus',
+  '😊 心情': 'mood',
+  '🔧 技能': 'skill',
+  '😠 老板': 'boss',
+  '👔 职级': 'jobLevel',
+  '📊 项目': 'project',
+  '🤝 社交': 'social',
+  '🏆 声誉': 'reputation',
+  '🤔 感悟': 'insight'
+}
+
 // 方法
 const handleContinue = () => {
   emit('close')
@@ -252,6 +295,24 @@ const formatChange = (change: number | null | undefined) => {
   if (change > 0) return `+${change}`
   return change.toString()
 }
+
+// 获取资源名称的翻译版本
+const getResourceName = (resourceName: string) => {
+  const translationKey = resourceNameMap[resourceName]
+  if (translationKey) {
+    return t(translationKey)
+  }
+  return resourceName
+}
+
+// 过滤资源变化，排除时间资源（resource_id: 1），因为时间消耗在最后单独显示
+const filteredResourceChanges = computed(() => {
+  if (!props.eventResult.resource_changes) return []
+  
+  return props.eventResult.resource_changes.filter(change => 
+    change.resource_id !== 1  // 过滤掉时间资源
+  )
+})
 </script>
 
 <style scoped>
@@ -434,6 +495,11 @@ const formatChange = (change: number | null | undefined) => {
   padding: clamp(16px, 2vw, 24px);
   margin-bottom: clamp(15px, 2vw, 22px);
   animation: slideInFromLeft 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.event-description.animation-played {
+  animation: none;
 }
 
 .event-title {
@@ -481,6 +547,42 @@ const formatChange = (change: number | null | undefined) => {
   background: rgba(0, 20, 0, 0.8);
   padding: clamp(14px, 1.8vw, 22px);
   margin-bottom: clamp(15px, 2vw, 22px);
+}
+
+.resource-changes {
+  animation: slideInFromRight 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.resource-changes.animation-played {
+  animation: none;
+}
+
+.temporary-events {
+  animation: slideInFromLeft 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.temporary-events.animation-played {
+  animation: none;
+}
+
+.scheduled-tasks {
+  animation: slideInFromRight 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.scheduled-tasks.animation-played {
+  animation: none;
+}
+
+.time-cost {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.time-cost.animation-played {
+  animation: none;
 }
 
 .changes-grid {
@@ -678,6 +780,11 @@ const formatChange = (change: number | null | undefined) => {
   justify-content: center;
   gap: clamp(6px, 0.8vw, 10px);
   animation: scaleIn 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.action-btn.animation-played {
+  animation: none;
 }
 
 .btn-bracket {
@@ -741,27 +848,6 @@ const formatChange = (change: number | null | undefined) => {
   .task-indicator {
     order: -1;
   }
-}
-
-/* 递进出现动画 */
-.resource-changes {
-  animation: slideInFromRight 0.6s ease-out;
-}
-
-.temporary-events {
-  animation: slideInFromLeft 0.6s ease-out;
-}
-
-.scheduled-tasks {
-  animation: slideInFromRight 0.6s ease-out;
-}
-
-.time-cost {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-.action-btn {
-  animation: scaleIn 0.4s ease-out;
 }
 
 /* 动画关键帧 */
