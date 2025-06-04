@@ -299,6 +299,31 @@ const handleLoadGame = () => {
 
 const confirmLoadGame = async (saveDataStr: string) => {
   try {
+    // 在读档前确保后端已初始化
+    if (!backend.initialized) {
+      console.log('Backend not initialized, initializing before loading...')
+      
+      // 显示加载对话框
+      showLoadingDialog.value = true
+      loadingProgress.value = 0
+      loadingStep.value = getLoadingText('loading_script')
+      
+      // 设置进度回调
+      backend.setProgressCallback((progress: number, message: string) => {
+        loadingProgress.value = progress
+        const translatedMessage = getLoadingText(message) !== message ? getLoadingText(message) : message
+        loadingStep.value = translatedMessage
+        console.log(`Loading progress: ${progress}% - ${translatedMessage}`)
+      })
+      
+      await backend.initialize()
+      backend.setLanguage(currentLanguage.value)
+      
+      // 清理进度回调
+      backend.setProgressCallback(null)
+      showLoadingDialog.value = false
+    }
+    
     const response = await backend.loadGame(saveDataStr)
     if (response.success) {
       await updateGameState()
@@ -310,7 +335,9 @@ const confirmLoadGame = async (saveDataStr: string) => {
     }
   } catch (error) {
     console.error('Load game error:', error)
-    alert('读档失败')
+    showLoadingDialog.value = false
+    backend.setProgressCallback(null)
+    alert('读档失败：' + (error instanceof Error ? error.message : '未知错误'))
   }
 }
 

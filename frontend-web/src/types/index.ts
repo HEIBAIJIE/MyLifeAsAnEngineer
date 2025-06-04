@@ -1,9 +1,12 @@
 // 游戏状态类型
 export interface GameState {
   resources: Record<number, number>
+  temporary_event_triggers: Record<number, number>
+  last_task_triggers: Record<number, number>
   game_over: boolean
-  time_info: TimeInfo
+  time_info?: TimeInfo
   ending_data?: EndingData
+  current_ending?: EndingData
 }
 
 // 时间信息

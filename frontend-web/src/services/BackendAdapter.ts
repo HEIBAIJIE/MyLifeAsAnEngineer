@@ -242,11 +242,16 @@ export class BackendAdapter {
 
   // 加载游戏
   async loadGame(saveData: string): Promise<{ success: boolean; error?: string }> {
+    console.log('BackendAdapter loadGame called with saveData length:', saveData.length);
+    console.log('BackendAdapter loadGame saveData preview:', saveData.substring(0, 100) + '...');
+    
     const response = this.sendCommand({
       type: 'load_game',
       params: { save_data: saveData },
       language: this.currentLanguage
     })
+    
+    console.log('BackendAdapter loadGame response:', response);
     
     if (response.type === 'game_loaded') {
       return { success: true }

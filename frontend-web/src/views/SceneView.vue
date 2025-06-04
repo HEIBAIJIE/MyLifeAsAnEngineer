@@ -586,12 +586,18 @@ const confirmExit = () => {
 
 const handleExitConfirm = async () => {
   try {
-    // 自动保存游戏状态到剪切板
-    const gameStateJson = JSON.stringify(props.gameState, null, 2)
-    await navigator.clipboard.writeText(gameStateJson)
-    
-    // 显示保存成功提示
-    console.log('Game state saved to clipboard')
+    // 通过后端正确保存游戏状态
+    if (backend && backend.initialized) {
+      const saveResult = await backend.saveGame()
+      if (saveResult.success && saveResult.saveData) {
+        await navigator.clipboard.writeText(saveResult.saveData)
+        console.log('Game state saved to clipboard (proper format)')
+      } else {
+        console.warn('Failed to save game state:', saveResult.error)
+      }
+    } else {
+      console.warn('Backend not initialized, cannot save game state')
+    }
     
     // 发送回到主界面事件
     emit('go-to-title')
