@@ -293,7 +293,7 @@ export const zhTexts: I18nTexts = {
   requirements: '要求',
   // 新增地图相关文本
   gameWorld: '游戏世界',
-  enterScene: '进入场景',
+  enterScene: '返回场景',
   returnToHome: '返回主页',
   worldMapTitle: '世界地图',
   availableLocation: '可前往',
@@ -446,7 +446,7 @@ export const enTexts: I18nTexts = {
   requirements: 'Requirements',
   // 新增地图相关文本
   gameWorld: 'Game World',
-  enterScene: 'Enter Scene',
+  enterScene: 'Back to Scene',
   returnToHome: 'Return to Home',
   worldMapTitle: 'World Map',
   availableLocation: 'Available',

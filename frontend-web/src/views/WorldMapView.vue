@@ -425,6 +425,9 @@ const goToCurrentScene = () => {
   transition: all 0.3s ease;
   position: relative;
   min-height: clamp(140px, 20vw, 200px);
+  /* 确保内容合理分布 */
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .location-card.available:hover {
@@ -442,6 +445,15 @@ const goToCurrentScene = () => {
   font-size: clamp(32px, 5vw, 64px);
   margin-bottom: clamp(8px, 1.5vw, 16px);
   filter: drop-shadow(2px 2px 0px #000);
+  flex-shrink: 0;
+}
+
+.location-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
 }
 
 .location-name {
@@ -457,10 +469,17 @@ const goToCurrentScene = () => {
   margin-bottom: clamp(12px, 1.5vw, 20px);
   line-height: 1.4;
   text-shadow: 1px 1px 0px #000;
+  flex: 1;
 }
 
 .location-status {
-  margin-top: auto;
+  /* 移除 margin-top: auto，使用flex布局来控制位置 */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: clamp(8px, 1.2vw, 16px);
 }
 
 .current-marker {
@@ -473,12 +492,15 @@ const goToCurrentScene = () => {
   border: 2px solid #ffff00;
   border-radius: 0;
   animation: pixel-glow 1.5s infinite;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .travel-btn {
   font-size: var(--button-font-size);
   padding: clamp(8px, 1.2vw, 16px) clamp(16px, 2vw, 24px);
   min-width: clamp(80px, 12vw, 120px);
+  white-space: nowrap;
 }
 
 .card-decoration {
@@ -627,12 +649,30 @@ const goToCurrentScene = () => {
   }
   
   .location-card {
-    min-height: clamp(120px, 18vw, 160px);
+    min-height: clamp(140px, 22vw, 180px);
     padding: clamp(12px, 2vw, 20px);
+    /* 确保内容正确对齐 */
+    justify-content: space-between;
   }
   
   .location-icon {
     font-size: clamp(24px, 4vw, 40px);
+    margin-bottom: clamp(6px, 1vw, 12px);
+  }
+
+  .location-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .location-description {
+    margin-bottom: clamp(8px, 1.2vw, 16px);
+  }
+
+  .location-status {
+    margin-top: clamp(6px, 1vw, 12px);
   }
   
   .bottom-controls {
@@ -679,13 +719,21 @@ const goToCurrentScene = () => {
   }
   
   .location-card {
-    min-height: clamp(100px, 15vw, 140px);
+    min-height: clamp(120px, 18vw, 160px);
     padding: clamp(10px, 1.5vw, 16px);
+    /* 重要：确保卡片布局在小屏幕上正确显示 */
+    justify-content: space-between;
+    gap: clamp(4px, 0.8vw, 8px);
   }
 
   .location-icon {
     font-size: clamp(20px, 3.5vw, 32px);
     margin-bottom: clamp(4px, 0.8vw, 8px);
+  }
+
+  .location-info {
+    flex: 1;
+    min-height: 0;
   }
 
   .location-name {
@@ -695,7 +743,13 @@ const goToCurrentScene = () => {
 
   .location-description {
     font-size: clamp(11px, 2.2vw, 14px);
-    margin-bottom: clamp(8px, 1.5vw, 12px);
+    margin-bottom: clamp(6px, 1.2vw, 10px);
+    line-height: 1.3;
+  }
+
+  .location-status {
+    margin-top: clamp(4px, 0.8vw, 8px);
+    flex-shrink: 0;
   }
 
   .current-marker {
