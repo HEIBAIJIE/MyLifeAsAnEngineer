@@ -22,7 +22,7 @@ else
 fi
 
 # 检查必要文件
-required_files=("index.html" "styles.css" "game.js" "backend-adapter.js")
+required_files=("index.html")
 missing_files=()
 
 for file in "${required_files[@]}"; do

@@ -23,25 +23,7 @@ if not exist "index.html" (
     exit /b 1
 )
 
-if not exist "styles.css" (
-    echo ❌ 错误：未找到 styles.css 文件
-    pause
-    exit /b 1
-)
-
-if not exist "game.js" (
-    echo ❌ 错误：未找到 game.js 文件
-    pause
-    exit /b 1
-)
-
-if not exist "backend-adapter.js" (
-    echo ❌ 错误：未找到 backend-adapter.js 文件
-    pause
-    exit /b 1
-)
-
-echo ✅ 所有文件检查完成
+echo ✅ 所有必要文件检查完成
 echo.
 echo 📡 正在启动服务器...
 echo 🌐 服务器地址：http://localhost:8000

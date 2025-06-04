@@ -20,7 +20,7 @@ def main():
     os.chdir(script_dir)
     
     # 检查必要文件是否存在
-    required_files = ['index.html', 'styles.css', 'game.js', 'backend-adapter.js']
+    required_files = ['index.html']
     missing_files = [f for f in required_files if not Path(f).exists()]
     
     if missing_files:
